@@ -6,13 +6,13 @@ import {
   Link
 } from "react-router-dom";
 //components
-import Navbar from '../Navbar/Navbar'
+import NavbarComp from '../NavbarComp/NavbarComp'
 
 class Dashboard extends Component {
     render() {
         return (
             <div>
-                <Navbar />
+                <NavbarComp />
 
                 <Router >
                 <Switch>
