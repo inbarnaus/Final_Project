@@ -31,6 +31,7 @@ app.get('/apartments/:block?/:building?/:apartment?', (req, res) => {
     res.send(filteredProperties);
 });
 
+
 app.post('/apartments/:block?/:building?/:apartment?', (req, res) => {
     const block = req.params.block;
     const building = req.params.building;
@@ -39,11 +40,11 @@ app.post('/apartments/:block?/:building?/:apartment?', (req, res) => {
     console.log(`Block: ${block}, building: ${building}, apartment: ${apartment}`);
 
     if (block) {
-        filteredProperties = data.get_buildings(block).toString();
+        filteredProperties = data.get_buildings(block);
         if (building) {
-            filteredProperties = data.get_appartements(building).toString();
+            filteredProperties = data.get_appartements(building);
             if (apartment) {
-                filteredProperties = data.get_appartement(apartment).toString();
+                filteredProperties = data.get_appartement(apartment);
             }
         }
     }
