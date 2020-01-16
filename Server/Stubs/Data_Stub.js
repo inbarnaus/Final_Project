@@ -26,7 +26,7 @@ properties = [
 const buyer1 = {"id": 111, "name": "avabash"};
 const buyer2 = {"id": 222, "name": "yosi"};
 
-const purchases = [
+purchases = [
     {"apartement_idx": {block: 1, building: 2, apartment: 1}, "buyer1": buyer1, "buyer2": null,
         "parking1": 1, "parking2": 2, "garage_idx": 1, "purchase_date": "1/1/2020", "price": 12000,
         "assesment_number": 1, "reference": 1, "bank": "leumi", "comments": false, "scanning_form": null,
