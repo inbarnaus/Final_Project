@@ -7,5 +7,11 @@ import {
 } from "react-router-dom";
 
 class PropertyDetails extends Component{
-    
+    render() {
+        return(
+            <div>
+                
+            </div>
+        );
+    }
 }
