@@ -10,7 +10,7 @@ Costumers = [
     {"name": "cc1", "password": "22", "email": "cc1@gmail.com"}
 ];
 
-const properties = [
+properties = [
     {block: 1, building: 2, apartment: 1},
     {block: 1, building: 1, apartment: 1},
     {block: 1, building: 1, apartment: 2},
@@ -36,4 +36,6 @@ const purchases = [
         "assesment_number": 2, "reference": 2, "bank": "leumi", "comments": false, "scanning_form": null,
         "last_reporting_date": "29/1/2020", "was_reported": false}
 ];
+
+module.exports = [purchases, properties]
 
