@@ -5,7 +5,12 @@ import {
   Route
 } from "react-router-dom";
 
-import Navigate from "../Navigate/Navigate"
+import Navigate from "../Navigate/Navigate";
+import RegisterLawyer from "../UserComponents/Register/RegisterLawyer";
+import RegisterCostumer from "../UserComponents/Register/RegisterCostumer";
+import ChooseApartment from "../DataComponents/ChooseApartment/ChooseApartment";
+import ChoosePurchase from '../DataComponents/ChoosePurchase/ChoosePurchase';
+import UserProperties from '../UserComponents/UserProperties/UserProperties';
 
 class Dashboard extends Component {
     render() {
@@ -16,16 +21,22 @@ class Dashboard extends Component {
                 <Router >
                 <Switch>
                     <Route exact path="/">
-                    <div></div>
+                    <div>דף הבית</div>
                     </Route>
-                    <Route exact path="/1">
-                    <div>page home</div>
+                    <Route exact path="/apartments">
+                    <ChooseApartment/>
                     </Route>
-                    <Route path="/2">
-                    <div>page 2</div>
+                    <Route exact path="/purchase">
+                    <ChoosePurchase/>
                     </Route>
-                    <Route path="/3">
-                    <div>page 3</div>
+                    <Route exact path="/register-lawyer">
+                    <RegisterLawyer/>
+                    </Route>
+                    <Route exact path="/register-costumer">
+                    <RegisterCostumer/>
+                    </Route>
+                    <Route exact path="/user-properties">
+                    <UserProperties/>
                     </Route>
                 </Switch>
                 </Router>

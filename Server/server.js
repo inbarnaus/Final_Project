@@ -12,12 +12,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 app.get('/apartments/:block?/:building?/:apartment?', (req, res) => {
-    //console.log(data instanceof Dal_stub);
+    console.log(req);
+    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    console.log(res);
     const block = req.params.block;
     const building = req.params.building;
     const apartment = req.params.apartment;
     let filteredProperties;
-    console.log(`Block: ${block}, building: ${building}, apartment: ${apartment}`);
+    //console.log(`Block: ${block}, building: ${building}, apartment: ${apartment}`);
 
     if (block) {
         filteredProperties = (data.get_buildings(block));
@@ -28,7 +30,7 @@ app.get('/apartments/:block?/:building?/:apartment?', (req, res) => {
             }
         }
     }
-    res.send(filteredProperties);
+    res.send({data: filteredProperties});
 });
 
 app.post('/apartments/:block?/:building?/:apartment?', (req, res) => {
@@ -48,7 +50,7 @@ app.post('/apartments/:block?/:building?/:apartment?', (req, res) => {
         }
     }
     
-    res.send(filteredProperties);
+    res.send("filteredProperties");
 });
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
