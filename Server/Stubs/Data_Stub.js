@@ -1,13 +1,13 @@
 Lawyers = [
-    {"name": "aa", "password": "11", "email": "aa@gmail.com"},
-    {"name": "bb", "password": "11", "email": "bb@gmail.com"},
-    {"name": "cc", "password": "22", "email": "cc@gmail.com"}
+    {username: "aa", password: "11", email: "aa@gmail.com"},
+    {username: "bb", password: "11", email: "bb@gmail.com"},
+    {username: "cc", password: "22", email: "cc@gmail.com"}
 ];
 
 Costumers = [
-    {"name": "aa1", "password": "11", "email": "aa1@gmail.com"},
-    {"name": "bb1", "password": "11", "email": "bb1@gmail.com"},
-    {"name": "cc1", "password": "22", "email": "cc1@gmail.com"}
+    {username: "aa1", password: "11", email: "aa1@gmail.com"},
+    {username: "bb1", password: "11", email: "bb1@gmail.com"},
+    {username: "cc1", password: "22", email: "cc1@gmail.com"}
 ];
 
 properties = [
