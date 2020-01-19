@@ -17,7 +17,6 @@ class Dashboard extends Component {
         return (
             <div>
                 <Navigate/>
-
                 <Router >
                 <Switch>
                     <Route exact path="/">

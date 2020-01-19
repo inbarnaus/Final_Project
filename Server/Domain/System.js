@@ -1,37 +1,32 @@
-class System{
+const functions = {
 
-    add_4g = function (file) {};
+    add_4g : (file) => {},
 
-    get_appartement = function(block, building, appartement){};
+    get_apartment : (block, building, apartment) => {},
 
-    get_appartements = function (block, building) {
+    get_apartments : (block, building) => {},
 
-    };
+    get_buildings : (block) => {},
 
-    get_buildings = function (block) {
+    add_purchase : (apartment_purchase, first_buyer_name, first_buyer_id, second_buyer_name = null, second_buyer_id = null) => {},
 
-    };
+    get_purchase : (block_num, building_num, apartment_num) => {},
 
-    add_purchase = function(appartement_purchase, first_buyer_name, first_buyer_id, second_buyer_name = null,
-                 second_buyer_id = null){};
+    set_purchase : (block_num, building_num, apartment_num, new_purchase_features) =>{},
 
-    get_purchase = function(block_num, building_num, appartement_num){};
+    get_report : (block_num, building_num, apartment_num) => {},
 
-    set_purchase = function(block_num, building_num, appartement_num, new_purchase_features){};
+    get_all_unreported_purchases : () => {},
 
-    get_report = function(block_num, building_num, appartement_num){};
+    register_new_costumer : (username, password, mail) => {},
 
-    get_all_unreported_purchases = function(){};
+    register_new_lawyer : (username, password, mail) => {},
 
-    register_new_costumer = function(username, password, mail){};
+    get_user : (username) => {},
 
-    register_new_lawyer = function(username, password, mail){};
+    login : (username, password) => {},
 
-    get_user = function(username){};
+    extract_files_for_purchases : (files_list) => {},
 
-    login = function(username, password){};
-
-    extract_files_for_purchases = function(files_list){};
-
-    send_report = function(appartement){};
+    send_report : (apartment) => {}
 }
