@@ -8,7 +8,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 app.get('/apartments/:block?/:building?/:apartment?', (req, res) => {
-    //console.log(data instanceof Dal_stub);
     const block = req.params.block;
     const building = req.params.building;
     const apartment = req.params.apartment;
@@ -27,7 +26,7 @@ app.get('/apartments/:block?/:building?/:apartment?', (req, res) => {
     res.send(filteredProperties);
 });
 
-app.post('/editGet/:block/:building/:apartment', (req, res) => {
+app.get('/editGet/:block/:building/:apartment', (req, res) => {
     const block = req.params.block;
     const building = req.params.building;
     const apartment = req.params.apartment;
@@ -35,7 +34,7 @@ app.post('/editGet/:block/:building/:apartment', (req, res) => {
     console.log(`Block: ${block}, building: ${building}, apartment: ${apartment}`);
 
     if(block && building && apartment)
-        data.get_purchase(block, building, apartment);
+        filteredProperties = data.get_purchase(block, building, apartment);
         
     res.send(filteredProperties);
 });
@@ -48,7 +47,7 @@ app.post('/edit/:block/:building/:apartment', (req, res) => {
     console.log(`Block: ${block}, building: ${building}, apartment: ${apartment}`);
 
     if(block && building && apartment)
-        data.set_purchase(block, building, apartment, req.body);
+        filteredProperties = data.set_purchase(block, building, apartment, req.body);
 
     res.send(filteredProperties);
 });
