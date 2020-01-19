@@ -32,5 +32,7 @@ const functions = {
 
     extract_files_for_purchases : (files_list) => { dal/extract_files_for_purchases(files_list); },
 
-    send_report : (apartment) => { dal.send_report(apartment); }
+    send_report : (apartment) => { dal.send_report(apartment); },
+
+    get_all_registrated_users : () => { dal.get_all_registrated_users(); }
 }
