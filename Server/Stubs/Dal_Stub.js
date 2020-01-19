@@ -61,7 +61,7 @@ const Dal_Stub = {
 
     add_purchase : (apartment_purchase, first_buyer_name, first_buyer_id, second_buyer_name = null, second_buyer_id = null, date) => {
         for(var purch in purchases){
-            if(apartment_purchase === purch["apartment_idx"])
+            if(apartment_purchase == purch["apartment_idx"])
                 return null;
         }
         let original_apartment = get_apartment(apartment_purchase['block'],
@@ -142,6 +142,10 @@ const Dal_Stub = {
 
     extract_files_for_purchases : (purchase) => {
         return null;
+    },
+
+    get_all_registrated_users : () => {
+        return Lawyers;
     }
 }
 

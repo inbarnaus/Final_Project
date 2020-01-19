@@ -1,29 +1,40 @@
-const Dal_Stub = require("../../Server/Stubs/Dal_Stub");
+const system = require("../../Server/Domain/System");
 /*
 test('get apartment test', () => {
-    expect(Dal_Stub.get_apartment(1, 2, 1)).toStrictEqual({"block":1,"building":2,"apartment":1});
+    expect(system.get_apartment(1, 2, 1)).toStrictEqual({"block":1,"building":2,"apartment":1});
 });*/
 
 //Register && Login
 test('check if after login- isLoggedIn: true', ()=>{
-    expect(Dal_Stub.check_user_info("aa", "11").toBe(true));
-    expect(Dal_Stub.check_user_info("aab", "1g1").toBe(false));
+    let array = system.get_all_registrated_users();
+    if(array.length){
+        expect(system.check_user_info(array[0]['username']).toBe(true));
+        expect(system.check_user_info(array[0]['username'], array[0]['password'].concat('113')).toBe(false));
+    }
 });
 
 //Change Password
 test('check if password changed after changing it', ()=>{
-    Dal_Stub.change_password("aa", "11", "112");
-    expect(Dal_Stub.check_user_info("aa", "112").toBe(true));
-    expect(Dal_Stub.check_user_info("aa", "11").toBe(false));
+    let array = system.get_all_registrated_users();
+    if(array.length){
+        let old_pass = array[0]['password'];
+        let new_pass = old_pass.concat('112');
+        system.change_password(array[0]['username'], old_pass, new_pass);
+        expect(system.check_user_info(array[0]['username'], new_pass).toBe(true));
+        expect(system.check_user_info(array[0]['username'], old_pass).toBe(false));
+    }
 });
 
 //Add 4G
 test('check if add 4g succeded', () => {
-    expect(Dal_Stub.add_4g(file).toBe(true));
+    expect(system.add_4g(file).toBe(true));
 });
 
 //Add Buyer
 test('check if adding purchase succeded', () => {
-    expect(Dal_Stub.add_purchase())
+    let purchase;
+    expect(purchase = system.add_purchase({block: 1, building: 1, apartment: 2}, 'inbar', 3122, "19/1/2020").toBe(purchase != null));
 });
+
+
 
