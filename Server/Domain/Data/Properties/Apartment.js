@@ -1,4 +1,4 @@
-class Appartement{
+class Apartment{
     num;
     size;
     balcony;
@@ -14,7 +14,7 @@ class Appartement{
 
 class Building{
     num;
-    appartements;
+    apartments;
 }
 
 class Block{

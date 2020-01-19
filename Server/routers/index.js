@@ -53,12 +53,12 @@ const getPurchase = (req, res) => {
         res.send(res.send(response.ResponseObject(false, filteredProperties, "get purchase succeded!")));
 }
 
-//Structure for json in editing purchase: {"apartement_idx":{"block":1,"building":2,"apartment":1},"buyer1":{"id":111,"name":"avabash"},"buyer2":null,"parking1":1,"parking2":2,"garage_idx":1,"purchase_date":"1/1/2020","price":12000,"assesment_number":1,"reference":1,"bank":"leumi","comments":false,"scanning_form":null,"last_reporting_date":"29/1/2020","was_reported":false}
+//Structure for json in editing purchase: {"apartment_idx":{"block":1,"building":2,"apartment":1},"buyer1":{"id":111,"name":"avabash"},"buyer2":null,"parking1":1,"parking2":2,"garage_idx":1,"purchase_date":"1/1/2020","price":12000,"assesment_number":1,"reference":1,"bank":"leumi","comments":false,"scanning_form":null,"last_reporting_date":"29/1/2020","was_reported":false}
 app.post('/edit/:block/:building/:apartment', (req, res) => {
     console.log("receiving data...");
-    var block = req.body.apartement_idx.block;
-    var building = req.body.apartement_idx.building;
-    var apartment = req.body.apartement_idx.apartment;
+    var block = req.body.apartment_idx.block;
+    var building = req.body.apartment_idx.building;
+    var apartment = req.body.apartment_idx.apartment;
     
     system.set_purchase(block, building, apartment);
 

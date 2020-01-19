@@ -53,7 +53,7 @@ const Dal_Stub = {
         let original_apartment = get_apartment(apartment_purchase['block'],
             apartment_purchase['building'], apartment_purchase['apartment']);
         let new_purch = {
-            "apartement_idx": original_apartment, "buyer1": {"id": first_buyer_id, "name": first_buyer_name},
+            "apartment_idx": original_apartment, "buyer1": {"id": first_buyer_id, "name": first_buyer_name},
             "buyer2": (second_buyer_id == null? null: {"id": second_buyer_id, "name": second_buyer_name}),
             "parking1": original_apartment['parking1'], "parking2": original_apartment['parking2'],
             "garage_idx": original_apartment['garage'], "purchase_date": date, "price": original_apartment['price'],

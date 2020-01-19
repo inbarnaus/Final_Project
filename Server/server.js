@@ -1,6 +1,7 @@
 const data = require('./Stubs/Dal_Stub');
 const express = require('express');
 const bodyParser = require('body-parser');
+const apartments
 const app = express();
 const port = 8080;
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -27,7 +28,7 @@ app.get('/apartments/:block?/:building?/:apartment?', (req, res) => {
 });
 
 
-app.post('/apartments/:block?/:building?/:apartment?', (req, res) => {
+app.post('/apartments/:block/:building/:apartment', (req, res) => {
     const block = req.params.block;
     const building = req.params.building;
     const apartment = req.params.apartment;
