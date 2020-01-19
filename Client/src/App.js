@@ -1,5 +1,5 @@
 
-import Login from './Components/Login/Login'
+import Login from './Components/UserComponents/Login/Login'
 import Dashboard from './Components/Dashboard/Dashboard'
 import React, { Component } from 'react';
 
@@ -12,10 +12,6 @@ class App extends Component {
       isLoggedIn: true
     }
   }
-
-  //this.setState({
-  //   isLoggedIn: variable
-  //})
 
   render() {
     const {isLoggedIn} = this.state

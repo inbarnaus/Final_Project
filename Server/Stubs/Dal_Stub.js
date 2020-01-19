@@ -25,9 +25,7 @@ const Dal_Stub = {
             throw ErrorEvent;
         let ret = [];
         for(let prop in properties){
-            if(properties[prop]['block'] && 
-            properties[prop]['block'] == block && 
-            properties[prop]['building'] == building)
+            if((properties[prop].block && properties[prop].block === block) && properties[prop].buliding === building)
                 ret.push(properties[prop]);
         }
         return ret;

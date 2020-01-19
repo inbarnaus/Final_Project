@@ -1,9 +1,11 @@
 import React from "react";
 import { useGetData } from "use-axios-react";
 
+
 const server_url = "https:localhost/8080";
 
-const get_apartment = (block, building, apartment) => {
+export const get_apartment = (block, building, apartment) => {
+    console.log(block);
     const [data, loading] = useGetData(server_url + "/apartment/" +
      (block? block.toString() + "/" +
       (building? building.toString() + "/"
@@ -31,7 +33,7 @@ const get_purchase = (block, building, apartment) => {
       data: { block, building, apartment, buyer1_name, buyer1_id, buyer2_name, buyer2_id, parking1, parking2, garage, buying_date, buying_price, assassment_no, mortage_no, mortage_bank, notes }
     };
   }
-
+/*
 const add_purchase = (json) => {
     const [create, sending, { error, data }] = usePostCallback(purchaseToRequest);
     block = json['block'];
@@ -56,3 +58,4 @@ const add_purchase = (json) => {
         </div>
     );
   };
+  */
