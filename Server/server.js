@@ -1,4 +1,4 @@
-const data = require('./Stubs/Dal_Stub');
+const system = require('./Domain/System');
 const express = require('express');
 const bodyParser = require('body-parser');
 const apartments = require('./Domain/Data/Properties/Apartment')
@@ -15,15 +15,15 @@ app.get('/apartments/:block?/:building?/:apartment?', (req, res) => {
     //console.log(`Block: ${block}, building: ${building}, apartment: ${apartment}`);
 
     if (block) {
-        filteredProperties = (data.get_buildings(block));
+        filteredProperties = (system.get_buildings(block));
         if (building) {
-            filteredProperties = data.get_apartments(block, building);
+            filteredProperties = system.get_apartments(block, building);
             if (apartment) {
-                filteredProperties = data.get_apartment(block, building, apartment);
+                filteredProperties = system.get_apartment(block, building, apartment);
             }
         }
     }
-    res.send({data: filteredProperties});
+    res.send(filteredProperties);
 });
 
 app.get('/editGet/:block/:building/:apartment', (req, res) => {
@@ -34,7 +34,7 @@ app.get('/editGet/:block/:building/:apartment', (req, res) => {
     console.log(`Block: ${block}, building: ${building}, apartment: ${apartment}`);
 
     if(block && building && apartment)
-        filteredProperties = data.get_purchase(block, building, apartment);
+        filteredProperties = system.get_purchase(block, building, apartment);
         
     res.send(filteredProperties);
 });
@@ -47,13 +47,18 @@ app.post('/edit/:block/:building/:apartment', (req, res) => {
     console.log(`Block: ${block}, building: ${building}, apartment: ${apartment}`);
 
     if(block && building && apartment)
-        filteredProperties = data.set_purchase(block, building, apartment, req.body);
+        filteredProperties = system.set_purchase(block, building, apartment, req.body);
 
     res.send(filteredProperties);
 });
 
 app.post('/login', (req, res) => {
-    
+    user_info = req.body;
+
+    if(user_info && system.check_user_info(user_info['username'], user_info['password']))
+        return true;
+
+    return false;
 });
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

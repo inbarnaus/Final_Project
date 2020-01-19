@@ -2,7 +2,23 @@ stub_data = require('./Data_Stub');
 
 const Dal_Stub = {
     add_4g : (file) => {
-        return true
+        return true;
+    },
+
+    check_user_info : (username, password) => {
+        for(let user in Lawyers)
+            if(Lawyers[user]['username'] == username && Lawyers[user]['password'] == password)
+                return true;
+        return false;
+    },
+
+    change_password : (username, password, new_password) => {
+        for(let user in Lawyers)
+            if(Lawyers[user]['username'] == username && Lawyers[user]['password'] == password){
+                Lawyers[user]['password'] == new_password;
+                return true;
+            }    
+        return false;
     },
 
     get_apartment : (block, building, apartment) => {
