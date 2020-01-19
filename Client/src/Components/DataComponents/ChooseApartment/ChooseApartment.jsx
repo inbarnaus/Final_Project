@@ -46,16 +46,16 @@ class ChooseApartment extends Component{
         // console.log(block);
         // console.log(building);
         // console.log(apartment);
-        let apartment_url = (apartment !== "דירה" ? apartment.concat("/") : "");
-        let building_url = (building !== "בניין" ? building.concat("/").concat(apartment_url) : "");
-        let block_url = (block !== "מגרש"? block.concat("/").concat(building_url) : "");
+        let apartment_url = (apartment !== "" ? apartment.concat("/") : "");
+        let building_url = (building !== "" ? building.concat("/").concat(apartment_url) : "");
+        let block_url = (block !== ""? block.concat("/").concat(building_url) : "");
         let get_url = (server_url.concat("/apartments/").concat(block_url));
         console.log(get_url);
         try{
             let res = await axios.get(get_url);
             console.log(res);
             this.setProp({prop : res.data});
-            return res.data;
+            //return res.data;
         }
         catch(err){
             console.log(err);
