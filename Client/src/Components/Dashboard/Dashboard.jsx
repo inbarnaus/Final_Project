@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link
+  Route
 } from "react-router-dom";
 import Navigate from "../Navigate/Navigate";
 //components
@@ -16,6 +15,9 @@ class Dashboard extends Component {
                 <Router >
                 <Switch>
                     <Route exact path="/">
+                    <div></div>
+                    </Route>
+                    <Route exact path="/1">
                     <div>page home</div>
                     </Route>
                     <Route path="/2">
