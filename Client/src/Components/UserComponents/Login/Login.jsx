@@ -1,51 +1,39 @@
-import React, { Component } from 'react'
-import './login.css'
-import {InputGroup, Button} from 'react-bootstrap';
+import React, { Component } from 'react';
+import './login.css';
+import {Button, FormControl, FormLabel } from 'react-bootstrap';
 import axios from 'axios';
-import {findDOMNode} from 'react-dom';
+import {findDOMNode, createPortal} from 'react-dom';
+import App from '../../../App';
+const FormGroup = require('react-bootstrap').FormGroup;
 class Login extends Component {
 
     server_url = "http://localhost:8080/login/";
 
-    constructor(){
-        super();
-        this.state = {
-            username: React.createRef(),
-            passowrd : React.createRef()
-        }
-    
-    }
-
     handleclick = async() => {
-        let username = this.state.username.current.placeholder, password = this.state.password.current.placeholder;
-        let res = await axios.get(this.server_url.concat(username).concat("/").concat(password));
-        console.log(res);
+        let name = findDOMNode(this.refs.nameref).value, pass = findDOMNode(this.refs.passref).value;
+        try{
+            let res = await axios.post(this.server_url, {username: name, password : pass});
+            console.log(res);
+            let portal = createPortal(this, App);
+            portal.props.setState({isLoggedIn: res.data});
+        }
+        catch(e){
+            console.log(e);
+        }
     }
 
     render() {
         return (
             <div>
-                <InputGroup className="mb-3">
-                    <InputGroup.Append>
-                        <InputGroup.Text id="basic-addon2">שם משתמש</InputGroup.Text>
-                    </InputGroup.Append>
-                    <input
-                        placeholder="שם משתמש"
-                        aria-label="שם משתמש"
-                        aria-describedby="basic-addon2"
-                        ref = {this.state['block']}
-                    />  
-                    <InputGroup.Append>
-                        <InputGroup.Text id="basic-addon2">סיסמא</InputGroup.Text>
-                    </InputGroup.Append>
-                    <input
-                        placeholder="סיסמא"
-                        aria-label="סיסמא"
-                        aria-describedby="basic-addon2"
-                        ref = {this.state['building']}
-                    />         
-                    <Button type="button" variant="primary" onClick={()=>this.handleclick()}>אישור</Button>
-                </InputGroup>
+                <FormGroup controlId = "formControlsname" type="text">
+                    <FormLabel>שם משתמש</FormLabel>
+                    <FormControl ref="nameref" placeholder="שם משתמש"/>
+                </FormGroup>
+                <FormGroup controlId = "formControlspass" type="text">
+                    <FormLabel>סיסמא</FormLabel>
+                    <FormControl ref="passref" placeholder="סיסמא"/>
+                </FormGroup>         
+                <Button type="button" variant="primary" onClick={()=>this.handleclick()}>אישור</Button>
             </div>
         );
     }
