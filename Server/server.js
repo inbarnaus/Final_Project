@@ -1,18 +1,19 @@
 const system = require('./Domain/System');
 const express = require('express');
+const cors = require('cors');
 const bodyParser = require('body-parser');
-const apartments = require('./Domain/Data/Properties/Apartment')
+//const apartments = require('./Domain/Data/Properties/Apartment')
 const app = express();
 const port = 8080;
 app.use(bodyParser.urlencoded({ extended: true }));
-
+app.use(cors());
 
 app.get('/apartments/:block?/:building?/:apartment?', (req, res) => {
     const block = req.params.block;
     const building = req.params.building;
     const apartment = req.params.apartment;
     let filteredProperties;
-    //console.log(`Block: ${block}, building: ${building}, apartment: ${apartment}`);
+    console.log(`Block: ${block}, building: ${building}, apartment: ${apartment}`);
 
     if (block) {
         filteredProperties = (system.get_buildings(block));

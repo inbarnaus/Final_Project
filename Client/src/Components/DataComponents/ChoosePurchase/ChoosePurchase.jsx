@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import {FormGroup, Button, FormControl, FormLabel } from 'react-bootstrap';
-import PurchaseDetails from '../PurchaseDetails/PurchaseDetails';
 import axios from 'axios';
 import {findDOMNode} from 'react-dom';
+import {MDBTable, MDBTableHead} from 'mdbreact';
 
 
 
@@ -11,13 +11,50 @@ const server_url = "https:localhost/8080";
 
 class ChoosePurchase extends Component{
 
+    header_attr = ['דירה', 'בניין', 'מגרש'];
+
     constructor() {
         super();
     
         this.state = {
-            purchase: <PurchaseDetails/>
+            propertie: <MDBTable striped bordered hover>
+            <MDBTableHead>
+              {this.header()}
+              </MDBTableHead>
+              </MDBTable>
         }
     };
+
+    header() {
+        return <tr>
+        <th>דירה</th>
+        <th>בניין</th>
+        <th>מגרש</th>
+        <th>#</th>
+        </tr>;
+    };
+
+    
+    make_row(data){
+        return (
+            <tr>
+            <th>{data['apartment']}</th>
+            <th>{data['building']}</th>
+            <th>{data['block']}</th>
+            </tr>
+        );
+    }
+
+    make_table(data){
+        let rows = []
+        for(let i in data){
+            
+            rows.push(this.make_row(data[i]));
+        }
+        let ret = <tbody>{rows}</tbody>;
+        
+        return ret;
+    }
 
     setProp = (prop) => {
         this.setState({propertie: prop});
@@ -28,26 +65,24 @@ class ChoosePurchase extends Component{
         let block = findDOMNode(this.refs.blockref).value,
          building = findDOMNode(this.refs.buildingref).value,
           apartment = findDOMNode(this.refs.apartmentref).value;
-        // console.log(block.placeholder.toString());
-        // console.log(building.placeholder.toString());
-        // console.log(apartment.placeholder.toString());
         let apartment_url = (apartment !== "דירה" ? apartment.concat("/") : "");
         let building_url = (building !== "בניין" ? building.concat("/").concat(apartment_url) : "");
         let block_url = (block !== "מגרש"? block.concat("/").concat(building_url) : "");
         let get_url = (server_url.concat("/purchases/").concat(block_url));
-        console.log(get_url);
         try{
             let res = await axios.get(get_url);
-            console.log(get_url);
-            this.setProp({prop : res});
-            return res;
+            let table = <MDBTable striped bordered hover>
+            <MDBTableHead>
+              {this.header()}
+              </MDBTableHead>
+              {this.make_table(res.data)}
+              </MDBTable>;
+            
+            this.setProp(table);
         }
         catch(err){
             console.log(err);
-        }
-        
-
-        
+        }   
     }
 
     render(){
