@@ -1,23 +1,16 @@
 import React, { Component } from 'react';
-import {InputGroup, Button } from 'react-bootstrap';
-import axios from "axios";
+import {Button, FormControl, FormLabel, FormGroup } from 'react-bootstrap';
+import axios from 'axios';
+import {findDOMNode} from 'react-dom';
 
 const server_url = "http://localhost:8080/register-costumer/";
 
 class RegisterCostumer extends Component{
 
-    constructor() {
-        super();
-    
-        this.state = {
-            username: React.createRef(), 
-            password: React.createRef(), 
-            email: React.createRef(),
-        }
-    }
-
     handleclick = async() =>{
-        let username = this.state.username.current, password = this.state.password.current, email = this.state.email.current;
+        let username =  findDOMNode(this.refs.nameref).value,
+         password = findDOMNode(this.refs.passref).value,
+          email = findDOMNode(this.refs.emailref).value;
         let res = await axios.post(server_url, {
             username: username,
             password : password,
@@ -30,36 +23,19 @@ class RegisterCostumer extends Component{
     render(){
         return (
             <div>
-                <InputGroup className="mb-3">
-                    <InputGroup.Append>
-                        <InputGroup.Text id="basic-addon2">שם משתמש</InputGroup.Text>
-                    </InputGroup.Append>
-                    <input
-                        placeholder="שם משתמש"
-                        aria-label="שם משתמש"
-                        aria-describedby="basic-addon2"
-                        ref = {this.state['block']}
-                    />  
-                    <InputGroup.Append>
-                        <InputGroup.Text id="basic-addon2">סיסמא</InputGroup.Text>
-                    </InputGroup.Append>
-                    <input
-                        placeholder="סיסמא"
-                        aria-label="סיסמא"
-                        aria-describedby="basic-addon2"
-                        ref = {this.state['building']}
-                    />
-                    <InputGroup.Append>
-                        <InputGroup.Text id="basic-addon2">אימייל</InputGroup.Text>
-                    </InputGroup.Append>
-                    <input
-                        placeholder="אימייל"
-                        aria-label="אימייל"
-                        aria-describedby="basic-addon2"
-                        ref = {this.state['apartment']}
-                    />           
-                    <Button type="button" variant="primary" onClick={()=>this.handleclick()}>אישור</Button>
-                </InputGroup>
+                <FormGroup controlId = "formControlsname" type="text">
+                    <FormLabel>שם משתמש</FormLabel>
+                    <FormControl ref="nameref" placeholder="שם משתמש"/>
+                </FormGroup>
+                <FormGroup controlId = "formControlspass" type="text">
+                    <FormLabel>סיסמא</FormLabel>
+                    <FormControl ref="passref" placeholder="סיסמא"/>
+                </FormGroup> 
+                <FormGroup controlId = "formControlspass" type="text">
+                    <FormLabel>אימייל</FormLabel>
+                    <FormControl ref="emailref" placeholder="אימייל"/>
+                </FormGroup> 
+                <Button type="button" variant="primary" onClick={()=>this.handleclick()}>אישור</Button>
             </div>
         );
     }

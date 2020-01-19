@@ -25,7 +25,9 @@ class ChoosePurchase extends Component{
     
     handleclick = async() => {
 
-        let block = findDOMNode(this.refs.blockref).value, building = findDOMNode(this.refs.buildingref).value, apartment = findDOMNode(this.refs.apartmentref).value;
+        let block = findDOMNode(this.refs.blockref).value,
+         building = findDOMNode(this.refs.buildingref).value,
+          apartment = findDOMNode(this.refs.apartmentref).value;
         // console.log(block.placeholder.toString());
         // console.log(building.placeholder.toString());
         // console.log(apartment.placeholder.toString());

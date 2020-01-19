@@ -1,93 +1,53 @@
 import React, { Component } from 'react'
 import '../Login/login.css'
-import {InputGroup, Button } from 'react-bootstrap';
+import {Button, FormControl, FormLabel, FormGroup } from 'react-bootstrap';
 import axios from "axios";
+import {findDOMNode} from 'react-dom';
 
 class UserProperties extends Component {
 
-    get_url = "http://localhost:8080/login/";
+    //get_url = "http://localhost:8080/login/";
     post_url = "http://localhost:8080/user-props/";
-    
-    constructor(){
-        super();
-        this.state = {
-            oldname : React.createRef(),
-            oldpass : React.createRef(),
-            newname : React.createRef(),
-            newpass : React.createRef(),
-            newemail : React.createRef()
-        };
-    }
 
     handleclick = async() =>{
-        let oldname = this.state.oldname.current.placeholder, oldpass = this.state.oldpass.current.placeholder;
-        let res = await axios.get(this.get_url.concat(oldname).concat("/").concat(oldpass));
-        let newname = this.state.newname.current.placeholder,
-         newpass = this.state.newpass.current.placeholder,
-         newemail = this.state.newemail.current.placeholder;
-        if(res){
-            let res = await axios.post(this.post_url, {
-                oldname : oldname,
-                oldpass : oldpass,
-                newname : newname,
-                newpass : newpass,
-                newemail : newemail
-            });
-        }
+        let oldname = findDOMNode(this.refs.oldnameref).value,
+         oldpass = findDOMNode(this.refs.oldpassref).value,
+         email = findDOMNode(this.refs.emailref).value,
+         newname = findDOMNode(this.refs.newnameref).value,
+         newpass = findDOMNode(this.refs.newpass).value;
+        let res = await axios.post(this.post_url, {
+            oldname : oldname,
+            oldpass : oldpass,
+            newname : newname,
+            newpass : newpass,
+            newemail : email
+        });
     }
     
     render() {
         return (
             <div>
-                <InputGroup className="mb-3">
-                    <InputGroup.Append>
-                        <InputGroup.Text id="basic-addon2">שם משתמש</InputGroup.Text>
-                    </InputGroup.Append>
-                    <input
-                        placeholder="שם משתמש"
-                        aria-label="שם משתמש"
-                        aria-describedby="basic-addon2"
-                        ref = {this.state['block']}
-                    />  
-                    <InputGroup.Append>
-                        <InputGroup.Text id="basic-addon2">סיסמא</InputGroup.Text>
-                    </InputGroup.Append>
-                    <input
-                        placeholder="סיסמא"
-                        aria-label="סיסמא"
-                        aria-describedby="basic-addon2"
-                        ref = {this.state['building']}
-                    />
-
-                    <InputGroup.Append>
-                        <InputGroup.Text id="basic-addon2">שם משתמש חדש</InputGroup.Text>
-                    </InputGroup.Append>
-                    <input
-                        placeholder="שם משתמש חדש"
-                        aria-label="שם משתמש חדש"
-                        aria-describedby="basic-addon2"
-                        ref = {this.state['block']}
-                    />  
-                    <InputGroup.Append>
-                        <InputGroup.Text id="basic-addon2">סיסמא חדשה</InputGroup.Text>
-                    </InputGroup.Append>
-                    <input
-                        placeholder="סיסמא חדשה"
-                        aria-label="סיסמא חדשה"
-                        aria-describedby="basic-addon2"
-                        ref = {this.state['building']}
-                    /> 
-                    <InputGroup.Append>
-                        <InputGroup.Text id="basic-addon2">אימייל חדש</InputGroup.Text>
-                    </InputGroup.Append>
-                    <input
-                        placeholder="אימייל חדש"
-                        aria-label="אימייל חדש"
-                        aria-describedby="basic-addon2"
-                        ref = {this.state['building']}
-                    /> 
-                    <Button type="button" variant="primary" onClick={()=>this.handleclick()}>אישור</Button>
-                </InputGroup>
+                <FormGroup controlId = "formControlsname" type="text">
+                    <FormLabel>שם משתמש</FormLabel>
+                    <FormControl ref="oldnameref" placeholder=" שם משתמש מקורי"/>
+                </FormGroup>
+                <FormGroup controlId = "formControlspass" type="text">
+                    <FormLabel>סיסמא</FormLabel>
+                    <FormControl ref="oldpassref" placeholder="סיסמא מקורית"/>
+                </FormGroup> 
+                <FormGroup controlId = "formControlspass" type="text">
+                    <FormLabel>אימייל</FormLabel>
+                    <FormControl ref="emailref" placeholder="אימייל"/>
+                </FormGroup> 
+                <FormGroup controlId = "formControlsname" type="text">
+                    <FormLabel>שם משתמש</FormLabel>
+                    <FormControl ref="newnameref" placeholder="שם משתמש חדש"/>
+                </FormGroup>
+                <FormGroup controlId = "formControlspass" type="text">
+                    <FormLabel>סיסמא</FormLabel>
+                    <FormControl ref="newpassref" placeholder="סיסמא חדשה"/>
+                </FormGroup> 
+                <Button type="button" variant="primary" onClick={()=>this.handleclick()}>אישור</Button>
             </div>
         );
     }

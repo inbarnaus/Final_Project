@@ -23,7 +23,7 @@ class PropertyDetails extends Component{
 
         super();
         //console.log(this.tbody);
-        this.tbody = tbody;
+        this.tbody = tbody ? tbody : <tbody></tbody>;
         this.state = {
             block: null, 
             building: null, 
@@ -70,13 +70,14 @@ class PropertyDetails extends Component{
     }
     
     render() {
+      const {tbody} = this.state;
         return(
             <div>
                 <MDBTable striped bordered hover>
                   <MDBTableHead>
                     {this.header()}
                     </MDBTableHead>
-                  {this.state.data}
+                  {tbody}
                 </MDBTable>
             </div>
         );

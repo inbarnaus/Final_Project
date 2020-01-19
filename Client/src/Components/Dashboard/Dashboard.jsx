@@ -34,6 +34,12 @@ class Dashboard extends Component {
                     <Route exact path="/register-costumer">
                     <RegisterCostumer/>
                     </Route>
+                    <Route exact path="/edit">
+                    <UserProperties/>
+                    </Route>
+                    <Route exact path="/editGet">
+                    <UserProperties/>
+                    </Route>
                     <Route exact path="/user-properties">
                     <UserProperties/>
                     </Route>

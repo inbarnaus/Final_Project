@@ -1,70 +1,53 @@
 import React, { Component } from 'react';
 import {FormGroup, Button, FormControl, FormLabel } from 'react-bootstrap';
-import {MDBTable, MDBTableHead, MDBTableBody} from 'mdbreact';
-import PropertyDetails from '../PropertyDetails/PropertyDetails';
-
+import PurchaseDetails from '../PurchaseDetails/PurchaseDetails';
 import axios from 'axios';
 import {findDOMNode} from 'react-dom';
-//import * as server from "../../../server";
 
 
-const server_url = "http://localhost:8080";
 
-class ChooseApartment extends Component{
+
+const server_url = "https:localhost/8080";
+
+class EditGetPurchase extends Component{
 
     constructor() {
         super();
     
         this.state = {
-            propertie: <MDBTable striped bordered hover>
-            <MDBTableHead>
-              {this.header()}
-              </MDBTableHead>
-              </MDBTable>
+            purchase: <PurchaseDetails/>
         }
     };
-
-    header() {
-        return <tr>
-        <th>דירה</th>
-        <th>בניין</th>
-        <th>מגרש</th>
-        <th>#</th>
-        </tr>;
-    };
-
-    
 
     setProp = (prop) => {
         this.setState({propertie: prop});
     }
-
+    
     handleclick = async() => {
-        
 
-        let block = findDOMNode(this.refs.blockref).value, building = findDOMNode(this.refs.buildingref).value, apartment = findDOMNode(this.refs.apartmentref).value;
-        // console.log(block);
-        // console.log(building);
-        // console.log(apartment);
+        let block = findDOMNode(this.refs.blockref).value,
+         building = findDOMNode(this.refs.buildingref).value,
+          apartment = findDOMNode(this.refs.apartmentref).value;
         let apartment_url = (apartment !== "דירה" ? apartment.concat("/") : "");
         let building_url = (building !== "בניין" ? building.concat("/").concat(apartment_url) : "");
         let block_url = (block !== "מגרש"? block.concat("/").concat(building_url) : "");
-        let get_url = (server_url.concat("/apartments/").concat(block_url));
+        let get_url = (server_url.concat("/editGet/").concat(block_url));
         console.log(get_url);
         try{
             let res = await axios.get(get_url);
-            console.log(res);
-            this.setProp({prop : res.data});
-            return res.data;
+            console.log(get_url);
+            this.setProp({prop : res});
+            return res;
         }
         catch(err){
             console.log(err);
         }
         
+
+        
     }
 
     render(){
-        const {propertie} = this.state;
         return (
             <div>
                 <FormGroup controlId = "formControlsBlocknum" type="text">
@@ -80,10 +63,10 @@ class ChooseApartment extends Component{
                     <FormControl ref="apartmentref" placeholder="דירה"/>
                 </FormGroup>         
                 <Button type="button" variant="primary" onClick={()=>this.handleclick()}>אישור</Button>
-                {propertie}
+                {this.state.propertie}
             </div>
         );
     }
 }
 
-export default ChooseApartment;
+export default EditGetPurchase;
