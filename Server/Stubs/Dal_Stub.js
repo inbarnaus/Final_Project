@@ -61,8 +61,9 @@ const Dal_Stub = {
 
     add_purchase : (apartment_purchase, first_buyer_name, first_buyer_id, second_buyer_name = null, second_buyer_id = null, date) => {
         for(var purch in purchases){
-            if(apartment_purchase == purch["apartment_idx"])
-                return null;
+            if(apartment_purchase == purch["apartment_idx"]){
+                return purch["apartment_idx"];
+            }
         }
         let original_apartment = get_apartment(apartment_purchase['block'],
             apartment_purchase['building'], apartment_purchase['apartment']);
@@ -75,7 +76,7 @@ const Dal_Stub = {
             "last_reporting_date": date + 29, "was_reported": false
         };
         purchases.push(new_purch);
-        return new_purch;
+        return apartment_purchase;
     },
 
     get_purchase : (block_num, building_num, apartment_num) => {

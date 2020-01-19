@@ -8,8 +8,8 @@ test('get apartment test', () => {
 test('check if after login- isLoggedIn: true', ()=>{
     let array = system.get_all_registrated_users();
     if(array.length){
-        expect(system.check_user_info(array[0]['username']).toBe(true));
-        expect(system.check_user_info(array[0]['username'], array[0]['password'].concat('113')).toBe(false));
+        expect(system.check_user_info(array[0]['username'], array[0]['password'])).toBe(true);
+        expect(system.check_user_info(array[0]['username'], array[0]['password'].concat('113'))).toBe(false);
     }
 });
 
@@ -19,22 +19,22 @@ test('check if password changed after changing it', ()=>{
     if(array.length){
         let old_pass = array[0]['password'];
         let new_pass = old_pass.concat('112');
-        system.change_password(array[0]['username'], old_pass, new_pass);
-        expect(system.check_user_info(array[0]['username'], new_pass).toBe(true));
-        expect(system.check_user_info(array[0]['username'], old_pass).toBe(false));
+        expect(system.change_password(array[0]['username'], old_pass, new_pass)).toBe(true);
+        expect(system.check_user_info(array[0]['username'], old_pass)).toBe(false);
     }
 });
 
 //Add 4G
 test('check if add 4g succeded', () => {
-    expect(system.add_4g(file).toBe(true));
+    expect(system.add_4g("file")).toBe(true);
 });
 
 //Add Buyer
 test('check if adding purchase succeded', () => {
-    let purchase;
-    expect(purchase = system.add_purchase({block: 1, building: 1, apartment: 2}, 'inbar', 3122, "19/1/2020").toBe(purchase != null));
+    expect(system.add_purchase({block: 1, building: 1, apartment: 2}, 'inbar', 3122, null, null, "19/1/2020")).toStrictEqual({block: 1, building: 1, apartment: 2});
 });
 
+test('check if edit record succeded', () => {
 
+});
 
