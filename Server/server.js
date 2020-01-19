@@ -47,4 +47,8 @@ app.post('/apartments/:block?/:building?/:apartment?', (req, res) => {
     res.send(filteredProperties);
 });
 
+app.post('/login', (req, res) => {
+    
+});
+
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
