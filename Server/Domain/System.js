@@ -34,7 +34,11 @@ const System = {
 
     send_report : (apartment) => { return dal.send_report(apartment); },
 
-    get_all_registrated_users : () => { return dal.get_all_registrated_users(); }
+    get_all_registrated_users : () => { return dal.get_all_registrated_users(); },
+
+    check_user_info : (username, password) => { return dal.check_user_info(username, password); },
+
+    change_password : (username, password, new_pass) => { return dal.change_password(username, password, new_pass);}
 }
 
 module.exports = System;
