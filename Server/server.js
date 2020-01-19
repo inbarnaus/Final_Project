@@ -1,9 +1,4 @@
-//import {Dal_stub} from './Stubs/Dal_Stub';
-
-//import './Stubs/Dal_Stub.js';
-// import Dal_stub from './Stubs/Dal_Stub.js';
-
-const data = require('./Stubs/Dal_Stub').prototype;
+const data = require('./Stubs/Dal_Stub');
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
@@ -22,9 +17,9 @@ app.get('/apartments/:block?/:building?/:apartment?', (req, res) => {
     if (block) {
         filteredProperties = (data.get_buildings(block));
         if (building) {
-            filteredProperties = data.get_appartements(block, building);
+            filteredProperties = data.get_apartments(block, building);
             if (apartment) {
-                filteredProperties = data.get_appartement(block, building, apartment);
+                filteredProperties = data.get_apartment(block, building, apartment);
             }
         }
     }
@@ -42,9 +37,9 @@ app.post('/apartments/:block?/:building?/:apartment?', (req, res) => {
     if (block) {
         filteredProperties = data.get_buildings(block);
         if (building) {
-            filteredProperties = data.get_appartements(building);
+            filteredProperties = data.get_apartments(building);
             if (apartment) {
-                filteredProperties = data.get_appartement(apartment);
+                filteredProperties = data.get_apartment(apartment);
             }
         }
     }
