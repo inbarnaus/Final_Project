@@ -8,6 +8,7 @@ const app = express();
 const port = 8080;
 
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(cors());
 
 var schedule = require('node-schedule');
@@ -67,9 +68,9 @@ app.post('/login', (req, res) => {
     let user_info = req.body;
 
     if(user_info && system.check_user_info(user_info['username'], user_info['password']))
-        return true;
-
-    return false;
+        res.send({succeed: true});
+    else
+        res.send({succeed: false});
 });
 
 //Return: rendom password

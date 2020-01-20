@@ -9,8 +9,12 @@ class App extends Component {
     super()
 
     this.state = {
-      isLoggedIn: false
+      isLoggedIn: true
     }
+  }
+  
+  setLogged = (logged) =>{
+      this.setState({isLoggedIn: logged});
   }
 
   render() {

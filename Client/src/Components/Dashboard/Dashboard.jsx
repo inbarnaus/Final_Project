@@ -25,7 +25,7 @@ class Dashboard extends Component {
                     <Route exact path="/apartments">
                     <ChooseApartment/>
                     </Route>
-                    <Route exact path="/purchase">
+                    <Route exact path="/purchases">
                     <ChoosePurchase/>
                     </Route>
                     <Route exact path="/register-lawyer">
