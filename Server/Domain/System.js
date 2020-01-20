@@ -40,7 +40,9 @@ const System = {
 
     change_password : (username, password, new_pass) => { return dal.change_password(username, password, new_pass); },
 
-    get_purchases : () => { return dal.get_purchases(); }
+    get_purchases : () => { return dal.get_purchases(); },
+
+    add_lawyer : (username, email) => { return dal.add_lawyer(); }
 }
 
 module.exports = System;

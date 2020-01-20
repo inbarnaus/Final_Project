@@ -1,4 +1,5 @@
 stub_data = require('./Data_Stub');
+const password = require('secure-random-password');
 
 class Dal_Stub{
 
@@ -153,6 +154,15 @@ class Dal_Stub{
 
     get_purchases(){
         return purchases;
+    }
+
+    add_lawyer(username, email){
+        for(l in Lawyers)
+            if(Lawyers[l].email == email)
+                return false;
+        let rand = password.randomPassword({length: 8});
+        Layers.push({username: username, password: rand, email: email});
+        return rand;
     }
 }
 

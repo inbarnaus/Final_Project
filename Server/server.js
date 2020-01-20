@@ -54,12 +54,38 @@ app.post('/edit/:block/:building/:apartment', (req, res) => {
 });
 
 app.post('/login', (req, res) => {
-    user_info = req.body;
+    let user_info = req.body;
 
     if(user_info && system.check_user_info(user_info['username'], user_info['password']))
         return true;
 
     return false;
+});
+
+//Return: rendom password
+app.post('/register/lawyer', (req,res) => {
+    let user_info = req.body;
+    if(user_info && user_info['username'] && user_info['email']) {
+        system.get_all_registrated_users().forEach(user => {
+            if(element.username == user_info['username'] || element.email == user_info['email'])
+                return false;
+        });
+        return system.add_lawyer(user_info['username'], user_info['email']);
+    }
+});
+
+app.get('/unreported', (req, res) => {
+    return system.get_all_unreported_purchases();
+});
+
+//TODO
+app.post('/login/forgotpass', (req, res) => {
+
+});
+
+//TODO
+app.post('/register/client', (req,res) => {
+    
 });
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
