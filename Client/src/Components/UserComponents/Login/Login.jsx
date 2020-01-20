@@ -2,20 +2,24 @@ import React, { Component } from 'react';
 import './login.css';
 import {Button, FormControl, FormLabel } from 'react-bootstrap';
 import axios from 'axios';
-import {findDOMNode, createPortal} from 'react-dom';
-import App from '../../../App';
+import {findDOMNode} from 'react-dom';
+import App from "../../../App";
 const FormGroup = require('react-bootstrap').FormGroup;
+
 class Login extends Component {
 
     server_url = "http://localhost:8080/login/";
 
     handleclick = async() => {
         let name = findDOMNode(this.refs.nameref).value, pass = findDOMNode(this.refs.passref).value;
+        console.log(name);
         try{
             let res = await axios.post(this.server_url, {username: name, password : pass});
-            console.log(res);
-            let portal = createPortal(this, App);
-            portal.props.setState({isLoggedIn: res.data});
+            console.log(res.data.succeed);
+            let appComp = document.getElementsByClassName('App');
+            console.log(appComp);
+            appComp.setLogged(res.data['succeed']);
+            appComp.forceUpdate();
         }
         catch(e){
             console.log(e);

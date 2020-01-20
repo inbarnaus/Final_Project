@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const port = 8080;
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(cors());
 
 app.get('/apartments/:block?/:building?/:apartment?', (req, res) => {
@@ -54,12 +55,13 @@ app.post('/edit/:block/:building/:apartment', (req, res) => {
 });
 
 app.post('/login', (req, res) => {
-    user_info = req.body;
+    let user_info = req.body;
+    console.log(user_info);
 
     if(user_info && system.check_user_info(user_info['username'], user_info['password']))
-        return true;
-
-    return false;
+        res.send({succeed: true});
+    else
+        res.send({succeed: false});
 });
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
