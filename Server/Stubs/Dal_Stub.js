@@ -1,27 +1,29 @@
 stub_data = require('./Data_Stub');
+const password = require('secure-random-password');
 
-const Dal_Stub = {
-    add_4g : (file) => {
+class Dal_Stub{
+
+    add_4g(file){
         return true;
-    },
+    }
 
-    check_user_info : (username, password) => {
+    check_user_info(username, password){
         for(let user in Lawyers)
             if(Lawyers[user]['username'] == username && Lawyers[user]['password'] == password)
                 return true;
         return false;
-    },
+    }
 
-    change_password : (username, password, new_password) => {
+    change_password(username, password, new_password){
         for(let user in Lawyers)
             if(Lawyers[user]['username'] == username && Lawyers[user]['password'] == password){
                 Lawyers[user]['password'] == new_password;
                 return true;
             }    
         return false;
-    },
+    }
 
-    get_apartment : (block, building, apartment) => {
+    get_apartment(block, building, apartment){
         if(!block || ! building || ! apartment)
             throw ErrorEvent;
         for(let prop in properties){
@@ -34,20 +36,20 @@ const Dal_Stub = {
                 return properties[prop];
             }
         }
-    },
+    }
 
-    get_apartments : (block, building) => {
+    get_apartments(block, building){
         if(!block || ! building)
             throw ErrorEvent;
         let ret = [];
         for(let prop in properties){
-            if((properties[prop].block && properties[prop].block === block) && properties[prop].buliding === building)
+            if((properties[prop]['block'] && properties[prop]['block'] == block) && properties[prop]['building'] == building)
                 ret.push(properties[prop]);
         }
         return ret;
-    },
+    }
 
-    get_buildings : (block) => {
+    get_buildings(block){
         if(!block)
             throw ErrorEvent;
         let ret = [];
@@ -57,15 +59,15 @@ const Dal_Stub = {
                 ret.push(properties[prop]);
         }
         return ret;
-    },
+    }
 
-    add_purchase : (apartment_purchase, first_buyer_name, first_buyer_id, second_buyer_name = null, second_buyer_id = null, date) => {
+    add_purchase(apartment_purchase, first_buyer_name, first_buyer_id, second_buyer_name = null, second_buyer_id = null, date){
         for(var purch in purchases){
             if(apartment_purchase == purch["apartment_idx"]){
-                return purch["apartment_idx"];
+                return null;
             }
         }
-        let original_apartment = get_apartment(apartment_purchase['block'],
+        let original_apartment = this.get_apartment(apartment_purchase['block'],
             apartment_purchase['building'], apartment_purchase['apartment']);
         let new_purch = {
             "apartment_idx": original_apartment, "buyer1": {"id": first_buyer_id, "name": first_buyer_name},
@@ -76,10 +78,10 @@ const Dal_Stub = {
             "last_reporting_date": date + 29, "was_reported": false
         };
         purchases.push(new_purch);
-        return apartment_purchase;
-    },
+        return new_purch;
+    }
 
-    get_purchase : (block_num, building_num, apartment_num) => {
+    get_purchase(block_num, building_num, apartment_num){
         for(var purch in purchases){
             if(purch['block'] === block_num &&
                 purch['building'] === building_num && purch['apartment'] === apartment_num){
@@ -87,47 +89,48 @@ const Dal_Stub = {
             }
         }
         return null;
-    },
+    }
 
-    set_purchase : (block_num, building_num, apartment_num, new_purchase_features) => {
+    set_purchase(block_num, building_num, apartment_num, new_purchase_features){
         for(var purch in purchases){
-            if(purch['block'] === block_num &&
-                purch['building'] === building_num && purch['apartment'] === apartment_num){
+            if(purchases[purch]['apartment_idx'].block == block_num &&
+            purchases[purch]['apartment_idx'].building == building_num && 
+            purchases[purch]['apartment_idx'].apartment == apartment_num){
                 purch = new_purchase_features;
                 return true;
             }
         }
         return false;
-    },
+    }
 
-    get_all_unreported_purchases : () => {
+    get_all_unreported_purchases(){
         let ret = [];
         for(var purch in purchases){
             if(!purch['was_reported'])
                 ret.push(purch)
         }
         return ret;
-    },
+    }
 
-    register_new_costumer : (username, password, mail) => {
+    register_new_costumer(username, password, mail){
         for(var cust in Costumers){
             if(username === cust['name'])
                 return false;
         }
         Costumers.push({"name": username, "password": password, "email": mail})
         return true;
-    },
+    }
 
-    register_new_lawyer : (username, password, mail) => {
+    register_new_lawyer(username, password, mail){
         for(var cust in Lawyers){
             if(username === cust['name'])
                 return false;
         }
         Lawyers.push({"name": username, "password": password, "email": mail})
         return true;
-    },
+    }
 
-    get_user : (username)=> {
+    get_user(username){
         let cust = Costumers.filter((customer) => costumer['name'] === username);
         if (cust.length === 1)
             return cust[0];
@@ -139,14 +142,27 @@ const Dal_Stub = {
                 return null;
         }
         throw ErrorEvent();
-    },
+    }
 
-    extract_files_for_purchases : (purchase) => {
+    extract_files_for_purchases(purchase){
         return null;
-    },
+    }
 
-    get_all_registrated_users : () => {
+    get_all_registrated_users(){
         return Lawyers;
+    }
+
+    get_purchases(){
+        return purchases;
+    }
+
+    add_lawyer(username, email){
+        for(l in Lawyers)
+            if(Lawyers[l].email == email)
+                return false;
+        let rand = password.randomPassword({length: 8});
+        Layers.push({username: username, password: rand, email: email});
+        return rand;
     }
 }
 

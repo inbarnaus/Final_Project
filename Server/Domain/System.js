@@ -1,4 +1,4 @@
-const dal = require('../Stubs/Dal_Stub');
+const dal = require('../Stubs/Dal_Stub').prototype;
 
 const System = {
 
@@ -11,7 +11,7 @@ const System = {
     get_buildings : (block) => { return dal.get_buildings(block); },
 
     add_purchase : (apartment_purchase, first_buyer_name, first_buyer_id, second_buyer_name = null, second_buyer_id = null) => {
-        return dal.get_purchase(apartment_purchase, first_buyer_name, first_buyer_id, second_buyer_name, second_buyer_id);
+        return dal.add_purchase(apartment_purchase, first_buyer_name, first_buyer_id, second_buyer_name, second_buyer_id);
     },
 
     get_purchase : (block_num, building_num, apartment_num) => { return dal.get_purchase(block_num, building_num, apartment_num); },
@@ -38,7 +38,11 @@ const System = {
 
     check_user_info : (username, password) => { return dal.check_user_info(username, password); },
 
-    change_password : (username, password, new_pass) => { return dal.change_password(username, password, new_pass);}
+    change_password : (username, password, new_pass) => { return dal.change_password(username, password, new_pass); },
+
+    get_purchases : () => { return dal.get_purchases(); },
+
+    add_lawyer : (username, email) => { return dal.add_lawyer(); }
 }
 
 module.exports = System;
