@@ -2,11 +2,21 @@ const system = require('./Domain/System');
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-//const apartments = require('./Domain/Data/Properties/Apartment')
+const mail_handler = require('./Domain/Mail/MailHandler');
 const app = express();
+
 const port = 8080;
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
+
+var schedule = require('node-schedule');
+ 
+/*var j = schedule.scheduleJob('00 00 08 1-12 0-7', function(){
+  console.log('The answer to life, the universe, and everything!');
+});
+*/
+var j = schedule.scheduleJob('00 3 * * *', mail_handler);
 
 app.get('/apartments/:block?/:building?/:apartment?', (req, res) => {
     const block = req.params.block;
