@@ -5,7 +5,23 @@ import {findDOMNode} from 'react-dom';
 
 class RegisterLawyer extends Component{
 
-    server_url = "http://localhost:8080/register-lawyer/";
+    constructor(){
+        super();
+        this.state = {
+            message: null
+        };
+    }
+
+    server_url = "http://localhost:8080/register/lawyer/";
+
+    setMessage(msg){
+        this.setState({message : msg});
+    }
+
+    diveret(val){
+        console.log(val);
+        return <div>{val}</div>
+    }
 
     handleclick = async() =>{
         let username =  findDOMNode(this.refs.nameref).value,
@@ -16,11 +32,11 @@ class RegisterLawyer extends Component{
             password : password,
             email: email
         });
-        console.log(res);
-        return res;
+        this.setMessage(res.data.succeed);
     }
     
     render(){
+        const {message} = this.state;
         return (
             <div>
                 <FormGroup controlId = "formControlsname" type="text">
@@ -36,6 +52,7 @@ class RegisterLawyer extends Component{
                     <FormControl ref="emailref" placeholder="אימייל"/>
                 </FormGroup> 
                 <Button type="button" variant="primary" onClick={()=>this.handleclick()}>אישור</Button>
+                {message}
             </div>
         );
     }

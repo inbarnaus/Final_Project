@@ -11,6 +11,8 @@ import RegisterCostumer from "../UserComponents/Register/RegisterCostumer";
 import ChooseApartment from "../DataComponents/ChooseApartment/ChooseApartment";
 import ChoosePurchase from '../DataComponents/ChoosePurchase/ChoosePurchase';
 import UserProperties from '../UserComponents/UserProperties/UserProperties';
+import Unreported from "../DataComponents/Ureported/Unreported";
+import EditGetPurchase from "../DataComponents/EditPurchase/EditGetPurchase"
 
 class Dashboard extends Component {
     render() {
@@ -28,17 +30,17 @@ class Dashboard extends Component {
                     <Route exact path="/purchases">
                     <ChoosePurchase/>
                     </Route>
+                    <Route exact path="/unreported">
+                    <Unreported/>
+                    </Route>
                     <Route exact path="/register-lawyer">
                     <RegisterLawyer/>
                     </Route>
                     <Route exact path="/register-costumer">
                     <RegisterCostumer/>
                     </Route>
-                    <Route exact path="/edit">
-                    <UserProperties/>
-                    </Route>
                     <Route exact path="/editGet">
-                    <UserProperties/>
+                    <EditGetPurchase/>
                     </Route>
                     <Route exact path="/user-properties">
                     <UserProperties/>
