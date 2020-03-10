@@ -83,9 +83,10 @@ class Dal_Stub{
 
     get_purchase(block_num, building_num, apartment_num){
         for(var purch in purchases){
-            if(purch['block'] === block_num &&
-                purch['building'] === building_num && purch['apartment'] === apartment_num){
-                return purch;
+            if(purchases[purch]['apartment_idx']['block'].toString() === block_num &&
+            purchases[purch]['apartment_idx']['building'].toString() === building_num &&
+             purchases[purch]['apartment_idx']['apartment'].toString() === apartment_num){
+                return purchases[purch];
             }
         }
         return null;
@@ -106,8 +107,8 @@ class Dal_Stub{
     get_all_unreported_purchases(){
         let ret = [];
         for(var purch in purchases){
-            if(!purch['was_reported'])
-                ret.push(purch)
+            if(!purchases[purch]['was_reported'])
+                ret.push(purchases[purch])
         }
         return ret;
     }
@@ -157,11 +158,11 @@ class Dal_Stub{
     }
 
     add_lawyer(username, email){
-        for(l in Lawyers)
+        for(let l in Lawyers)
             if(Lawyers[l].email == email)
                 return false;
         let rand = password.randomPassword({length: 8});
-        Layers.push({username: username, password: rand, email: email});
+        Lawyers.push({username: username, password: rand, email: email});
         return rand;
     }
 }

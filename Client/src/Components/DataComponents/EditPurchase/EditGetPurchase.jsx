@@ -1,26 +1,55 @@
 import React, { Component } from 'react';
 import {FormGroup, Button, FormControl, FormLabel } from 'react-bootstrap';
-import PurchaseDetails from '../PurchaseDetails/PurchaseDetails';
 import axios from 'axios';
 import {findDOMNode} from 'react-dom';
+import {MDBTable, MDBTableHead} from 'mdbreact';
 
 
 
 
-const server_url = "https:localhost/8080";
+const server_url = "http://localhost:8080";
+
 
 class EditGetPurchase extends Component{
+
+    
+    header_attr = ['דירה', 'בניין', 'מגרש'];
 
     constructor() {
         super();
     
         this.state = {
-            purchase: <PurchaseDetails/>
+            propertie: <MDBTable striped bordered hover>
+            <MDBTableHead>
+              {this.header()}
+              </MDBTableHead>
+              </MDBTable>
         }
+    };
+
+    header() {
+        return <tr>
+        <th>דירה</th>
+        <th>בניין</th>
+        <th>מגרש</th>
+        <th>#</th>
+        </tr>;
     };
 
     setProp = (prop) => {
         this.setState({propertie: prop});
+    }
+
+    make_row(data){
+        return (
+            <tbody>
+            <tr>
+            <th>{data['apartment_idx']['apartment']}</th>
+            <th>{data['apartment_idx']['building']}</th>
+            <th>{data['apartment_idx']['block']}</th>
+            </tr>
+            </tbody>
+        );
     }
     
     handleclick = async() => {
@@ -35,19 +64,29 @@ class EditGetPurchase extends Component{
         console.log(get_url);
         try{
             let res = await axios.get(get_url);
-            console.log(get_url);
-            this.setProp({prop : res});
+            console.log(res);
+            this.setProp(
+                <MDBTable striped bordered hover>
+            <MDBTableHead>
+              {this.header()}
+              </MDBTableHead>
+              {this.make_row(res.data)}
+              </MDBTable>)
             return res;
         }
         catch(err){
             console.log(err);
+            this.setProp(this.make_row(<MDBTable striped bordered hover>
+                <MDBTableHead>
+                  {this.header()}
+                  </MDBTableHead>
+                  {this.make_row(err.data)}
+                  </MDBTable>));
         }
-        
-
-        
     }
 
     render(){
+        const {propertie} = this.state;
         return (
             <div>
                 <FormGroup controlId = "formControlsBlocknum" type="text">
@@ -63,7 +102,7 @@ class EditGetPurchase extends Component{
                     <FormControl ref="apartmentref" placeholder="דירה"/>
                 </FormGroup>         
                 <Button type="button" variant="primary" onClick={()=>this.handleclick()}>אישור</Button>
-                {this.state.propertie}
+                {propertie}
             </div>
         );
     }

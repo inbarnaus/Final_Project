@@ -7,7 +7,7 @@ import {MDBTable, MDBTableHead} from 'mdbreact';
 
 
 
-const server_url = "https:localhost/8080";
+const server_url = "http://localhost:8080";
 
 class ChoosePurchase extends Component{
 
@@ -68,7 +68,7 @@ class ChoosePurchase extends Component{
         let apartment_url = (apartment !== "דירה" ? apartment.concat("/") : "");
         let building_url = (building !== "בניין" ? building.concat("/").concat(apartment_url) : "");
         let block_url = (block !== "מגרש"? block.concat("/").concat(building_url) : "");
-        let get_url = (server_url.concat("/purchases/").concat(block_url));
+        let get_url = (server_url.concat("/editGet/").concat(block_url));
         try{
             let res = await axios.get(get_url);
             let table = <MDBTable striped bordered hover>
@@ -86,6 +86,7 @@ class ChoosePurchase extends Component{
     }
 
     render(){
+        const {propertie} = this.state;
         return (
             <div>
                 <FormGroup controlId = "formControlsBlocknum" type="text">
@@ -101,7 +102,7 @@ class ChoosePurchase extends Component{
                     <FormControl ref="apartmentref" placeholder="דירה"/>
                 </FormGroup>         
                 <Button type="button" variant="primary" onClick={()=>this.handleclick()}>אישור</Button>
-                {this.state.propertie}
+                {propertie}
             </div>
         );
     }

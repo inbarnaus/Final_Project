@@ -32,6 +32,7 @@ class Navigate extends Component{
                     <NavDropdown title="צפייה בנתונים" id="basic-nav-dropdown">
                         <NavDropdown.Item href="/apartments">צפייה בפרטי דירה</NavDropdown.Item>
                         <NavDropdown.Item href="/purchases">צפייה בפרטי רכישה</NavDropdown.Item>
+                        <NavDropdown.Item href="/unreported">רכישות שלא דווחו</NavDropdown.Item>
                     </NavDropdown>
                     <Button href="/">דף הבית</Button>
                 </Nav>
