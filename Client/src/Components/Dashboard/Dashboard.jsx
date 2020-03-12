@@ -11,7 +11,7 @@ import RegisterCostumer from "../UserComponents/Register/RegisterCostumer";
 import ChooseApartment from "../DataComponents/ChooseApartment/ChooseApartment";
 import ChoosePurchase from '../DataComponents/ChoosePurchase/ChoosePurchase';
 import UserProperties from '../UserComponents/UserProperties/UserProperties';
-import Unreported from "../DataComponents/Ureported/Unreported";
+import Unreported from "../DataComponents/Unreported/Unreported";
 import EditGetPurchase from "../DataComponents/EditPurchase/EditGetPurchase"
 
 class Dashboard extends Component {
