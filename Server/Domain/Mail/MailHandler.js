@@ -3,7 +3,7 @@ var CronJob = require('cron').CronJob;
 
 var transporter = nodemailer.createTransport({
   host: 'amtp.gmail.com',
-  port: 465,
+  port: 80,
   secure: false,
   service: 'gmail',
   auth: {
