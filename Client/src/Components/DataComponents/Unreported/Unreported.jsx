@@ -11,7 +11,7 @@ const server_url = "http://localhost:8080/unreported";
 
 class Unreported extends Component{
 
-    header_attr = ['דירה', 'בניין', 'מגרש'];
+    header_attr = ['צפייה בפרטים', 'ימים לדיווח','דירה', 'בניין', 'מגרש'];
 
     constructor() {
         super();
@@ -19,17 +19,28 @@ class Unreported extends Component{
             
         function header() {
             return <tr>
-            <th>דירה</th>
-            <th>בניין</th>
-            <th>מגרש</th>
-            <th>#</th>
-            </tr>;
+                <th>צפייה בפרטים</th>
+                <th>ימים לדיווח</th>
+                <th>דירה</th>
+                <th>בניין</th>
+                <th>מגרש</th>
+                <th>#</th>
+                </tr>;
         };
 
         
         function make_row(data){
+            let watch_details = async(block, building, apartment) => {
+
+            }
             return (
                 <tr>
+                <th>
+                    <input type="submit" onClick={()=>watch_details(data['apartment_idx']['block'], data['apartment_idx']['building'], data['apartment_idx']['apartment'])}
+                        value="לצפייה בפרטים" class="btn btn-primary py-3 px-5">
+                    </input>
+                </th>
+                <th>{data['days_left']}</th>
                 <th>{data['apartment_idx']['apartment']}</th>
                 <th>{data['apartment_idx']['building']}</th>
                 <th>{data['apartment_idx']['block']}</th>

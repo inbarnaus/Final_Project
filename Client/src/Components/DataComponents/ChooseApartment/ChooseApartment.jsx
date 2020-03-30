@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {FormGroup, Button, FormControl, FormLabel } from 'react-bootstrap';
 import {MDBTable, MDBTableHead} from 'mdbreact';
-
+import { useHistory } from "react-router-dom";
 import axios from 'axios';
 import {findDOMNode} from 'react-dom';
 //import * as server from "../../../server";
@@ -13,19 +13,20 @@ class ChooseApartment extends Component{
 
     header_attr = ['דירה', 'בניין', 'מגרש'];
 
-    constructor() {
+    constructor(app) {
         super();
-    
-        this.state = {
-            propertie: <MDBTable striped bordered hover>
-            <MDBTableHead>
-              {this.header()}
-              </MDBTableHead>
-              </MDBTable>
-        }
+        this.state = app;
+        // this.state = {
+        //     propertie: <MDBTable striped bordered hover>
+        //     <MDBTableHead>
+        //       {this.header()}
+        //       </MDBTableHead>
+        //       </MDBTable>
+        // }
+        console.log(this.state['app']);
     };
 
-    header() {
+    header() { 
         return <tr>
         <th>דירה</th>
         <th>בניין</th>
@@ -53,7 +54,6 @@ class ChooseApartment extends Component{
     make_table(data){
         let rows = []
         for(let i in data){
-            
             rows.push(this.make_row(data[i]));
         }
         let ret = <tbody>{rows}</tbody>;
@@ -64,50 +64,67 @@ class ChooseApartment extends Component{
     handleclick = async() => {
         
 
-        let block = findDOMNode(this.refs.blockref).value,
-         building = findDOMNode(this.refs.buildingref).value,
-          apartment = findDOMNode(this.refs.apartmentref).value;
-        let apartment_url = (apartment !== "" ? apartment.concat("/") : "");
-        let building_url = (building !== "" ? building.concat("/").concat(apartment_url) : "");
-        let block_url = (block !== ""? block.concat("/").concat(building_url) : "");
-        let get_url = (server_url.concat("/apartments/").concat(block_url));
-        try{
-            let res = await axios.get(get_url);
-            let table = <MDBTable striped bordered hover>
-            <MDBTableHead>
-              {this.header()}
-              </MDBTableHead>
-              {this.make_table(res.data)}
-              </MDBTable>;
-            
-            this.setProp(table);
-        }
-        catch(err){
-            console.log(err);
-        }
+        let block = document.getElementById("block").value,// findDOMNode(this.refs.blockref).value,
+         building = document.getElementById("building").value,// findDOMNode(this.refs.buildingref).value,
+          apartment = document.getElementById("apartment").value;// findDOMNode(this.refs.apartmentref).value;
+        await this.state['app']({
+          block: block, 
+          building: building, 
+          apartment: apartment
+        });
+        console.log({
+          block: block,
+          building: building,
+          apartment: apartment
+        });
+        window.location="/apartment-details";
         
     }
 
     render(){
         const {propertie} = this.state;
         return (
-            <div>
-                <FormGroup controlId = "formControlsBlocknum" type="text">
-                    <FormLabel>מגרש</FormLabel>
-                    <FormControl ref="blockref" placeholder="מגרש"/>
-                </FormGroup>
-                <FormGroup controlId = "formControlsBuildingnum" type="text">
-                    <FormLabel>בניין</FormLabel>
-                    <FormControl ref="buildingref" placeholder="בניין"/>
-                </FormGroup>
-                <FormGroup controlId = "formControlsApartmentnum" type="text">
-                    <FormLabel>דירה</FormLabel>
-                    <FormControl ref="apartmentref" placeholder="דירה"/>
-                </FormGroup>         
-                <Button type="button" variant="primary" onClick={()=>this.handleclick()}>אישור</Button>
-                {propertie}
+            <section class="ftco-section contact-section">
+		<div class="container">
+		  <div class="row block-9 justify-content-center mb-5">
+			<div class="col-md-6 align-items-stretch d-flex">
+			  <form action="#" class="bg-light p-5 contact-form">
+          <h1 class="mb-7 bread">הכנס פרטי דירה</h1>
+          <div class="form-group">
+            <input type="text" id="block" class="form-control" placeholder="מספר מגרש"></input>
+          </div>
+          <div class="form-group">
+            <input type="text" id="building" class="form-control" placeholder="מספר בניין"></input>
+          </div>
+          <div class="form-group">
+            <input type="text" id="apartment" class="form-control" placeholder="מספר דירה"></input>
             </div>
-        );
+          <div class="form-group">
+            <input type="submit" onClick={()=>this.handleclick()} value="מצא דירה" class="btn btn-primary py-3 px-5"></input>
+          </div>
+			  </form>
+			</div>
+		  </div>
+		</div>
+    {propertie}
+	  </section>);
+        //     <div>
+        //         <FormGroup controlId = "formControlsBlocknum" type="text">
+        //             <FormLabel>מגרש</FormLabel>
+        //             <FormControl ref="blockref" placeholder="מגרש"/>
+        //         </FormGroup>
+        //         <FormGroup controlId = "formControlsBuildingnum" type="text">
+        //             <FormLabel>בניין</FormLabel>
+        //             <FormControl ref="buildingref" placeholder="בניין"/>
+        //         </FormGroup>
+        //         <FormGroup controlId = "formControlsApartmentnum" type="text">
+        //             <FormLabel>דירה</FormLabel>
+        //             <FormControl ref="apartmentref" placeholder="דירה"/>
+        //         </FormGroup>         
+        //         <Button type="button" variant="primary" onClick={()=>this.handleclick()}>אישור</Button>
+        //         {propertie}
+        //     </div>
+        // );
     }
 }
 

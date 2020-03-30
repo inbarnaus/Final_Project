@@ -24,7 +24,7 @@ class App extends Component {
         {isLoggedIn ? 
           <Dashboard />
           :
-          <Login />
+          <Login app={this.setLogged}/>
         }
       </div>
     );
