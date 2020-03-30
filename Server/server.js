@@ -3,9 +3,11 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const app = express();
+const mongoose = require('./DataAccess/mongoose');
 
 const port = 8080;
 const mail_handler = require('./Domain/Mail/MailHandler')
+
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
