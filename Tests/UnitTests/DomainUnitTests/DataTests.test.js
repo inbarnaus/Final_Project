@@ -1,4 +1,4 @@
-const system = require("../../Server/Domain/System");
+const system = require("../../../Server/Domain/System");
 
 //get apartment
 test('get an existing apartment', ()=>{

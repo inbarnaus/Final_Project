@@ -1,4 +1,4 @@
-const system = require("../../Server/Domain/System");
+const system = require("../../../Server/Domain/System");
 /*
 test('get apartment test', () => {
     expect(system.get_apartment(1, 2, 1)).toStrictEqual({"block":1,"building":2,"apartment":1});

@@ -1,4 +1,4 @@
-const system = require("../../Server/Domain/System");
+const system = require("../../../Server/Domain/System");
 
 //get user
 test('get an existing user', ()=>{
