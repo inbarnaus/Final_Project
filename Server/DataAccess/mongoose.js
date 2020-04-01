@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const xlsxFile = require('read-excel-file/node');
+const mongodb = require('mongodb');
 
 var reports = []
 
@@ -8,7 +9,7 @@ mongoose.connect('mongodb+srv://mnh:12345@cluster0-sk1ck.mongodb.net/test?retryW
     useUnifiedTopology: true
 })
 
-const Report = mongoose.model('Report', new mongoose.Schema({_id: new ObjectID(), 
+const Report = mongoose.model('Report', new mongoose.Schema({_id: new mongodb.ObjectID(), 
     buildNum: Number, 
     fieldNum: Number, 
     apartNum: Number, 
