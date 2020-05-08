@@ -1,48 +1,123 @@
-const dal = require('../Stubs/Dal_Stub').prototype;
+const dal = require('../DataAccess/mongoose');
+
+const pdf_scanner = require('../FileHandlers/Pdf_Scanner.js').parse_pdf;
+// const xl_scanner = require('../FileHandlers/Excel_Scanner.js');
+const xlsxFile = require('read-excel-file/node');
+const email_sender = require('./Mail/MailHandler');
 
 const System = {
-
-    add_4g : (file) => { return dal.add_4g(file); },
-
-    get_apartment : (block, building, apartment) => { return dal.get_apartment(block, building, apartment); },
-
-    get_apartments : (block, building) => { return dal.get_apartments(block, building); },
-
-    get_buildings : (block) => { return dal.get_buildings(block); },
-
-    add_purchase : (apartment_purchase, first_buyer_name, first_buyer_id, second_buyer_name = null, second_buyer_id = null) => {
-        return dal.add_purchase(apartment_purchase, first_buyer_name, first_buyer_id, second_buyer_name, second_buyer_id);
+    gen_succ_res : (data) => {
+        return {
+            "success": true,
+            "res": data
+        }
     },
 
-    get_purchase : (block_num, building_num, apartment_num) => { return dal.get_purchase(block_num, building_num, apartment_num); },
+    gen_fail_res : (data) => {
+        return {
+            "success": true,
+            "res": data
+        }
+    },
 
-    set_purchase : (block_num, building_num, apartment_num, new_purchase_features) =>{ return dal.set_purchase(block_num, building_num, apartment_num, new_purchase_features); },
+    add_4g : async (file) => {
+        reverseString = (arr) =>{
+            for(var i=0; i< arr.length; i++){
+                if(typeof arr[i] == 'string' && arr[i] != null){
+                    var revArray = ""; 
+                    const length = arr[i].length - 1; 
+                    for(let j = length; j >= 0; j--) {
+                        revArray += arr[i][j];
+                    }
+                    arr[i] = revArray;  
+                }
+            }
+            return arr;
+        };
+        xlsxFile(file).then((rows) => {
+            for (var i=0; i<rows.length; i++)
+                rows[i] = reverseString(rows[i]);
+            const length = rows.length - 1; 
+            var flag;
+            for(let j = length; j >= 0; j--) {
+                if(typeof rows[j][0] != 'number'){
+                    flag = j+1;
+                    break;
+                }
+            }
+            var tempRepo = rows.slice(flag, length+1);
+            return await dal.add_g4(tempRepo);
+        }).catch((err) => {console.log(err)});
+    },
 
-    get_report : (block_num, building_num, apartment_num) => { return dal.get_report(block_num, building_num, apartment_num); },
+    get_apartment : async (block, building, apartment) => { return await dal.get_apartment(block, building, apartment); },
 
-    get_all_unreported_purchases : () => { return dal.get_all_unreported_purchases(); },
+    // get_apartments : (block, building) => { return dal.get_apartments(block, building); },
 
-    register_new_costumer : (username, password, mail) => { return dal.register_new_costumer(username, password, mail); },
+    // get_buildings : (block) => { return dal.get_buildings(block); },
 
-    register_new_lawyer : (username, password, mail) => { return dal.register_new_lawyer(username, password, mail); },
+    add_purchase : async (apartment_purchase, first_buyer_name, first_buyer_id, second_buyer_name = null, second_buyer_id = null) => {
+        return await dal.add_purchase(apartment_purchase, first_buyer_name, first_buyer_id, second_buyer_name, second_buyer_id);
+    },
 
-    get_user : (username) => { return dal.get_user(username) },
+    get_purchase : async (block_num, building_num, apartment_num) => { return await dal.get_purchase(block_num, building_num, apartment_num); },
 
-    login : (username, password) => { dal.login(username, password); },
+    set_purchase : async (block_num, building_num, apartment_num, new_purchase_features) =>{ return await dal.set_purchase(block_num, building_num, apartment_num, new_purchase_features); },
 
-    extract_files_for_purchases : (files_list) => { return dal.extract_files_for_purchases(files_list); },
+    get_report : async (block_num, building_num, apartment_num) => { return await dal.get_report(block_num, building_num, apartment_num); },
 
-    send_report : (apartment) => { return dal.send_report(apartment); },
+    get_all_unreported_purchases : async () => { return await dal.get_all_unreported_purchases(); },
 
-    get_all_registrated_users : () => { return dal.get_all_registrated_users(); },
+    register_new_costumer : async (mail, password) => { return await dal.register_new_costumer(mail, password); },
 
-    check_user_info : (username, password) => { return dal.check_user_info(username, password); },
+    register_new_lawyer : async (mail, password) => { return await dal.register_new_lawyer(mail, password); },
 
-    change_password : (username, password, new_pass) => { return dal.change_password(username, password, new_pass); },
+    get_user : async (mail) => { return await dal.get_user(mail); },
 
-    get_purchases : () => { return dal.get_purchases(); },
+    login : async (mail, password) => { return await dal.login(mail, password); },
 
-    add_lawyer : (username, email) => { return dal.add_lawyer(); }
+    extract_files_for_purchases : async (files_list) => { return await dal.extract_files_for_purchases(files_list); },
+
+    send_report : async(block, building, apartment, file) => {
+        report_stuff = find_report_attr(pdf_scanner(file));
+        return await dal.send_report(block, building, apartment, report_stuff); 
+    },
+
+    // get_all_registrated_users : () => { return dal.get_all_registrated_users(); },
+
+    check_user_info : async (username, password) => { return await dal.check_user_info(username, password); },
+
+    change_password : async (username, password, new_pass) => { return await dal.change_password(username, password, new_pass); },
+
+    add_scanning : async (block, building, apartment, file) => {
+        return await dal.add_scanning(block, building, apartment, file);
+    },
+
+    confirm_pass : async (email) => {
+        user = await dal.get_user(email);
+        if(user['succeed']){
+            email_sender.mail_confirmation(email, user['res']['password']);
+        }
+        return user;
+    },
+
+    /*** PRIVATE METHODS FOR TESTS:
+     * 
+     * 
+     */
+
+    unregister : async (email) => { 
+        return await dal.unregister(email);
+    },
+
+    add_apartment : async (fieldNum, buildNum, apartNum, level, roomNum, apartArea, apartAreaAq, balconyArea, warehouseArea, warehouseNum, parkingNum, parkingQuantity1, parkingQuantity2=null, apartNumPrice, apartTenantPrice, notes=null, apartMMDprice, dir) => {//private method for tests
+            return await dal.add_apartment(fieldNum, buildNum, apartNum, level, roomNum, apartArea, apartAreaAq, balconyArea, warehouseArea, 
+                warehouseNum, parkingNum, parkingQuantity1, parkingQuantity2, apartNumPrice, apartTenantPrice, notes, apartMMDprice, dir);
+    },
+
+    remove_apartment : async (fieldNum, buildNum, apartNum) => {
+        return await dal.remove_apartment(fieldNum, buildNum, apartNum);
+    }
 }
 
 module.exports = System;
