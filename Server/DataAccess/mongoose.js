@@ -94,16 +94,20 @@ const Dal = {
             repo.save().then(() => console.log('good save')).catch((err)=> {console.log("bad save")});
         }
         console.log(reports);
+        return reports;
     },
 
     get_apartment: async (block, building, apartment) =>{
+        ans = null;
         await Asset.find({ 'buildNum': building, 'fieldNum': block, 'apartNum': apartment }, function (err, record) {
-            if (err) return {succeed: Flase, res: err};
-            return {succeed: True, res: record};
+            if (err) ans = {succeed: Flase, res: err};
+            else ans = {succeed: True, res: record};
         });
+        return ans;
     },
 
     add_purchase: async (apartment_purchase, first_buyer_name, first_buyer_id, second_buyer_name = null, second_buyer_id = null) => {
+        ans = null;
         purch = new Acquisition({
             'buildNum': apartment_purchase['building'], 
             'fieldNum': apartment_purchase['block'], 
@@ -117,76 +121,88 @@ const Dal = {
         building = apartment_purchase['building'];
         apartment = apartment_purchase['apartment'];
         await Asset.findOne({ 'buildNum': building, 'fieldNum': block, 'apartNum': apartment }, async function (err) {
-            if (err) return {succeed: Flase, res: err};
+            if (err) ans = {succeed: Flase, res: err};
             await Acquisition.findOne({ 'buildNum': building, 'fieldNum': block, 'apartNum': apartment }, function(err){ 
                 if(err){
-                    return gen_fail_res(err);
+                    ans = gen_fail_res(err);
                 }
                 purch.save();
-                return gen_succ_res(purch);
+                ans = gen_succ_res(purch);
             });
         });
+        return ans;
     },
 
     get_purchase: async (block_num, building_num, apartment_num) =>{
+        ans = null;
         await Acquisition.find({ 'buildNum': building_num, 'fieldNum': block_num, 'apartNum': apartment_num }, function (err, record) {
-            if (err) return {succeed: Flase, res: err};
-            return {succeed: True, res: record};
+            if (err) ans = {succeed: Flase, res: err};
+            ans = {succeed: True, res: record};
         });
+        return ans;
     },
 
     set_purchase: async (block_num, building_num, apartment_num, new_purchase_features) => {
         const func = (str, record) => {
             return (new_purchase_features[str] ? new_purchase_features[str] : record[str]);
         };
+        ans = null;
         await Acquisition.find({ 'buildNum': building_num, 'fieldNum': block_num, 'apartNum': apartment_num }, async function (err, record) {
-            if (err) return {succeed: Flase, res: err};
-            update_ac = {
-                buyerName1: func('buyerName1', record),
-                buyerId1: func('buyerId1', record),
-                buyerName2: func('buyerName2', record),
-                parking1: func('parking1', record),
-                parking2: func('parking2', record),
-                garage: func('garage', record),
-                purchaseDate: func('purchaseDate', record),
-                reportDate: func('reportDate', record),
-                price: func('price', record),
-                assessmentNum: func('assessmentNum', record),
-                mortgageSum: func('mortgageSum', record),
-                mortageBank: func('mortageBank', record),
-                notes: func('notes', record),
-                scanForm: func('scanForm', record),
-                firstApartment: func('scanForm', record),
-                reported: func('scanForm', record)
-            };
-            await Acquisition.findOneAndUpdate({ 'buildNum': building_num, 'fieldNum': block_num, 'apartNum': apartment_num },
-                $set(update_ac), function(err, updtare_record){
-                    if(err){
-                        return gen_fail_res(err);
+            if (err) ans = {succeed: Flase, res: err};
+            else{
+                update_ac = {
+                    buyerName1: func('buyerName1', record),
+                    buyerId1: func('buyerId1', record),
+                    buyerName2: func('buyerName2', record),
+                    parking1: func('parking1', record),
+                    parking2: func('parking2', record),
+                    garage: func('garage', record),
+                    purchaseDate: func('purchaseDate', record),
+                    reportDate: func('reportDate', record),
+                    price: func('price', record),
+                    assessmentNum: func('assessmentNum', record),
+                    mortgageSum: func('mortgageSum', record),
+                    mortageBank: func('mortageBank', record),
+                    notes: func('notes', record),
+                    scanForm: func('scanForm', record),
+                    firstApartment: func('firstApartment', record),
+                    reported: func('reported', record)
+                };
+                await Acquisition.findOneAndUpdate({ 'buildNum': building_num, 'fieldNum': block_num, 'apartNum': apartment_num },
+                    $set(update_ac), function(err, updtare_record){
+                        if(err){
+                            ans = gen_fail_res(err);
+                        }
+                        else{
+                            ans = gen_succ_res(updtare_record);
+                        }
                     }
-                    else{
-                        return gen_succ_res(updtare_record);
-                    }
-                });
+                );
+            }
         });
+        return ans;
     },
 
     get_user: async (email) =>{
+        ans = null;
         await User.find({ 'email': email }, function (err, record) {
             if (err){
                 // console.log(err);
-                return {succeed: false, res: err};
+                ans = {succeed: false, res: err};
             }
             // console.log(record);
-            return {succeed: true, res: record};
+            else ans = {succeed: true, res: record};
         });
+        return ans;
     },
 
     get_all_unreported_purchases: async () => {
+        ans = null;
         await Acquisition.find({ 'reprted': False }, 'fieldNum buildNum apartNum purchaseDate reportDate', function (err, record) {
-            if (err) return {succeed: Flase, res: err};
-            return {succeed: True, res: record};
+            if (err) ans = {succeed: Flase, res: err};
+            else ans = {succeed: True, res: record};
         });
+        return ans;
     },
 
     register_new_costumer: async (mail, password) => {
@@ -195,16 +211,19 @@ const Dal = {
             'password': password,
             'isLawyer': false
         });
+        ans = null;
         await User.findOne({ 'email': mail }, function (err) {
             if (err) {
                 user.save();    
-                return gen_succ_res(user);
+                ans = gen_succ_res(user);
             }
-            return {succeed: false, res: "משתמש כבר רשום למערכת"};
+            else ans = {succeed: false, res: "משתמש כבר רשום למערכת"};
         });
+        return ans;
     },
 
     register_new_lawyer: async (mail, password) =>{
+        ans = null;
         await User.findOne({'email': mail}, function(err, res){
             
             if(err || res == null){
@@ -214,32 +233,36 @@ const Dal = {
                     'isLawyer': true
                 });
                 user.save();
-                return gen_succ_res(user);
+                ans = gen_succ_res(user);
             }
             else{
-                return {succeed: false, res: "משתמש כבר קיים במערכת"};
+                ans = {succeed: false, res: "משתמש כבר קיים במערכת"};
             }
         });
+        return ans;
     },
 
     add_scanning: async (block, building, apartment, file) =>{
+        ans = null;
         await Asset.findOne({ 'buildNum': building, 'fieldNum': block, 'apartNum': apartment }, async function(err, res){
             if(err || res == null){
-                return gen_fail_res("דירה לא נמצאה");
+                ans = gen_fail_res("דירה לא נמצאה");
             }
             await Acquisition.findOneAndUpdate({ 'buildNum': building, 'fieldNum': block, 'apartNum': apartment, 'reported': false, 'scanForm': null}, {'scanForm': file}, 
                 function(err, doc, res){
                     if(err){
-                        return gen_fail_res(err);
+                        ans = gen_fail_res(err);
                     }
-                    return gen_succ_res(res);
+                    ans = gen_succ_res(res);
                 }
             );
         });
+        return ans;
     },
 
     //TODO
     send_report: async (block, building, apartment, file_stuff) =>{
+        ans = null;
         await Acquisition.findOneAndUpdate({ 'buildNum': building, 'fieldNum': block, 'apartNum': apartment, 'reported': false, 'assessmentNum': null, 'referenceNum': null},
             $set({
                 reported: true, 
@@ -248,10 +271,11 @@ const Dal = {
             }),
             function (err, res) {
                 if(err || res == null)
-                    return gen_fail_res(err);
+                    ans = gen_fail_res(err);
                 else
-                    return gen_succ_res(res);
+                    ans = gen_succ_res(res);
             });
+        return ans;
     },
 
     /**** PRIVATE METHODS FOR TESTS:
@@ -260,15 +284,14 @@ const Dal = {
      * 
      */
     unregister: async (email) =>{
-        ans;
+        ans = null;
         await User.findOneAndRemove({email: email}, function (err, user){
+            console.log(user);
             if(err){
                 ans = gen_fail_res(err);
-                return gen_fail_res(err);
             }
             else{
                 ans = gen_succ_res(user);
-                return gen_succ_res(user);
             }
         });
         return ans;
@@ -295,6 +318,7 @@ const Dal = {
             apartMMDprice: apartMMDprice, 
             dir: dir
         });
+        ans = null;
         await Asset.findOne({
             buildNum: buildNum, 
             fieldNum: fieldNum, 
@@ -302,25 +326,28 @@ const Dal = {
         }, function(err){
                 if(err){
                     asset.save();
-                    return gen_succ_res(asset);
+                    ans = gen_succ_res(asset);
                 }
-                return gen_fail_res("דירה כבר קיימת");       
+                ans = gen_fail_res("דירה כבר קיימת");       
         });
+        return ans;
     },
 
     remove_apartment: async(fieldNum, buildNum, apartNum) =>{
+        ans = null;
         await Asset.findOneAndRemove({
             buildNum: buildNum, 
             fieldNum: fieldNum, 
             apartNum: apartNum
         }, function(err, rec){
             if(err){
-                return gen_fail_res(err);
+                ans = gen_fail_res(err);
             }
             else{
-                return gen_succ_res(rec);
+                ans = gen_succ_res(rec);
             }
         });
+        return ans;
     }
 };
 
@@ -335,8 +362,8 @@ mongoose.connect('mongodb+srv://mnh:12345@cluster0-sk1ck.mongodb.net/test?retryW
     useUnifiedTopology: true
 })
 .then(async ()=>{
-    console.log("good connect");
-    ans = await Dal.unregister("test");
-    console.log(ans);
+    console.log("db is connected");
 })
-.catch(()=>{console.log("bad connect")});
+.catch(()=>{
+    console.log("db is NOT connect")
+});

@@ -34,7 +34,8 @@ const System = {
             }
             return arr;
         };
-        xlsxFile(file).then((rows) => {
+        ans = null;
+        await xlsxFile(file).then(async (rows) => {
             for (var i=0; i<rows.length; i++)
                 rows[i] = reverseString(rows[i]);
             const length = rows.length - 1; 
@@ -46,11 +47,16 @@ const System = {
                 }
             }
             var tempRepo = rows.slice(flag, length+1);
-            return await dal.add_g4(tempRepo);
+            ans = await dal.add_g4(tempRepo);
+            // return ans;
         }).catch((err) => {console.log(err)});
+        return ans;
     },
 
-    get_apartment : async (block, building, apartment) => { return await dal.get_apartment(block, building, apartment); },
+    get_apartment : async (block, building, apartment) => { 
+        ans = await dal.get_apartment(block, building, apartment); 
+        return ans;
+    },
 
     // get_apartments : (block, building) => { return dal.get_apartments(block, building); },
 
