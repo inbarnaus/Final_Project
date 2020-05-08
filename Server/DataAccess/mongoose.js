@@ -3,18 +3,57 @@ const mongoose = require('mongoose');
 // const mongodb = require('mongodb');
 // const ObjectId = Schema.ObjectId;
 const Schema = mongoose.Schema;
-const entities = require('./DataEntities');
-const User = entities.User;
-const Asset = entities.Asset;
-const Acquisition = entities.Acquisition;
-var reports = []
+const User = mongoose.model('User', new Schema({
+    email: String,
+    password: String,
+    isLawyer: Boolean
+}));
 
-mongoose.connect('mongodb+srv://mnh:12345@cluster0-sk1ck.mongodb.net/test?retryWrites=true&w=majority', {
-    useNewUrlParser: true, 
-    useUnifiedTopology: true
-}).then(()=>{console.log("good connect")}).catch(()=>{console.log("bad connect")});
+const Asset = mongoose.model('Asset', new Schema({
+    buildNum: Number, 
+    fieldNum: Number, 
+    apartNum: Number, 
+    level: Number, 
+    roomNum: Number, 
+    apartArea: Number, 
+    apartAreaAq: Object, 
+    balconyArea: Number, 
+    warehouseArea: Number, 
+    warehouseNum: Number, 
+    parkingNum: Number, 
+    parkingQuantity1: Number, 
+    parkingQuantity2: Object, 
+    apartNumPrice: Number,
+    apartTenantPrice: Number, 
+    notes: Object, 
+    apartMMDprice: Object, 
+    dir: Object
+}));
 
-
+const Acquisition = mongoose.model('Acquisition', new Schema({
+    buildNum: Number, 
+    fieldNum: Number, 
+    apartNum: Number, 
+    buyerName1: String,
+    buyerId1: String,
+    buyerName2: {type: String, default: null},
+    buyerId2: {type: String, default: null},
+    parking1: Number,
+    parking2: {type: Number, default: null},
+    garage: Number,
+    purchaseDate: Date,
+    reportDate: Date,
+    price: Number,
+    assessmentNum: {type: Number, default: null},
+    referenceNum: {type: Number, default: null},
+    mortgageSum: Number,
+    mortageBank: Number,
+    notes: String,
+    scanForm: {type: String, default: null}, //TODO
+    firstApartment: {type: Boolean, default: true},
+    reported: {type: Boolean, default: false},
+}));
+var reports = [];
 
 // xlsxFile('./DataAccess/G4_example.xlsx').then((rows) => {
 //     for (var i=0; i<rows.length; i++)
@@ -77,9 +116,9 @@ const Dal = {
         block =apartment_purchase['block'];
         building = apartment_purchase['building'];
         apartment = apartment_purchase['apartment'];
-        await Asset.findOne({ 'buildNum': building, 'fieldNum': block, 'apartNum': apartment }, function (err) {
+        await Asset.findOne({ 'buildNum': building, 'fieldNum': block, 'apartNum': apartment }, async function (err) {
             if (err) return {succeed: Flase, res: err};
-            await Acquisition.findOne({ 'buildNum': building, 'fieldNum': block, 'apartNum': apartment },function(err){ 
+            await Acquisition.findOne({ 'buildNum': building, 'fieldNum': block, 'apartNum': apartment }, function(err){ 
                 if(err){
                     return gen_fail_res(err);
                 }
@@ -100,7 +139,7 @@ const Dal = {
         const func = (str, record) => {
             return (new_purchase_features[str] ? new_purchase_features[str] : record[str]);
         };
-        await Acquisition.find({ 'buildNum': building_num, 'fieldNum': block_num, 'apartNum': apartment_num }, function (err, record) {
+        await Acquisition.find({ 'buildNum': building_num, 'fieldNum': block_num, 'apartNum': apartment_num }, async function (err, record) {
             if (err) return {succeed: Flase, res: err};
             update_ac = {
                 buyerName1: func('buyerName1', record),
@@ -166,8 +205,9 @@ const Dal = {
     },
 
     register_new_lawyer: async (mail, password) =>{
-        await User.findOne({'email': mail}, function(err){
-            if(err){
+        await User.findOne({'email': mail}, function(err, res){
+            
+            if(err || res == null){
                 user = new User({
                     'email': mail,
                     'password': password,
@@ -183,11 +223,11 @@ const Dal = {
     },
 
     add_scanning: async (block, building, apartment, file) =>{
-        await Asset.findOne({ 'buildNum': building, 'fieldNum': block, 'apartNum': apartment }, function(err){
-            if(err){
+        await Asset.findOne({ 'buildNum': building, 'fieldNum': block, 'apartNum': apartment }, async function(err, res){
+            if(err || res == null){
                 return gen_fail_res("דירה לא נמצאה");
             }
-            Acquisition.findOneAndUpdate({ 'buildNum': building, 'fieldNum': block, 'apartNum': apartment, 'reported': false, 'scanForm': null}, {'scanForm': file}, 
+            await Acquisition.findOneAndUpdate({ 'buildNum': building, 'fieldNum': block, 'apartNum': apartment, 'reported': false, 'scanForm': null}, {'scanForm': file}, 
                 function(err, doc, res){
                     if(err){
                         return gen_fail_res(err);
@@ -200,14 +240,14 @@ const Dal = {
 
     //TODO
     send_report: async (block, building, apartment, file_stuff) =>{
-        Acquisition.findOneAndUpdate({ 'buildNum': building, 'fieldNum': block, 'apartNum': apartment, 'reported': false, 'assessmentNum': null, 'referenceNum': null},
+        await Acquisition.findOneAndUpdate({ 'buildNum': building, 'fieldNum': block, 'apartNum': apartment, 'reported': false, 'assessmentNum': null, 'referenceNum': null},
             $set({
                 reported: true, 
                 assessmentNum: file_stuff['assessment'], 
                 referenceNum: file_stuff['reference']
             }),
             function (err, res) {
-                if(err)
+                if(err || res == null)
                     return gen_fail_res(err);
                 else
                     return gen_succ_res(res);
@@ -220,12 +260,18 @@ const Dal = {
      * 
      */
     unregister: async (email) =>{
+        ans;
         await User.findOneAndRemove({email: email}, function (err, user){
             if(err){
+                ans = gen_fail_res(err);
                 return gen_fail_res(err);
             }
-            return gen_succ_res(user);
+            else{
+                ans = gen_succ_res(user);
+                return gen_succ_res(user);
+            }
         });
+        return ans;
     },
 
     add_apartment: async(fieldNum, buildNum, apartNum, level, roomNum, apartArea, apartAreaAq, balconyArea, warehouseArea, warehouseNum, parkingNum, parkingQuantity1, parkingQuantity2=null, apartNumPrice, apartTenantPrice, notes=null, apartMMDprice, dir) =>{
@@ -282,3 +328,15 @@ module.exports = Dal;
 
 // function extract_files_for_purchases (files_list) {
 // };
+
+
+mongoose.connect('mongodb+srv://mnh:12345@cluster0-sk1ck.mongodb.net/test?retryWrites=true&w=majority', {
+    useNewUrlParser: true, 
+    useUnifiedTopology: true
+})
+.then(async ()=>{
+    console.log("good connect");
+    ans = await Dal.unregister("test");
+    console.log(ans);
+})
+.catch(()=>{console.log("bad connect")});
