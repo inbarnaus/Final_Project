@@ -20,3 +20,19 @@ new pdfreader.PdfReader().parseFileItems('Files/sample.pdf', function(err,item) 
     (rows[item.x] = rows[item.x] || []).push(item.text);// x- each column, y-each row
   }
 });
+
+function parse_pdf(file){
+  new pdfreader.PdfReader().parseFileItems(file, function(err,item) {
+    if (!item || item.page) {
+      // end of file, or page
+      printRows();
+      //console.log("PAGE:", item.page);
+      rows = {}; // clear rows for next page
+    } else if (item.text) {
+      // accumulate text items into rows object, per line
+      console.log(item);
+      (rows[item.x] = rows[item.x] || []).push(item.text);// x- each column, y-each row
+    }
+    return rows;
+  });
+}

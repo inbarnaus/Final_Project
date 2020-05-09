@@ -20,10 +20,28 @@ var mailOptions = {
   text: 'That was easy!'
 };
 
-transporter.sendMail(mailOptions, function(error, info){
-    if (error) {
-        console.log(error);
-    } else {
-        console.log('Email sent: ' + info.response);
-    }
-});
+//TODO: only at a specific hour
+// transporter.sendMail(mailOptions, function(error, info){
+//     if (error) {
+//         console.log(error);
+//     } else {
+//         console.log('Email sent: ' + info.response);
+//     }
+// });
+
+//TODO
+function mail_confirmation(email, password){
+  var confOptions = {
+    from: 'mnh.officesystem@gmail.com',
+    to: email,
+    subject: 'מערכות מומחה - וידוא סיסמא',
+    text: password
+  };
+  transporter.sendMail(confOptions, function(err, info){
+    if(err)
+      return {succeed: false, res: err};
+    else
+      return {succeed: true, res: 'נשלח אימייל וידוא בהצלחה'};
+  })
+  return {succeed: true, res: "confirmation sent"};
+};
