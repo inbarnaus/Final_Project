@@ -83,24 +83,35 @@ function gen_fail_res (data){
         "res": data
     };
 };
+
 const Dal = {
-    add_g4 : (tempReports) =>{
+    add_g4 : async (tempReports) =>{
+        ans = null;
+        reports = []
         for(var i=0; i<tempReports.length; i++){
-            const repo = new Asset({buildNum: tempReports[i][0]}, {fieldNum: tempReports[i][1]}, {apartNum: tempReports[i][2]}, 
-                {level: tempReports[i][3]}, {roomNum: tempReports[i][4]}, {apartArea: tempReports[i][5]}, {apartAreaAq: tempReports[i][6]}, {balconyArea: tempReports[i][7]}, {warehouseArea: tempReports[i][8]}, 
-                {warehouseNum: tempReports[i][9]}, {parkingNum: tempReports[i][10]}, {parkingQuantity1: tempReports[i][11]}, {parkingQuantity2: tempReports[i][12]}, {apartNumPrice: tempReports[i][13]}, {apartTenantPrice: tempReports[i][14]}, 
-                {notes: tempReports[i][15]}, {apartMMDprice: tempReports[i][16]}, {dir: tempReports[i][17]});
+            repo = {buildNum: tempReports[i][0], fieldNum: tempReports[i][1], apartNum: tempReports[i][2], 
+                level: tempReports[i][3], roomNum: tempReports[i][4], apartArea: tempReports[i][5], apartAreaAq: tempReports[i][6], balconyArea: tempReports[i][7], warehouseArea: tempReports[i][8], 
+                warehouseNum: tempReports[i][9], parkingNum: tempReports[i][10], parkingQuantity1: tempReports[i][11], parkingQuantity2: tempReports[i][12], apartNumPrice: tempReports[i][13], apartTenantPrice: tempReports[i][14], 
+                notes: tempReports[i][15], apartMMDprice: tempReports[i][16], dir: tempReports[i][17]};
             reports.push(repo);
-            repo.save().then(() => console.log('good save')).catch((err)=> {console.log("bad save")});
+            //repo.save().then(() => console.log('good save')).catch((err)=> {console.log("bad save")});
         }
+        await Asset.collection.insert(reports, (err, assets) => {
+            if(err || assets == null || assets == []){
+                ans = gen_fail_res(err);
+            }
+            else{
+                ans = gen_succ_res(reports);
+            }
+        });
         console.log(reports);
-        return reports;
+        return ans;
     },
 
     get_apartment: async (block, building, apartment) =>{
         ans = null;
-        await Asset.find({ 'buildNum': building, 'fieldNum': block, 'apartNum': apartment }, function (err, record) {
-            if (err) ans = {succeed: Flase, res: err};
+        await Asset.findOne({ 'buildNum': building, 'fieldNum': block, 'apartNum': apartment }, function (err, record) {
+            if (err || record == null) ans = {succeed: Flase, res: err};
             else ans = {succeed: True, res: record};
         });
         return ans;
@@ -120,10 +131,10 @@ const Dal = {
         block =apartment_purchase['block'];
         building = apartment_purchase['building'];
         apartment = apartment_purchase['apartment'];
-        await Asset.findOne({ 'buildNum': building, 'fieldNum': block, 'apartNum': apartment }, async function (err) {
-            if (err) ans = {succeed: Flase, res: err};
-            await Acquisition.findOne({ 'buildNum': building, 'fieldNum': block, 'apartNum': apartment }, function(err){ 
-                if(err){
+        await Asset.findOne({ 'buildNum': building, 'fieldNum': block, 'apartNum': apartment }, async function (err, res) {
+            if (err || res == null) ans = {succeed: Flase, res: err};
+            await Acquisition.findOne({ 'buildNum': building, 'fieldNum': block, 'apartNum': apartment }, function(err, res){ 
+                if(err || res == null){
                     ans = gen_fail_res(err);
                 }
                 purch.save();
@@ -135,8 +146,8 @@ const Dal = {
 
     get_purchase: async (block_num, building_num, apartment_num) =>{
         ans = null;
-        await Acquisition.find({ 'buildNum': building_num, 'fieldNum': block_num, 'apartNum': apartment_num }, function (err, record) {
-            if (err) ans = {succeed: Flase, res: err};
+        await Acquisition.findOne({ 'buildNum': building_num, 'fieldNum': block_num, 'apartNum': apartment_num }, function (err, record) {
+            if (err || record == null) ans = {succeed: Flase, res: err};
             ans = {succeed: True, res: record};
         });
         return ans;
@@ -147,8 +158,8 @@ const Dal = {
             return (new_purchase_features[str] ? new_purchase_features[str] : record[str]);
         };
         ans = null;
-        await Acquisition.find({ 'buildNum': building_num, 'fieldNum': block_num, 'apartNum': apartment_num }, async function (err, record) {
-            if (err) ans = {succeed: Flase, res: err};
+        await Acquisition.findOne({ 'buildNum': building_num, 'fieldNum': block_num, 'apartNum': apartment_num }, async function (err, record) {
+            if (err || record == null) ans = {succeed: Flase, res: err};
             else{
                 update_ac = {
                     buyerName1: func('buyerName1', record),
@@ -170,7 +181,7 @@ const Dal = {
                 };
                 await Acquisition.findOneAndUpdate({ 'buildNum': building_num, 'fieldNum': block_num, 'apartNum': apartment_num },
                     $set(update_ac), function(err, updtare_record){
-                        if(err){
+                        if(err || updtare_record == null){
                             ans = gen_fail_res(err);
                         }
                         else{
@@ -185,8 +196,8 @@ const Dal = {
 
     get_user: async (email) =>{
         ans = null;
-        await User.find({ 'email': email }, function (err, record) {
-            if (err){
+        await User.findOne({ 'email': email }, function (err, record) {
+            if (err || record == null){
                 // console.log(err);
                 ans = {succeed: false, res: err};
             }
@@ -198,8 +209,8 @@ const Dal = {
 
     get_all_unreported_purchases: async () => {
         ans = null;
-        await Acquisition.find({ 'reprted': False }, 'fieldNum buildNum apartNum purchaseDate reportDate', function (err, record) {
-            if (err) ans = {succeed: Flase, res: err};
+        await Acquisition.findOne({ 'reprted': False }, 'fieldNum buildNum apartNum purchaseDate reportDate', function (err, record) {
+            if (err || record == null) ans = {succeed: Flase, res: err};
             else ans = {succeed: True, res: record};
         });
         return ans;
@@ -212,8 +223,8 @@ const Dal = {
             'isLawyer': false
         });
         ans = null;
-        await User.findOne({ 'email': mail }, function (err) {
-            if (err) {
+        await User.findOne({ 'email': mail }, function (err, res) {
+            if (err, res == null) {
                 user.save();    
                 ans = gen_succ_res(user);
             }
@@ -242,6 +253,20 @@ const Dal = {
         return ans;
     },
 
+    change_password: async (mail, oldpass, newpass) => {
+        ans = null;
+        await User.findOneAndUpdate({'mail' : mail, 'password': oldpass}, {'password': newpass},
+            (err, user) => {
+                if(err || user == null){
+                    and = gen_fail_res("אימייל או סיסמא אינם נכונים");
+                }
+                else{
+                    ans = gen_succ_res(user);
+                }
+            });
+        return ans;
+    },
+
     add_scanning: async (block, building, apartment, file) =>{
         ans = null;
         await Asset.findOne({ 'buildNum': building, 'fieldNum': block, 'apartNum': apartment }, async function(err, res){
@@ -249,8 +274,8 @@ const Dal = {
                 ans = gen_fail_res("דירה לא נמצאה");
             }
             await Acquisition.findOneAndUpdate({ 'buildNum': building, 'fieldNum': block, 'apartNum': apartment, 'reported': false, 'scanForm': null}, {'scanForm': file}, 
-                function(err, doc, res){
-                    if(err){
+                function(err, res){
+                    if(err || res == null){
                         ans = gen_fail_res(err);
                     }
                     ans = gen_succ_res(res);
@@ -287,7 +312,7 @@ const Dal = {
         ans = null;
         await User.findOneAndRemove({email: email}, function (err, user){
             console.log(user);
-            if(err){
+            if(err || user == null){
                 ans = gen_fail_res(err);
             }
             else{
@@ -323,8 +348,8 @@ const Dal = {
             buildNum: buildNum, 
             fieldNum: fieldNum, 
             apartNum: apartNum
-        }, function(err){
-                if(err){
+        }, function(err, res){
+                if(err || res == null){
                     asset.save();
                     ans = gen_succ_res(asset);
                 }
@@ -340,7 +365,7 @@ const Dal = {
             fieldNum: fieldNum, 
             apartNum: apartNum
         }, function(err, rec){
-            if(err){
+            if(err || rec == null){
                 ans = gen_fail_res(err);
             }
             else{

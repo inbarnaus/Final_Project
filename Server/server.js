@@ -30,6 +30,7 @@ app.post('/uploadpdf', (req, res) =>{
     });
 });
 
+<<<<<<< HEAD
 app.post('/addg4', (req, res) => {
     let sampleFile = req.files.sampleFile;
     sampleFile.mv('C:/Users/Inbar Naus/VisualCodeProjects/Final_Project/Server/G4/' +sampleFile.name, function(err) {
@@ -37,6 +38,14 @@ app.post('/addg4', (req, res) => {
           return res.status(500).send(err);
         res.send('File uploaded!');
     });
+=======
+app.post('/addg4', async (req, res) => {
+    if(req.files){
+        ans = await system.add_4g(req.files.g4);
+        res.send(ans);
+    }
+    else(res.send({succeed: false, res: "bad file"}));
+>>>>>>> 3666b92074e145edafda0a166a9df2a19397073c
 });
 
 //add_scanning
@@ -45,10 +54,11 @@ app.post('/uploadscanning', async (req, res) => {
     if(req.files && (scan = req.files.scan) && (block = req.body.block) && 
         (building = req.body.building) && (apartment = req.body.apartment)){
         console.log(block);
-        res.send(await system.add_scanning(block, building, apartment, scan));
+        ans = await system.add_scanning(block, building, apartment, scan);
+        res.send(ans);
     }
     else(res.send("bad something"));
-})
+});
 
 //get apartment
 app.get('/apartments/:block?/:building?/:apartment?', async (req, res) => {
@@ -123,21 +133,24 @@ app.post('/register/costumer', async (req,res) => {
     let user_info = req.body;
     // console.log(user_info);
     if(user_info && user_info['username'] && user_info['email']) {
-        res.send(await system.register_new_costumer(user_info['username'], user_info['email']));
+        ans = await system.register_new_costumer(user_info['username'], user_info['email']);
+        res.send(ans);
     }
     res.send({succeed:false, res:"הכנס את כל הפרטים"});
 });
 
 //get all unreported purchases
 app.get('/unreported', async (req, res) => {
-    res.send(await system.get_all_unreported_purchases());
+    ans = await system.get_all_unreported_purchases();
+    res.send(ans);
 });
 
 //forgot pass
 app.post('/login/forgotpass', async (req, res) => {
     body = req.body;
     email = body['email'];
-    res.send(await system.confirm_pass(email));
+    ans = await system.confirm_pass(email);
+    res.send(ans);
 });
 
 //send report (temp)
@@ -146,7 +159,8 @@ app.post('/send_report', async (req, res) => {
     building = req.body.building;
     apartment = req.body.apartment;
     file = req.files.report;
-    res.send(await system.send_report(block, building, apartment, file));
+    ans = await system.send_report(block, building, apartment, file);
+    res.send(ans);
 });
 
 app.listen(app.get('port'), () => console.log(`Example app listening on port ${port}!`));

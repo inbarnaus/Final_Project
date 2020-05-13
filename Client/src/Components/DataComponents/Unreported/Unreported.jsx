@@ -7,7 +7,7 @@ import {MDBTable, MDBTableHead} from 'mdbreact';
 
 
 
-const server_url = "http://localhost:3000/unreported";
+const server_url = "http://localhost:8080/unreported";
 
 class Unreported extends Component{
 
