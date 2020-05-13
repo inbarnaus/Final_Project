@@ -5,7 +5,6 @@ const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const app = express();
 //const mongoose = require('./DataAccess/mongoose');
-
 const port = 8080;
 app.use(fileUpload());
 // const mail_handler = require('./Domain/Mail/MailHandler')
@@ -20,34 +19,29 @@ app.use(cors());
 });
 */
 
-//add_g4
 app.post('/uploadpdf', (req, res) =>{
     let sampleFile = req.files.sampleFile;
-    sampleFile.mv('C:/Users/Inbar Naus/VisualCodeProjects/Final_Project/Server' +sampleFile.name, function(err) {
+    sampleFile.mv('C:/Users/Inbar Naus/VisualCodeProjects/Final_Project/Server/PDF_files/' +sampleFile.name, function(err) {
+        if (err)
+          return res.status(500).send(err);
+        system.add_scanning(req.body.block, req.body.building, req.body.apartment, 
+            'C:/Users/Inbar Naus/VisualCodeProjects/Final_Project/Server/PDF_files/' +sampleFile.name); 
+        res.send('File uploaded!');
+    });
+});
+
+
+app.post('/addg4', (req, res) => {
+    let sampleFile = req.files.sampleFile;
+    sampleFile.mv('C:/Users/Inbar Naus/VisualCodeProjects/Final_Project/Server/G4/' +sampleFile.name, function(err) {
         if (err)
           return res.status(500).send(err);
         res.send('File uploaded!');
     });
 });
 
-app.post('/addg4', async (req, res) => {
-    if(req.files){
-        ans = await system.add_4g(req.files.g4);
-        res.send(ans);
-    }
-    else(res.send({succeed: false, res: "bad file"}));
-});
-
-//add_scanning
-app.post('/uploadscanning', async (req, res) => {
-    block = undefined; building = undefined; apartment = undefined; scan = undefined;
-    if(req.files && (scan = req.files.scan) && (block = req.body.block) && 
-        (building = req.body.building) && (apartment = req.body.apartment)){
-        console.log(block);
-        ans = await system.add_scanning(block, building, apartment, scan);
-        res.send(ans);
-    }
-    else(res.send("bad something"));
+app.get('/login', (req, res) => {
+    console.log('inbar');
 });
 
 //get apartment

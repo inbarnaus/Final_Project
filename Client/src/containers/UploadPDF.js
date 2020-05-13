@@ -11,9 +11,28 @@ export default function UploadPDF() {
       action='http://localhost:8080/uploadpdf' 
       method='post' 
       encType="multipart/form-data">
+        <div class="form-group">
+        <label class="w3-text-blue"><b>מס' בלוק</b></label>
+        <input class="w3-input w3-border" type="text" name="block"/>
+        </div>
+        <div class="form-group">
+        <label class="w3-text-blue"><b>מס' בניין</b></label>
+        <input class="w3-input w3-border" type="text" name="building"/>
+        </div>
+        <div class="form-group">
+        <label class="w3-text-blue"><b>מס' דירה</b></label>
+        <input class="w3-input w3-border" type="text" name="apartment"/>
+        </div>
+        <div class="form-group">
+          
+        <label class="w3-text-blue"><b></b></label>
         <input className="input" type="file" name="sampleFile" />
-        <input className="input" type='submit' value='Upload!' />
-        <br></br>
+        </div>
+        <div class="form-group">
+          
+        <label class="w3-text-blue"><b></b></label>
+        <input className="input" type='submit' value='submit!' />
+        </div>
     </form> 
     </body> 
     );

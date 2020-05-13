@@ -6,9 +6,10 @@ import {findDOMNode} from 'react-dom';
 import App from "../../../App";
 const FormGroup = require('react-bootstrap').FormGroup;
 
+
 class Login extends Component {
 
-    server_url = "http://localhost:8080/login/";
+    server_url = "http://localhost:8080/login";
 
     handleclick = async() => {
         let name = findDOMNode(this.refs.nameref).value, pass = findDOMNode(this.refs.passref).value;
@@ -28,17 +29,36 @@ class Login extends Component {
 
     render() {
         return (
-            <div>
-                <FormGroup controlId = "formControlsname" type="text">
-                    <FormLabel>שם משתמש</FormLabel>
-                    <FormControl ref="nameref" placeholder="שם משתמש"/>
-                </FormGroup>
-                <FormGroup controlId = "formControlspass" type="text">
-                    <FormLabel>סיסמא</FormLabel>
-                    <FormControl ref="passref" placeholder="סיסמא"/>
-                </FormGroup>         
-                <Button type="button" variant="primary" onClick={()=>this.handleclick()}>אישור</Button>
-            </div>
+            <form
+            className = "custom-file-translate-scss"
+            id='login' 
+            action='http://localhost:8080/login' 
+            method='post' 
+            encType="multipart/form-data">
+                <h3>Login</h3>
+
+                <div>
+                    <label>Email address</label>
+                    <input type="email" className="form-control" placeholder="Enter email" />
+                </div>
+
+                <div className="form-group">
+                    <label>Password</label>
+                    <input type="password" className="form-control" placeholder="Enter password" />
+                </div>
+
+                <div className="form-group">
+                    <div className="custom-control custom-checkbox">
+                        <input type="checkbox" className="custom-control-input" id="customCheck1" />
+                        <label className="custom-control-label" htmlFor="customCheck1">Remember me</label>
+                    </div>
+                </div>
+
+                <button type="submit" className="btn btn-primary btn-block">Submit</button>
+                <p className="forgot-password text-right">
+                    Forgot <a href="#">password?</a>
+                </p>
+            </form>
         );
     }
 }

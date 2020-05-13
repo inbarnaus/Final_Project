@@ -1,0 +1,11 @@
+.App {
+    margin-top: 15px;
+  }
+  
+  .App .navbar-brand {
+    font-weight: bold;
+  }
+  
+  .color-nav {
+    background-color: hsl(180, 3%, 74%);
+  }
