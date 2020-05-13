@@ -40,9 +40,6 @@ app.post('/addg4', (req, res) => {
     });
 });
 
-app.get('/login', (req, res) => {
-    console.log('inbar');
-});
 
 //get apartment
 app.get('/apartments/:block?/:building?/:apartment?', async (req, res) => {
@@ -98,7 +95,7 @@ app.post('/edit/:block/:building/:apartment', async (req, res) => {
 //login
 app.post('/login', async (req, res) => {
     let user_info = req.body;
-    login = await system.check_user_info(user_info['username'], user_info['password']);
+    login = await system.login(user_info['username'], user_info['password']);
     res.send(login);
 });
 
