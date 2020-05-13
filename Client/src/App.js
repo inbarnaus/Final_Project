@@ -1,7 +1,7 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { Nav, Navbar, NavItem, Form, FormControl, Button, NavDropdown } from "react-bootstrap";
-import { LinkContainer } from "react-router-bootstrap";
+// import { Link } from "react-router-dom";
+import { Nav, Navbar, Form, Button, NavDropdown } from "react-bootstrap";
+// import { LinkContainer } from "react-router-bootstrap";
 import "./App.css";
 import Routes from "./Routes";
 
@@ -17,7 +17,7 @@ function App() {
       <NavDropdown title="פעולות" id="basic-nav-dropdown">
         <NavDropdown.Item href="/uploadpdf">הוספת PDF</NavDropdown.Item>
         <NavDropdown.Item href="/searchrepo">חיפוש רשומה</NavDropdown.Item>
-        <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+        <NavDropdown.Item href="/addg4">הוספת ג'4</NavDropdown.Item>
         <NavDropdown.Divider />
         <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
       </NavDropdown>

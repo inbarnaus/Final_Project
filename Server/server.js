@@ -2,13 +2,15 @@ const system = require('./Domain/System');
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const fileUpload = require('express-fileupload');
 const app = express();
 //const mongoose = require('./DataAccess/mongoose');
 
 const port = 8080;
+app.use(fileUpload());
 // const mail_handler = require('./Domain/Mail/MailHandler')
 
-
+app.set('port', process.env.PORT || port);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
@@ -19,7 +21,16 @@ app.use(cors());
 */
 
 //add_g4
-app.post('/uploadg4', (req, res) => {
+app.post('/uploadpdf', (req, res) =>{
+    let sampleFile = req.files.sampleFile;
+    sampleFile.mv('C:/Users/Inbar Naus/VisualCodeProjects/Final_Project/Server' +sampleFile.name, function(err) {
+        if (err)
+          return res.status(500).send(err);
+        res.send('File uploaded!');
+    });
+});
+
+app.post('/addg4', async (req, res) => {
     if(req.files){
         res.send(await system.add_4g(req.files.g4));
     }
@@ -27,7 +38,7 @@ app.post('/uploadg4', (req, res) => {
 });
 
 //add_scanning
-app.post('/uploadscanning', (req, res) => {
+app.post('/uploadscanning', async (req, res) => {
     block = undefined; building = undefined; apartment = undefined; scan = undefined;
     if(req.files && (scan = req.files.scan) && (block = req.body.block) && 
         (building = req.body.building) && (apartment = req.body.apartment)){
@@ -38,7 +49,7 @@ app.post('/uploadscanning', (req, res) => {
 })
 
 //get apartment
-app.get('/apartments/:block?/:building?/:apartment?', (req, res) => {
+app.get('/apartments/:block?/:building?/:apartment?', async (req, res) => {
     const block = req.params.block;
     const building = req.params.building;
     const apartment = req.params.apartment;
@@ -59,7 +70,7 @@ app.get('/apartments/:block?/:building?/:apartment?', (req, res) => {
 });
 
 //get purchase
-app.get('/editGet/:block/:building/:apartment', (req, res) => {
+app.get('/editGet/:block/:building/:apartment', async (req, res) => {
     const block = req.params.block;
     const building = req.params.building;
     const apartment = req.params.apartment;
@@ -74,7 +85,7 @@ app.get('/editGet/:block/:building/:apartment', (req, res) => {
 });
 
 //set_purchase
-app.post('/edit/:block/:building/:apartment', (req, res) => {
+app.post('/edit/:block/:building/:apartment', async (req, res) => {
     const block = req.params.block;
     const building = req.params.building;
     const apartment = req.params.apartment;
@@ -89,14 +100,14 @@ app.post('/edit/:block/:building/:apartment', (req, res) => {
 });
 
 //login
-app.post('/login', (req, res) => {
+app.post('/login', async (req, res) => {
     let user_info = req.body;
     login = await system.check_user_info(user_info['username'], user_info['password']);
     res.send(login);
 });
 
 //Return: rendom password
-app.post('/register/lawyer', (req,res) => {
+app.post('/register/lawyer', async (req,res) => {
     let user_info = req.body;
     // console.log(user_info);
     if(user_info && user_info['username'] && user_info['email']) {
@@ -106,7 +117,7 @@ app.post('/register/lawyer', (req,res) => {
     res.send({succeed:false, res:"הכנס את כל הפרטים"});
 });
 
-app.post('/register/costumer', (req,res) => {
+app.post('/register/costumer', async (req,res) => {
     let user_info = req.body;
     // console.log(user_info);
     if(user_info && user_info['username'] && user_info['email']) {
@@ -116,19 +127,19 @@ app.post('/register/costumer', (req,res) => {
 });
 
 //get all unreported purchases
-app.get('/unreported', (req, res) => {
+app.get('/unreported', async (req, res) => {
     res.send(await system.get_all_unreported_purchases());
 });
 
 //forgot pass
-app.post('/login/forgotpass', (req, res) => {
+app.post('/login/forgotpass', async (req, res) => {
     body = req.body;
     email = body['email'];
     res.send(await system.confirm_pass(email));
 });
 
 //send report (temp)
-app.post('/send_report', (req, res) => {
+app.post('/send_report', async (req, res) => {
     block = req.body.block;
     building = req.body.building;
     apartment = req.body.apartment;
@@ -136,4 +147,4 @@ app.post('/send_report', (req, res) => {
     res.send(await system.send_report(block, building, apartment, file));
 });
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.listen(app.get('port'), () => console.log(`Example app listening on port ${port}!`));
