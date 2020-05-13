@@ -9,12 +9,6 @@ return (
     <MDBCol md="3">
         <br></br>
       <form id="form_login">
-      <div class="form-group">
-        <label htmlFor="defaultFormContactNameEx" className="grey-text">
-          מס' ג4
-        </label>
-        <input type="text" id="defaultFormContactNameEx" className="form-control" />
-        </div>
         <label htmlFor="defaultFormContactEmailEx" className="grey-text">
           מס' בלוק
         </label>

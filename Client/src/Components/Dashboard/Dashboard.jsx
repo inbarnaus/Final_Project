@@ -4,7 +4,12 @@ import {
   Switch,
   Route
 } from "react-router-dom";
-
+import Home from "../../containers/Home";
+import NewUser from "../../containers/signNewUser";
+import SearchReport from "../../containers/SearchReport";
+import UploadPDF from "../../containers/UploadPDF";
+import AddG4 from "../../containers/AddG4";
+import AddReport from "../../containers/AddReport";
 import Navigate from "../Navigate/Navigate";
 import RegisterLawyer from "../UserComponents/Register/RegisterLawyer";
 import RegisterCostumer from "../UserComponents/Register/RegisterCostumer";
@@ -17,38 +22,30 @@ import EditGetPurchase from "../DataComponents/EditPurchase/EditGetPurchase"
 class Dashboard extends Component {
     render() {
         return (
-            <div>
-                <Navigate/>
-                <Router >
-                <Switch>
-                    <Route exact path="/">
-                    <div>דף הבית</div>
-                    </Route>
-                    <Route exact path="/apartments">
-                    <ChooseApartment/>
-                    </Route>
-                    <Route exact path="/purchases">
-                    <ChoosePurchase/>
-                    </Route>
-                    <Route exact path="/unreported">
-                    <Unreported/>
-                    </Route>
-                    <Route exact path="/register-lawyer">
-                    <RegisterLawyer/>
-                    </Route>
-                    <Route exact path="/register-costumer">
-                    <RegisterCostumer/>
-                    </Route>
-                    <Route exact path="/editGet">
-                    <EditGetPurchase/>
-                    </Route>
-                    <Route exact path="/user-properties">
-                    <UserProperties/>
-                    </Route>
-                </Switch>
-                </Router>
-            </div>
-        );
+            <Navigate>
+            <Switch>
+      <Route exact path="/">
+        <Home />
+      </Route>
+      <Route exact path="/signnew">
+        <NewUser />
+        </Route>
+        <Route exact path="/searchrepo">
+        <SearchReport />
+        </Route>
+        <Route exact path="/uploadpdf">
+        <UploadPDF />
+        </Route>
+        <Route exact path="/addrepo">
+        <AddReport />
+        </Route>
+        <Route exact path="/addg4">
+        <AddG4 />
+        </Route>
+      <Route>
+      </Route>
+    </Switch>   
+    </Navigate>     );
     }
 }
 
