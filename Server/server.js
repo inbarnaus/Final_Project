@@ -104,7 +104,7 @@ app.post('/edit/:block/:building/:apartment', async (req, res) => {
 //login
 app.post('/login', async (req, res) => {
     let user_info = req.body;
-    login = await system.check_user_info(user_info['username'], user_info['password']);
+    login = await system.login(user_info['username'], user_info['password']);
     res.send(login);
 });
 

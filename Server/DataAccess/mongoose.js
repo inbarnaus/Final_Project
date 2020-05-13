@@ -151,7 +151,7 @@ const Dal = {
         building = apartment_purchase['building'];
         apartment = apartment_purchase['apartment'];
         await Asset.findOne({ 'buildNum': building, 'fieldNum': block, 'apartNum': apartment }, async function (err, res) {
-            if (err || res == null) ans = {succeed: Flase, res: err};
+            if (err || res == null) ans = {succeed: False, res: err};
             await Acquisition.findOne({ 'buildNum': building, 'fieldNum': block, 'apartNum': apartment }, function(err, res){ 
                 if(err || res == null){
                     ans = gen_fail_res(err);
@@ -225,9 +225,7 @@ const Dal = {
     },
 
     login: async (mail, pass) => {
-        console.log("login");
         user = await User.findOne({'email': mail, 'password': pass});
-        console.log(user);
         ans = null;
         if(user){
             ans = gen_succ_res(user);
@@ -380,10 +378,16 @@ const Dal = {
             apartNum: apartNum
         }, async function(err, res){
                 if(err || res == null){
-                    await asset.save();
                     ans = gen_succ_res(asset);
+                    await asset.save((err) => {
+                        if(err){
+                            ans = gen_fail_res(ans);
+                        }
+                    });
                 }
-                ans = gen_fail_res("דירה כבר קיימת");       
+                else{
+                    ans = gen_fail_res("דירה כבר קיימת");       
+                }
         });
         return ans;
     },
@@ -418,7 +422,6 @@ mongoose.connect('mongodb+srv://mnh:12345@cluster0-sk1ck.mongodb.net/test?retryW
 })
 .then(async ()=>{
     console.log("db is connected");
-
 })
 .catch(()=>{
     console.log("db is NOT connect")
