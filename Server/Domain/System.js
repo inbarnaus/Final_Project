@@ -8,14 +8,14 @@ const email_sender = require('./Mail/MailHandler');
 const System = {
     gen_succ_res : (data) => {
         return {
-            "success": true,
+            "succeed": true,
             "res": data
         }
     },
 
     gen_fail_res : (data) => {
         return {
-            "success": true,
+            "succeed": true,
             "res": data
         }
     },
