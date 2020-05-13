@@ -23,18 +23,20 @@ app.use(cors());
 //add_g4
 app.post('/uploadpdf', (req, res) =>{
     let sampleFile = req.files.sampleFile;
-    sampleFile.mv('C:/Users/Inbar Naus/VisualCodeProjects/Final_Project/Server' +sampleFile.name, function(err) {
+    sampleFile.mv('C:/Users/Inbar Naus/VisualCodeProjects/Final_Project/Server/PDF_files/' +sampleFile.name, function(err) {
+        if (err)
+          return res.status(500).send(err);
+          res.send('File uploaded!');
+    });
+});
+
+app.post('/addg4', (req, res) => {
+    let sampleFile = req.files.sampleFile;
+    sampleFile.mv('C:/Users/Inbar Naus/VisualCodeProjects/Final_Project/Server/G4/' +sampleFile.name, function(err) {
         if (err)
           return res.status(500).send(err);
         res.send('File uploaded!');
     });
-});
-
-app.post('/addg4', async (req, res) => {
-    if(req.files){
-        res.send(await system.add_4g(req.files.g4));
-    }
-    else(res.send("bad file"));
 });
 
 //add_scanning
