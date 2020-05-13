@@ -2,13 +2,15 @@ const system = require('./Domain/System');
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const fileUpload = require('express-fileupload');
 const app = express();
 //const mongoose = require('./DataAccess/mongoose');
 
 const port = 8080;
+app.use(fileUpload());
 // const mail_handler = require('./Domain/Mail/MailHandler')
 
-
+app.set('port', process.env.PORT || port);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
@@ -19,7 +21,16 @@ app.use(cors());
 */
 
 //add_g4
-app.post('/uploadg4', async (req, res) => {
+app.post('/uploadpdf', (req, res) =>{
+    let sampleFile = req.files.sampleFile;
+    sampleFile.mv('C:/Users/Inbar Naus/VisualCodeProjects/Final_Project/Server' +sampleFile.name, function(err) {
+        if (err)
+          return res.status(500).send(err);
+        res.send('File uploaded!');
+    });
+});
+
+app.post('/addg4', async (req, res) => {
     if(req.files){
         ans = await system.add_4g(req.files.g4);
         res.send(ans);
@@ -29,7 +40,6 @@ app.post('/uploadg4', async (req, res) => {
 
 //add_scanning
 app.post('/uploadscanning', async (req, res) => {
-    ans = null;
     block = undefined; building = undefined; apartment = undefined; scan = undefined;
     if(req.files && (scan = req.files.scan) && (block = req.body.block) && 
         (building = req.body.building) && (apartment = req.body.apartment)){
@@ -143,4 +153,4 @@ app.post('/send_report', async (req, res) => {
     res.send(ans);
 });
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.listen(app.get('port'), () => console.log(`Example app listening on port ${port}!`));
