@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const fs = require('mongoose-fs');
 // const xlsxFile = require('read-excel-file/node');
 // const mongodb = require('mongodb');
 // const ObjectId = Schema.ObjectId;
@@ -7,6 +8,11 @@ const User = mongoose.model('User', new Schema({
     email: String,
     password: String,
     isLawyer: Boolean
+}));
+
+const Block = mongoose.model('Block', new Schema({
+    name: String,
+    data: Buffer
 }));
 
 const Asset = mongoose.model('Asset', new Schema({
@@ -85,8 +91,24 @@ function gen_fail_res (data){
 };
 
 const Dal = {
-    add_g4 : async (tempReports) =>{
+    add_g4 : async (tempReports, file) =>{
+        if(tempReports == []){
+            return gen_succ_res(tempReports);
+        }
+        block = tempReports[0][1];
         ans = null;
+        await Block.findOne({'name': block}, 'name', (err, block) =>{
+            if(block){
+                ans = block;
+            }
+        });
+        if(ans){
+            return gen_fail_res("המגרש כבר קיים במערכת");
+        }
+        newBlock = new Block({
+            name: block,
+            file: file
+        }).save();
         reports = []
         for(var i=0; i<tempReports.length; i++){
             repo = {buildNum: tempReports[i][0], fieldNum: tempReports[i][1], apartNum: tempReports[i][2], 
@@ -96,16 +118,13 @@ const Dal = {
             reports.push(repo);
             //repo.save().then(() => console.log('good save')).catch((err)=> {console.log("bad save")});
         }
-        await Asset.collection.insert(reports, (err, assets) => {
-            if(err || assets == null || assets == []){
-                ans = gen_fail_res(err);
-            }
-            else{
-                ans = gen_succ_res(reports);
-            }
-        });
-        console.log(reports);
-        return ans;
+        assets = await Asset.collection.insert(reports);
+        if(assets == null || assets == []){
+            return gen_fail_res("בעיה");
+        }
+        else{
+            return gen_succ_res(reports);
+        }
     },
 
     get_apartment: async (block, building, apartment) =>{
@@ -195,15 +214,27 @@ const Dal = {
     },
 
     get_user: async (email) =>{
+        ans = await User.findOne({ 'email': email });
+        console.log(ans);
+        if(ans == null){
+            return gen_fail_res("משתמש לא נמצא במערכת");
+        }
+        else{
+            return gen_succ_res(ans);
+        }
+    },
+
+    login: async (mail, pass) => {
+        console.log("login");
+        user = await User.findOne({'email': mail, 'password': pass});
+        console.log(user);
         ans = null;
-        await User.findOne({ 'email': email }, function (err, record) {
-            if (err || record == null){
-                // console.log(err);
-                ans = {succeed: false, res: err};
-            }
-            // console.log(record);
-            else ans = {succeed: true, res: record};
-        });
+        if(user){
+            ans = gen_succ_res(user);
+        }
+        else{
+            ans = gen_fail_res("שם משתמש או סיסמא לא נכונים");
+        }
         return ans;
     },
 
@@ -217,54 +248,55 @@ const Dal = {
     },
 
     register_new_costumer: async (mail, password) => {
-        user = new User({
-            'email': mail,
-            'password': password,
-            'isLawyer': false
-        });
-        ans = null;
-        await User.findOne({ 'email': mail }, function (err, res) {
-            if (err, res == null) {
-                user.save();    
-                ans = gen_succ_res(user);
-            }
-            else ans = {succeed: false, res: "משתמש כבר רשום למערכת"};
-        });
+        ans = await User.findOne({ 'email': mail });
+        if (ans == null) {
+            user = new User({
+                'email': mail,
+                'password': password,
+                'isLawyer': false
+            });
+            ans = gen_succ_res(user);    
+            await user.save((err)=> {
+                if(err){
+                    ans = gen_fail_res(err);
+                }
+            });
+        }
+        else {
+            ans = {succeed: false, res: "משתמש כבר רשום למערכת"};
+        }
         return ans;
     },
 
     register_new_lawyer: async (mail, password) =>{
-        ans = null;
-        await User.findOne({'email': mail}, function(err, res){
-            
-            if(err || res == null){
-                user = new User({
-                    'email': mail,
-                    'password': password,
-                    'isLawyer': true
-                });
-                user.save();
-                ans = gen_succ_res(user);
-            }
-            else{
-                ans = {succeed: false, res: "משתמש כבר קיים במערכת"};
-            }
-        });
+        ans = await User.findOne({ 'email': mail });
+        if (ans == null) {
+            user = new User({
+                'email': mail,
+                'password': password,
+                'isLawyer': true
+            });
+            ans = gen_succ_res(user);
+            await user.save((err)=> {
+                if(err){
+                    ans = gen_fail_res(err);
+                }
+            });
+        }
+        else {
+            ans = {succeed: false, res: "משתמש כבר רשום למערכת"};
+        }
         return ans;
     },
 
     change_password: async (mail, oldpass, newpass) => {
-        ans = null;
-        await User.findOneAndUpdate({'mail' : mail, 'password': oldpass}, {'password': newpass},
-            (err, user) => {
-                if(err || user == null){
-                    and = gen_fail_res("אימייל או סיסמא אינם נכונים");
-                }
-                else{
-                    ans = gen_succ_res(user);
-                }
-            });
-        return ans;
+        us = await User.findOneAndUpdate({'email' : mail, 'password': oldpass}, {'password': newpass}, {new: true});
+        if(us == null){
+            return gen_fail_res("לא נמצא משתמש במערכת עם הפרטים הרצויים");
+        }
+        else{
+            return gen_succ_res(us)
+        }
     },
 
     add_scanning: async (block, building, apartment, file) =>{
@@ -278,7 +310,9 @@ const Dal = {
                     if(err || res == null){
                         ans = gen_fail_res(err);
                     }
-                    ans = gen_succ_res(res);
+                    else{
+                        ans = gen_succ_res(res);
+                    }
                 }
             );
         });
@@ -309,17 +343,13 @@ const Dal = {
      * 
      */
     unregister: async (email) =>{
-        ans = null;
-        await User.findOneAndRemove({email: email}, function (err, user){
-            console.log(user);
-            if(err || user == null){
-                ans = gen_fail_res(err);
-            }
-            else{
-                ans = gen_succ_res(user);
-            }
-        });
-        return ans;
+        ans = await User.findOneAndRemove({email: email});
+        if(ans){
+            return gen_succ_res(ans);
+        }
+        else{
+            return gen_fail_res("משתמש לא נמצא במערכת");
+        }
     },
 
     add_apartment: async(fieldNum, buildNum, apartNum, level, roomNum, apartArea, apartAreaAq, balconyArea, warehouseArea, warehouseNum, parkingNum, parkingQuantity1, parkingQuantity2=null, apartNumPrice, apartTenantPrice, notes=null, apartMMDprice, dir) =>{
@@ -348,9 +378,9 @@ const Dal = {
             buildNum: buildNum, 
             fieldNum: fieldNum, 
             apartNum: apartNum
-        }, function(err, res){
+        }, async function(err, res){
                 if(err || res == null){
-                    asset.save();
+                    await asset.save();
                     ans = gen_succ_res(asset);
                 }
                 ans = gen_fail_res("דירה כבר קיימת");       
@@ -388,6 +418,7 @@ mongoose.connect('mongodb+srv://mnh:12345@cluster0-sk1ck.mongodb.net/test?retryW
 })
 .then(async ()=>{
     console.log("db is connected");
+
 })
 .catch(()=>{
     console.log("db is NOT connect")

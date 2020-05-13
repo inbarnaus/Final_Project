@@ -47,9 +47,9 @@ const System = {
                 }
             }
             var tempRepo = rows.slice(flag, length+1);
-            ans = await dal.add_g4(tempRepo);
+            ans = await dal.add_g4(tempRepo, file);
             // return ans;
-        }).catch((err) => {console.log(err)});
+        }).catch((err) => {ans = this.gen_fail_res(err)});
         return ans;
     },
 
@@ -80,8 +80,6 @@ const System = {
 
     get_user : async (mail) => { return await dal.get_user(mail); },
 
-    login : async (mail, password) => { return await dal.login(mail, password); },
-
     extract_files_for_purchases : async (files_list) => { return await dal.extract_files_for_purchases(files_list); },
 
     send_report : async(block, building, apartment, file) => {
@@ -91,7 +89,7 @@ const System = {
 
     // get_all_registrated_users : () => { return dal.get_all_registrated_users(); },
 
-    check_user_info : async (username, password) => { return await dal.check_user_info(username, password); },
+    login : async (username, password) => { return await dal.login(username, password); },
 
     change_password : async (username, password, new_pass) => { return await dal.change_password(username, password, new_pass); },
 
@@ -125,5 +123,4 @@ const System = {
         return await dal.remove_apartment(fieldNum, buildNum, apartNum);
     }
 }
-
 module.exports = System;
