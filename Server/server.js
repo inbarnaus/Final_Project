@@ -19,26 +19,29 @@ app.use(cors());
 */
 
 //add_g4
-app.post('/uploadg4', (req, res) => {
+app.post('/uploadg4', async (req, res) => {
     if(req.files){
-        res.send(await system.add_4g(req.files.g4));
+        ans = await system.add_4g(req.files.g4);
+        res.send(ans);
     }
-    else(res.send("bad file"));
+    else(res.send({succeed: false, res: "bad file"}));
 });
 
 //add_scanning
-app.post('/uploadscanning', (req, res) => {
+app.post('/uploadscanning', async (req, res) => {
+    ans = null;
     block = undefined; building = undefined; apartment = undefined; scan = undefined;
     if(req.files && (scan = req.files.scan) && (block = req.body.block) && 
         (building = req.body.building) && (apartment = req.body.apartment)){
         console.log(block);
-        res.send(await system.add_scanning(block, building, apartment, scan));
+        ans = await system.add_scanning(block, building, apartment, scan);
+        res.send(ans);
     }
     else(res.send("bad something"));
-})
+});
 
 //get apartment
-app.get('/apartments/:block?/:building?/:apartment?', (req, res) => {
+app.get('/apartments/:block?/:building?/:apartment?', async (req, res) => {
     const block = req.params.block;
     const building = req.params.building;
     const apartment = req.params.apartment;
@@ -59,7 +62,7 @@ app.get('/apartments/:block?/:building?/:apartment?', (req, res) => {
 });
 
 //get purchase
-app.get('/editGet/:block/:building/:apartment', (req, res) => {
+app.get('/editGet/:block/:building/:apartment', async (req, res) => {
     const block = req.params.block;
     const building = req.params.building;
     const apartment = req.params.apartment;
@@ -74,7 +77,7 @@ app.get('/editGet/:block/:building/:apartment', (req, res) => {
 });
 
 //set_purchase
-app.post('/edit/:block/:building/:apartment', (req, res) => {
+app.post('/edit/:block/:building/:apartment', async (req, res) => {
     const block = req.params.block;
     const building = req.params.building;
     const apartment = req.params.apartment;
@@ -89,14 +92,14 @@ app.post('/edit/:block/:building/:apartment', (req, res) => {
 });
 
 //login
-app.post('/login', (req, res) => {
+app.post('/login', async (req, res) => {
     let user_info = req.body;
     login = await system.check_user_info(user_info['username'], user_info['password']);
     res.send(login);
 });
 
 //Return: rendom password
-app.post('/register/lawyer', (req,res) => {
+app.post('/register/lawyer', async (req,res) => {
     let user_info = req.body;
     // console.log(user_info);
     if(user_info && user_info['username'] && user_info['email']) {
@@ -106,34 +109,38 @@ app.post('/register/lawyer', (req,res) => {
     res.send({succeed:false, res:"הכנס את כל הפרטים"});
 });
 
-app.post('/register/costumer', (req,res) => {
+app.post('/register/costumer', async (req,res) => {
     let user_info = req.body;
     // console.log(user_info);
     if(user_info && user_info['username'] && user_info['email']) {
-        res.send(await system.register_new_costumer(user_info['username'], user_info['email']));
+        ans = await system.register_new_costumer(user_info['username'], user_info['email']);
+        res.send(ans);
     }
     res.send({succeed:false, res:"הכנס את כל הפרטים"});
 });
 
 //get all unreported purchases
-app.get('/unreported', (req, res) => {
-    res.send(await system.get_all_unreported_purchases());
+app.get('/unreported', async (req, res) => {
+    ans = await system.get_all_unreported_purchases();
+    res.send(ans);
 });
 
 //forgot pass
-app.post('/login/forgotpass', (req, res) => {
+app.post('/login/forgotpass', async (req, res) => {
     body = req.body;
     email = body['email'];
-    res.send(await system.confirm_pass(email));
+    ans = await system.confirm_pass(email);
+    res.send(ans);
 });
 
 //send report (temp)
-app.post('/send_report', (req, res) => {
+app.post('/send_report', async (req, res) => {
     block = req.body.block;
     building = req.body.building;
     apartment = req.body.apartment;
     file = req.files.report;
-    res.send(await system.send_report(block, building, apartment, file));
+    ans = await system.send_report(block, building, apartment, file);
+    res.send(ans);
 });
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
