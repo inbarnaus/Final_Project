@@ -23,11 +23,19 @@ test('User integration test', async ()=> {
     let lawyer1 = await system.register_new_lawyer("l1", "l1");
     expect(lawyer1["succeed"]).toBe(true);
     expect(lawyer1["res"]["password"]).toBe("l1");
-    let change1 = system.change_password("l1", "l1", "newl1");
-    expect(change1["succeed"]).toBe(true);
+    let change1 = await system.change_password("l", "l1", "newl1");
+    expect(change1["succeed"]).toBe(false);
+    let change2 = await system.change_password("l1", "l", "newl1");
+    expect(change2["succeed"]).toBe(false);
+    let change3 = await system.change_password("l1", "l1", "newl1");
+    expect(change3["succeed"]).toBe(true);
     lawyer1 = await system.get_user("l1");
     expect(lawyer1["succeed"]).toBe(true);
     expect(lawyer1["res"]["password"]).toBe("newl1");
+    let unreg = await system.unregister("l1");
+    expect(unreg["succeed"]).toBe(true);
+    let tmp2 = await system.get_user("l1");
+    expect(tmp2["succeed"]).toBe(false);
 });
 
 
