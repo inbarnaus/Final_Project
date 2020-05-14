@@ -10,6 +10,7 @@ import SearchReport from "./containers/SearchReport";
 import UploadPDF from "./containers/UploadPDF";
 import AddG4 from "./containers/AddG4";
 import AddReport from "./containers/AddReport";
+import Login from "./Components/UserComponents/Login/Login"
 
 import Navigate from "./Navigate";
 
@@ -37,6 +38,9 @@ class Dashboard extends Component {
         </Route>
         <Route exact path="/addg4">
         <AddG4 />
+        </Route>
+        <Route exact path="/login">
+        <Login />
         </Route>
       <Route>
       </Route>

@@ -40,9 +40,6 @@ app.post('/addg4', (req, res) => {
     });
 });
 
-app.get('/login', (req, res) => {
-    console.log('inbar');
-});
 
 //get apartment
 app.get('/apartments/:block?/:building?/:apartment?', async (req, res) => {

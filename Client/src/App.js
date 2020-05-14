@@ -2,7 +2,7 @@
 import Login from './Components/UserComponents/Login/Login'
 import Dashboard from './Dashboard'
 import React, { Component } from 'react';
-import "./App.css";
+
 
 class App extends Component {
 
@@ -10,7 +10,7 @@ class App extends Component {
     super()
 
     this.state = {
-      isLoggedIn: false
+      isLoggedIn: true
     }
   }
   

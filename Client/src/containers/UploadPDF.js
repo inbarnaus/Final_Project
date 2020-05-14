@@ -31,7 +31,7 @@ export default function UploadPDF() {
         <div class="form-group">
           
         <label class="w3-text-blue"><b></b></label>
-        <input className="input" type='submit' value='submit!' />
+        <input className="input" type='submit' value='submit!'/>
         </div>
     </form> 
     </body> 
