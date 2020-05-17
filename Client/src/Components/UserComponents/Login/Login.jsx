@@ -1,62 +1,28 @@
-import React, { Component, useRef } from 'react';
+import React, { Component, Redirect } from 'react';
 import './login.css';
-import {Button, FormControl, FormLabel } from 'react-bootstrap';
-import axios from 'axios';
-import {findDOMNode} from 'react-dom';
-import App from "../../../App";
-const FormGroup = require('react-bootstrap').FormGroup;
+import { withRouter } from 'react-router-dom';
 
 
-export default function Login() {
+class Login extends Component {
 
-    // server_url = "http://localhost:8080/login";
+    constructor(){
+      super();
+    }
 
-    // handleclick = async() => {
-    //     let name = findDOMNode(this.refs.nameref).value, pass = findDOMNode(this.refs.passref).value;
-    //     console.log(name);
-    //     console.log('itay');
-    //     try{
-    //         let res = await axios.post(this.server_url, {username: name, password : pass});
-    //         console.log(res.data.succeed);
-    //         let appComp = document.getElementsByClassName('App');
-    //         console.log(appComp);
-    //         appComp.setLogged(res.data['succeed']);
-    //         appComp.forceUpdate();
-    //     }
-    //     catch(e){
-    //         console.log("catch");
-    //     }
-    // }
+    handleClick = () => {
+      console.log('The link was clicked.');
+      // return <Redirect to="/" />;
+      this.props.history.push('/');
+    }
 
+   render(){
         return (
-    //         <body>
-    //   <form 
-    //   className = "custom-file-translate-scss"
-    //   action='http://localhost:8080/login' 
-    //   method='post' 
-    //   encType="multipart/form-data">
-    //     <div class="form-group">
-    //     <label class="w3-text-blue"><b>מייל</b></label>
-    //     <input class="w3-input w3-border" type="text" name="username"/>
-    //     </div>
-    //     <div class="form-group">
-    //     <label class="w3-text-blue"><b>סיסמא</b></label>
-    //     <input class="w3-input w3-border" type="text" name="password"/>
-    //     </div>
-        
-    //     <div class="form-group">
-          
-    //     <label class="w3-text-blue"><b></b></label>
-    //     <input className="input" type='submit' value='submit!'/>
-    //     </div>
-    // </form> 
-    // </body>
             <form
-            className = "custom-file-translate-scss"
-      id='uploadForm' 
-      action='http://localhost:8080/login' 
-      method='post' 
-      encType="multipart/form-data">
+              className = "custom-file-translate-scss"
+              id='login' 
+              action='http://localhost:8080/login' 
+              method='post' 
+              encType="multipart/form-data">
                 <h3>Login</h3>
 
                 <div>
@@ -76,10 +42,79 @@ export default function Login() {
                     </div>
                 </div>
 
-                <button type="submit" className="btn btn-primary btn-block">Submit</button>
+                <button type="submit" className="btn btn-primary btn-block" onClick={this.handleClick}>Submit</button>
                 <p className="forgot-password text-right">
                     Forgot <a href="#">password?</a>
                 </p>
             </form>
         );
+   }
     }
+
+    export default withRouter(Login);
+
+
+
+// import React, {Component} from 'react';
+// import {Redirect} from 'react-router-dom';
+// import {PostData} from '../../../PostData';
+// import './login.css';
+
+// class Login extends Component {
+
+//   constructor(){
+//     super();
+   
+//     this.state = {
+//      username: '',
+//      password: '',
+//      redirectToReferrer: false
+//     };
+
+//     this.login = this.login.bind(this);
+//     this.onChange = this.onChange.bind(this);
+//   }
+
+//   login() {
+//     if(this.state.username && this.state.password){
+//       PostData('',this.state).then((result) => {
+//         console.log('naus');
+//        let responseJson = result;
+//        if(responseJson.userData){         
+//          sessionStorage.setItem('userData',JSON.stringify(responseJson));
+//          this.setState({redirectToReferrer: true});
+//        }  
+//       });
+//     }  
+//    }
+
+//   onChange(e){
+//     this.setState({[e.target.name]:e.target.value});
+//    }
+
+//   render() {
+//      if (this.state.redirectToReferrer) {
+//       return (<Redirect to={'/'}/>)
+//     }
+//     if(sessionStorage.getItem('userData')){
+//       return (<Redirect to={'/'}/>)
+//     }
+//      return (
+//       <div className="row" id="Body">
+//         <div className="medium-5 columns left">
+//         <h4>Login</h4>
+//         <label>Username</label>
+//         <input type="text" name="username" placeholder="Username" onChange={this.onChange}/>
+//         <label>Password</label>
+//         <input type="password" name="password"  placeholder="Password" onChange={this.onChange}/>
+//         <input type="submit" className="button success" value="Login" onClick={this.login}/>
+//         <a href="/signup">Registration</a>
+//         </div>
+//       </div>
+//     );
+//   }
+// }
+
+// export default Login;
+
+

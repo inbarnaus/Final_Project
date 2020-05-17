@@ -10,7 +10,7 @@ class App extends Component {
     super()
 
     this.state = {
-      isLoggedIn: true
+      isLoggedIn: false
     }
   }
   
@@ -18,6 +18,7 @@ class App extends Component {
       this.setState({isLoggedIn: logged});
   }
 
+  
   render() {
     const {isLoggedIn} = this.state
     return (

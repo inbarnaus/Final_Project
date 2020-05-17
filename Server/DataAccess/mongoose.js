@@ -225,9 +225,9 @@ const Dal = {
     },
 
     login: async (mail, pass) => {
-        console.log("login");
+        // console.log("login");
         user = await User.findOne({'email': mail, 'password': pass});
-        console.log(user);
+        // console.log(user);
         ans = null;
         if(user){
             ans = gen_succ_res(user);
@@ -414,7 +414,8 @@ module.exports = Dal;
 
 mongoose.connect('mongodb+srv://mnh:12345@cluster0-sk1ck.mongodb.net/test?retryWrites=true&w=majority', {
     useNewUrlParser: true, 
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useFindAndModify: false 
 })
 .then(async ()=>{
     console.log("db is connected");

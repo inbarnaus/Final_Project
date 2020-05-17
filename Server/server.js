@@ -26,7 +26,8 @@ app.post('/uploadpdf', (req, res) =>{
           return res.status(500).send(err);
         system.add_scanning(req.body.block, req.body.building, req.body.apartment, 
             'C:/Users/Inbar Naus/VisualCodeProjects/Final_Project/Server/PDF_files/' +sampleFile.name); 
-        res.send('File uploaded!');
+        // res.send('File uploaded!');
+        console.log('File Uploaded');
     });
 });
 
@@ -47,7 +48,7 @@ app.get('/apartments/:block?/:building?/:apartment?', async (req, res) => {
     const building = req.params.building;
     const apartment = req.params.apartment;
     let filteredProperties;
-    console.log(`Block: ${block}, building: ${building}, apartment: ${apartment}`);
+    // console.log(`Block: ${block}, building: ${building}, apartment: ${apartment}`);
 
     if (block) {
         // filteredProperties = (system.get_buildings(block));
@@ -68,7 +69,7 @@ app.get('/editGet/:block/:building/:apartment', async (req, res) => {
     const building = req.params.building;
     const apartment = req.params.apartment;
     let filteredProperties;
-    console.log(`Block: ${block}, building: ${building}, apartment: ${apartment}`);
+    // console.log(`Block: ${block}, building: ${building}, apartment: ${apartment}`);
 
     if(block && building && apartment){
         filteredProperties = await system.get_purchase(block, building, apartment);
@@ -96,7 +97,7 @@ app.post('/edit/:block/:building/:apartment', async (req, res) => {
 app.post('/login', async (req, res) => {
     let user_info = req.body;
     login = await system.login(user_info['username'], user_info['password']);
-    res.send(login);
+    // res.send(login);
 });
 
 //Return: rendom password
