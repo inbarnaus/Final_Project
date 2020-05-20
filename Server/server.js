@@ -95,6 +95,7 @@ app.post('/edit/:block/:building/:apartment', async (req, res) => {
 
 //login
 app.post('/login', async (req, res) => {
+    console.log('naus');
     let user_info = req.body;
     login = await system.login(user_info['username'], user_info['password']);
     // res.send(login);

@@ -5,12 +5,19 @@ import { withRouter } from 'react-router-dom';
 
 class Login extends Component {
 
-    constructor(){
-      super();
-    }
-
     handleClick = () => {
+      fetch("https://localhost:8080/login", {
+        method: "post",
+      })
+      .then((response) => response.text())
+      .then((text) => {
+        console.log(text)
+      });
+
       console.log('The link was clicked.');
+      // fetch('http://localhost:8080/login')
+      // .then(response => response.json())
+      // .then(data => console.log(data));
       // return <Redirect to="/" />;
       this.props.history.push('/');
     }
