@@ -3,14 +3,13 @@ import Login from './Components/UserComponents/Login/Login'
 import Dashboard from './Dashboard'
 import React, { Component } from 'react';
 
-
 class App extends Component {
 
   constructor(){
     super()
 
     this.state = {
-      isLoggedIn: false
+      isLoggedIn: true
     }
   }
   
@@ -18,7 +17,6 @@ class App extends Component {
       this.setState({isLoggedIn: logged});
   }
 
-  
   render() {
     const {isLoggedIn} = this.state
     return (

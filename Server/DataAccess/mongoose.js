@@ -235,13 +235,7 @@ const Dal = {
     },
 
     login: async (mail, pass) => {
-<<<<<<< HEAD
-        // console.log("login");
         user = await User.findOne({'email': mail, 'password': pass});
-        // console.log(user);
-=======
-        user = await User.findOne({'email': mail, 'password': pass});
->>>>>>> c19ba14cd6600258e19c44d54ef31fe64f3d6154
         ans = null;
         if(user){
             ans = gen_succ_res(user);

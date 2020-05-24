@@ -1,5 +1,6 @@
 const system = require('./Domain/System');
 const express = require('express');
+const router = express.Router();
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
@@ -20,24 +21,24 @@ app.use(cors());
 */
 
 app.post('/uploadpdf', (req, res) =>{
+    console.log('naus');
     let sampleFile = req.files.sampleFile;
     sampleFile.mv('C:/Users/Inbar Naus/VisualCodeProjects/Final_Project/Server/PDF_files/' +sampleFile.name, function(err) {
         if (err)
           return res.status(500).send(err);
         system.add_scanning(req.body.block, req.body.building, req.body.apartment, 
             'C:/Users/Inbar Naus/VisualCodeProjects/Final_Project/Server/PDF_files/' +sampleFile.name); 
-        // res.send('File uploaded!');
-        console.log('File Uploaded');
     });
 });
 
 
 app.post('/addg4', (req, res) => {
+    console.log('inbar');
     let sampleFile = req.files.sampleFile;
     sampleFile.mv('C:/Users/Inbar Naus/VisualCodeProjects/Final_Project/Server/G4/' +sampleFile.name, function(err) {
         if (err)
           return res.status(500).send(err);
-        res.send('File uploaded!');
+        system.add_4g(sampleFile);
     });
 });
 
@@ -99,6 +100,10 @@ app.post('/login', async (req, res) => {
     let user_info = req.body;
     login = await system.login(user_info['username'], user_info['password']);
     // res.send(login);
+    // if (login.succeed){
+        
+    //     res.redirect('http://localhost:3000');
+    // }
 });
 
 //Return: rendom password

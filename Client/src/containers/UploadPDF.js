@@ -3,12 +3,10 @@ import './UploadPDF.css'
 import { withRouter } from 'react-router-dom';
 
 class UploadPDF extends Component {
-
-  handleClick = () => {
-    console.log('The link was clicked.');
-    // return <Redirect to="/" />;
-    this.props.history.push('/');
-  }
+  
+  // handleClick = () => {
+  //   return this.props.history.push('/');
+  // }
 
   render(){
     return (
@@ -39,7 +37,8 @@ class UploadPDF extends Component {
         <div className="form-group">
           
         <label className="w3-text-blue"><b></b></label>
-        <button className="input" onClick={this.handleClick} type='submit'>Submit</button>
+        <input className="input" onClick={() => {alert('הקובף הועלה בהצלחה!'); this.props.history.push('/');}}
+         type="button"/>
         </div>
     </form> 
     </body> 
