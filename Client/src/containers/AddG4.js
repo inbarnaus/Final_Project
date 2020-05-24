@@ -1,5 +1,5 @@
 import React, { Component }  from "react";
-import './UploadPDF.css'
+import './AddG4.css'
 import { withRouter } from 'react-router-dom';
 
 class AddG4 extends Component {
@@ -13,7 +13,7 @@ class AddG4 extends Component {
       <body>
       <form
       className = "custom-file-translate-scss"
-      id='uploadForm' 
+      id='addg4' 
       action='http://localhost:8080/addg4' 
       method='post' 
       encType="multipart/form-data">

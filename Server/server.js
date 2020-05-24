@@ -1,6 +1,5 @@
 const system = require('./Domain/System');
 const express = require('express');
-const router = express.Router();
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
@@ -14,7 +13,6 @@ app.set('port', process.env.PORT || port);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
- 
 /*var j = schedule.scheduleJob('00 00 08 1-12 0-7', function(){
   console.log('The answer to life, the universe, and everything!');
 });

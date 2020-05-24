@@ -1,4 +1,4 @@
-import React, { Component, Redirect } from 'react';
+import React, { Component } from 'react';
 import './login.css';
 import { withRouter} from 'react-router-dom';
 
@@ -43,7 +43,7 @@ class Login extends Component {
 
                 <button type="submit" className="btn btn-primary btn-block" onClick={this.handleClick}>Submit</button>
                 <p className="forgot-password text-right">
-                    Forgot <a href="#">password?</a>
+                    Forgot <a href="/">password?</a>
                 </p>
             </form> 
         );

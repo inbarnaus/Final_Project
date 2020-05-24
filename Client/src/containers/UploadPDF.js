@@ -10,7 +10,6 @@ class UploadPDF extends Component {
 
   render(){
     return (
-      <body>
       <form
       className = "custom-file-translate-scss"
       id='uploadForm' 
@@ -41,7 +40,6 @@ class UploadPDF extends Component {
          type="button"/>
         </div>
     </form> 
-    </body> 
     );
 }
 }
