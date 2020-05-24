@@ -442,7 +442,8 @@ module.exports = Dal;
 
 mongoose.connect('mongodb+srv://mnh:12345@cluster0-sk1ck.mongodb.net/test?retryWrites=true&w=majority', {
     useNewUrlParser: true, 
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useFindAndModify: false 
 })
 .then(async ()=>{
     console.log("db is connected");  

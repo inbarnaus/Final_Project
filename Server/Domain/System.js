@@ -32,6 +32,7 @@ const System = {
                     arr[i] = revArray;  
                 }
             }
+            console.log(arr);
             return arr;
         };
         ans = null;

@@ -3,6 +3,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route
+  // Redirect
 } from "react-router-dom";
 import Home from "./containers/Home";
 import NewUser from "./containers/signNewUser";
@@ -10,7 +11,7 @@ import SearchReport from "./containers/SearchReport";
 import UploadPDF from "./containers/UploadPDF";
 import AddG4 from "./containers/AddG4";
 import AddReport from "./containers/AddReport";
-import Login from "./Components/UserComponents/Login/Login"
+// import Login from "./Components/UserComponents/Login/Login"
 
 import Navigate from "./Navigate";
 
@@ -24,6 +25,7 @@ class Dashboard extends Component {
       <Route exact path="/">
         <Home />
       </Route>
+      {/* <Redirect from='/uploadpdf' to="/" /> */}
       <Route exact path="/signnew">
         <NewUser />
         </Route>
@@ -39,9 +41,9 @@ class Dashboard extends Component {
         <Route exact path="/addg4">
         <AddG4 />
         </Route>
-        <Route exact path="/login">
+        {/* <Route exact path="/login">
         <Login />
-        </Route>
+        </Route> */}
       <Route>
       </Route>
     </Switch>

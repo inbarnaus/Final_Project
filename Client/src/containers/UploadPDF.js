@@ -1,39 +1,47 @@
-import React, { useRef }  from "react";
+import React, { Component }  from "react";
 import './UploadPDF.css'
+import { withRouter } from 'react-router-dom';
 
-export default function UploadPDF() {
-  const inputRef = useRef('uploadForm');
+class UploadPDF extends Component {
+  
+  // handleClick = () => {
+  //   return this.props.history.push('/');
+  // }
+
+  render(){
     return (
-      <body>
-      <form ref = {inputRef}
+      <form
       className = "custom-file-translate-scss"
       id='uploadForm' 
       action='http://localhost:8080/uploadpdf' 
       method='post' 
       encType="multipart/form-data">
-        <div class="form-group">
-        <label class="w3-text-blue"><b>מס' בלוק</b></label>
-        <input class="w3-input w3-border" type="text" name="block"/>
+        <div className="form-group">
+        <label className="w3-text-blue"><b>מס' בלוק</b></label>
+        <input className="w3-input w3-border" type="text" name="block"/>
         </div>
-        <div class="form-group">
-        <label class="w3-text-blue"><b>מס' בניין</b></label>
-        <input class="w3-input w3-border" type="text" name="building"/>
+        <div className="form-group">
+        <label className="w3-text-blue"><b>מס' בניין</b></label>
+        <input className="w3-input w3-border" type="text" name="building"/>
         </div>
-        <div class="form-group">
-        <label class="w3-text-blue"><b>מס' דירה</b></label>
-        <input class="w3-input w3-border" type="text" name="apartment"/>
+        <div className="form-group">
+        <label className="w3-text-blue"><b>מס' דירה</b></label>
+        <input className="w3-input w3-border" type="text" name="apartment"/>
         </div>
-        <div class="form-group">
+        <div className="form-group">
           
-        <label class="w3-text-blue"><b></b></label>
+        <label className="w3-text-blue"><b></b></label>
         <input className="input" type="file" name="sampleFile" />
         </div>
-        <div class="form-group">
+        <div className="form-group">
           
-        <label class="w3-text-blue"><b></b></label>
-        <input className="input" type='submit' value='submit!'/>
+        <label className="w3-text-blue"><b></b></label>
+        <input className="input" onClick={() => {alert('הקובף הועלה בהצלחה!'); this.props.history.push('/');}}
+         type="button"/>
         </div>
     </form> 
-    </body> 
     );
 }
+}
+
+export default withRouter(UploadPDF);
