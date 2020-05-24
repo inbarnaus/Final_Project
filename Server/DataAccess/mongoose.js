@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+ const mongoose = require('mongoose');
 const fs = require('mongoose-fs');
 // const xlsxFile = require('read-excel-file/node');
 // const mongodb = require('mongodb');
@@ -136,51 +136,60 @@ const Dal = {
         return ans;
     },
 
-    add_purchase: async (apartment_purchase, first_buyer_name, first_buyer_id, second_buyer_name = null, second_buyer_id = null) => {
-        ans = null;
-        purch = new Acquisition({
-            'buildNum': apartment_purchase['building'], 
-            'fieldNum': apartment_purchase['block'], 
-            'apartNum': apartment_purchase['apartment'], 
-            'buyerName1': first_buyer_name,
-            'buyerId1': first_buyer_id,
-            'buyerName2': second_buyer_name,
-            'buyerId2': second_buyer_id,
-        });
+    add_purchase: async (apartment_purchase, first_buyer_name, first_buyer_id, second_buyer_name = null, second_buyer_id = null, purchase_attr) => {
         block = apartment_purchase['block'];
         building = apartment_purchase['building'];
         apartment = apartment_purchase['apartment'];
-        asset = Asset.findOne({ 'buildNum': building, 'fieldNum': block, 'apartNum': apartment });    
-        if (asset == null) {
-            ans = {succeed: false, res: err};
+        res2 = await Acquisition.findOne({ 'buildNum': building, 'fieldNum': block, 'apartNum': apartment });
+        if(res2 != null){
+            return gen_fail_res("רכישה כבר מתועדת ברשימה");
         }
         else{
-            await Acquisition.findOne({ 'buildNum': building, 'fieldNum': block, 'apartNum': apartment }, async function(err, res){ 
-                if(res){
-                    ans = gen_fail_res("רכישה כבר מתועדת ברשימה");
-                }
-                else{
-                    ans = gen_succ_res(purch);
-                    await purch.save((err) => {
-                        if(err){
-                            ans = gen_fail_res(ans);
-                        }
-                    });
-                }
-            });
+            res1 = await Asset.findOne({ 'buildNum': building, 'fieldNum': block, 'apartNum': apartment });
+            if (res1 == null) {
+                return {succeed: false, res: "דירה לא קיימת במערכת"};
+            }
+            else{
+                let set_attr = (val) => {return (purchase_attr[val] != null ? purchase_attr[val] : res1[val]);};
+                console.log(set_attr("level"));
+                purch = new Acquisition({
+                    'buildNum': apartment_purchase['building'], 
+                    'fieldNum': apartment_purchase['block'], 
+                    'apartNum': apartment_purchase['apartment'], 
+                    'buyerName1': first_buyer_name,
+                    'buyerId1': first_buyer_id,
+                    'buyerName2': second_buyer_name,
+                    'buyerId2': second_buyer_id,
+                    parking1: set_attr('parking1'),
+                    parking2: set_attr('parking2'),
+                    garage: set_attr('garage'),
+                    purchaseDate: set_attr('purchaseDate'),
+                    reportDate: set_attr('reportDate'),
+                    price: set_attr('price'),
+                    assessmentNum: set_attr('assessmentNum'),
+                    referenceNum: set_attr('referenceNum'),
+                    mortgageSum: set_attr('mortgageSum'),
+                    mortageBank: set_attr('mortageBank'),
+                    notes: set_attr('notes'),
+                    scanForm: set_attr('scanForm'),
+                    firstApartment: set_attr('firstApartment'),
+                });
+                console.log(purch);
+                ans = gen_succ_res(purch);
+                await purch.save();
+                return ans;
+            }
         }
-    
-        
-        return ans;
     },
 
     get_purchase: async (block_num, building_num, apartment_num) =>{
-        ans = null;
-        await Acquisition.findOne({ 'buildNum': building_num, 'fieldNum': block_num, 'apartNum': apartment_num }, function (err, record) {
-            if (err || record == null) ans = {succeed: False, res: err};
-            ans = {succeed: true, res: record};
-        });
-        return ans;
+        record = await Acquisition.findOne({ 'buildNum': building_num, 'fieldNum': block_num, 'apartNum': apartment_num });
+        if (record == null){
+            return {succeed: false, res: err};
+        }
+        else{
+            return {succeed: true, res: record};
+        }
     },
 
     set_purchase: async (block_num, building_num, apartment_num, new_purchase_features) => {
@@ -381,42 +390,47 @@ const Dal = {
             apartMMDprice: apartMMDprice, 
             dir: dir
         });
-        ans = null;
-        await Asset.findOne({
+        res = await Asset.findOne({
             buildNum: buildNum, 
             fieldNum: fieldNum, 
             apartNum: apartNum
-        }, async function(err, res){
-                if(err || res == null){
-                    ans = gen_succ_res(asset);
-                    await asset.save((err) => {
-                        if(err){
-                            ans = gen_fail_res(ans);
-                        }
-                    });
-                }
-                else{
-                    ans = gen_fail_res("דירה כבר קיימת");       
-                }
         });
-        return ans;
+        if(res == null){
+            ans = gen_succ_res(asset);
+            await asset.save();
+            return ans;
+        }
+        else{
+            return gen_fail_res("דירה כבר קיימת");       
+        }
     },
 
     remove_apartment: async(fieldNum, buildNum, apartNum) =>{
-        ans = null;
-        await Asset.findOneAndRemove({
+        rec = await Asset.findOneAndRemove({
             buildNum: buildNum, 
             fieldNum: fieldNum, 
             apartNum: apartNum
-        }, function(err, rec){
-            if(err || rec == null){
-                ans = gen_fail_res(err);
-            }
-            else{
-                ans = gen_succ_res(rec);
-            }
         });
-        return ans;
+        if(rec == null){
+            return gen_fail_res(err);
+        }
+        else{
+            return gen_succ_res(rec);
+        }
+    },
+
+    remove_purchase: async(fieldNum, buildNum, apartNum) =>{
+        rec = await Acquisition.findOneAndRemove({
+            buildNum: buildNum, 
+            fieldNum: fieldNum, 
+            apartNum: apartNum
+        });
+        if(rec == null){
+            return gen_fail_res(err);
+        }
+        else{
+            return gen_succ_res(rec);
+        }
     }
 };
 
@@ -431,7 +445,7 @@ mongoose.connect('mongodb+srv://mnh:12345@cluster0-sk1ck.mongodb.net/test?retryW
     useUnifiedTopology: true
 })
 .then(async ()=>{
-    console.log("db is connected");
+    console.log("db is connected");  
 })
 .catch(()=>{
     console.log("db is NOT connect")

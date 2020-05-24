@@ -1,20 +1,6 @@
 
 // const system = require("../../../Server/DataAccess/mongoose");
 
-// // beforeEach(async ()=>{
-// //     console.log("before_S");
-// //     await system.register_new_lawyer("aa@gmail.com", "11");
-// //     await system.register_new_costumer("aa1@gmail.com", "11");
-// //     console.log("before_E");
-// // });
-
-// // afterEach(async () => {
-// //     console.log("after_S");
-// //     await system.unregister("aa@gmail.com");
-// //     await system.unregister("aa1@gmail.com");
-// //     console.log("after_E");
-// // });
-
 // //final test for mongoose
 // test('User integration test', async ()=> {
 //     console.log("final test starts:");
