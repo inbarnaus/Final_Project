@@ -2,14 +2,16 @@ import React, { Component }  from "react";
 import './UploadPDF.css'
 import { withRouter } from 'react-router-dom';
 
+
 class UploadPDF extends Component {
-  
-  // handleClick = () => {
-  //   return this.props.history.push('/');
-  // }
+
+  handleClick = () => {
+    console.log('The link was clicked.');
+  }
 
   render(){
     return (
+      <body>
       <form
       className = "custom-file-translate-scss"
       id='uploadForm' 
@@ -36,10 +38,10 @@ class UploadPDF extends Component {
         <div className="form-group">
           
         <label className="w3-text-blue"><b></b></label>
-        <input className="input" onClick={() => {alert('הקובף הועלה בהצלחה!'); this.props.history.push('/');}}
-         type="button"/>
+        <button className="input" onClick={this.handleClick} type='submit'>Submit</button>
         </div>
     </form> 
+    </body> 
     );
 }
 }

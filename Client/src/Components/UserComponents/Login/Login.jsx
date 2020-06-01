@@ -1,17 +1,25 @@
-import React, { Component } from 'react';
+import React, { Component, Redirect } from 'react';
 import './login.css';
-import { withRouter} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 
 class Login extends Component {
 
     handleClick = () => {
+      fetch("https://localhost:8080/login", {
+        method: "post",
+      })
+      .then((response) => response.text())
+      .then((text) => {
+        console.log(text)
+      });
+
       console.log('The link was clicked.');
       // fetch('http://localhost:8080/login')
-      // .then(response => console.log(response.json()))
+      // .then(response => response.json())
       // .then(data => console.log(data));
       // return <Redirect to="/" />;
-      // this.props.history.push('/');
+      this.props.history.push('/');
     }
 
    render(){
@@ -43,9 +51,9 @@ class Login extends Component {
 
                 <button type="submit" className="btn btn-primary btn-block" onClick={this.handleClick}>Submit</button>
                 <p className="forgot-password text-right">
-                    Forgot <a href="/">password?</a>
+                    Forgot <a href="#">password?</a>
                 </p>
-            </form> 
+            </form>
         );
    }
     }

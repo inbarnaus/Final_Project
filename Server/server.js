@@ -13,30 +13,30 @@ app.set('port', process.env.PORT || port);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
+ 
 /*var j = schedule.scheduleJob('00 00 08 1-12 0-7', function(){
   console.log('The answer to life, the universe, and everything!');
 });
 */
 
 app.post('/uploadpdf', (req, res) =>{
-    console.log('naus');
     let sampleFile = req.files.sampleFile;
     sampleFile.mv('C:/Users/Inbar Naus/VisualCodeProjects/Final_Project/Server/PDF_files/' +sampleFile.name, function(err) {
         if (err)
           return res.status(500).send(err);
         system.add_scanning(req.body.block, req.body.building, req.body.apartment, 
             'C:/Users/Inbar Naus/VisualCodeProjects/Final_Project/Server/PDF_files/' +sampleFile.name); 
+        console.log('File Uploaded');
     });
 });
 
 
 app.post('/addg4', (req, res) => {
-    console.log('inbar');
     let sampleFile = req.files.sampleFile;
     sampleFile.mv('C:/Users/Inbar Naus/VisualCodeProjects/Final_Project/Server/G4/' +sampleFile.name, function(err) {
         if (err)
           return res.status(500).send(err);
-        system.add_4g(sampleFile);
+        res.send('File uploaded!');
     });
 });
 
@@ -98,10 +98,6 @@ app.post('/login', async (req, res) => {
     let user_info = req.body;
     login = await system.login(user_info['username'], user_info['password']);
     // res.send(login);
-    // if (login.succeed){
-        
-    //     res.redirect('http://localhost:3000');
-    // }
 });
 
 //Return: rendom password

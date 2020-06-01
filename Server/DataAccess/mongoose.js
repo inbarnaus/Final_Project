@@ -130,8 +130,8 @@ const Dal = {
     get_apartment: async (block, building, apartment) =>{
         ans = null;
         await Asset.findOne({ 'buildNum': building, 'fieldNum': block, 'apartNum': apartment }, function (err, record) {
-            if (err || record == null) ans = {succeed: false, res: err};
-            else ans = {succeed: true, res: record};
+            if (err || record == null) ans = {succeed: Flase, res: err};
+            else ans = {succeed: True, res: record};
         });
         return ans;
     },
@@ -147,38 +147,27 @@ const Dal = {
             'buyerName2': second_buyer_name,
             'buyerId2': second_buyer_id,
         });
-        block = apartment_purchase['block'];
+        block =apartment_purchase['block'];
         building = apartment_purchase['building'];
         apartment = apartment_purchase['apartment'];
-        asset = Asset.findOne({ 'buildNum': building, 'fieldNum': block, 'apartNum': apartment });    
-        if (asset == null) {
-            ans = {succeed: false, res: err};
-        }
-        else{
-            await Acquisition.findOne({ 'buildNum': building, 'fieldNum': block, 'apartNum': apartment }, async function(err, res){ 
-                if(res){
-                    ans = gen_fail_res("רכישה כבר מתועדת ברשימה");
+        await Asset.findOne({ 'buildNum': building, 'fieldNum': block, 'apartNum': apartment }, async function (err, res) {
+            if (err || res == null) ans = {succeed: Flase, res: err};
+            await Acquisition.findOne({ 'buildNum': building, 'fieldNum': block, 'apartNum': apartment }, function(err, res){ 
+                if(err || res == null){
+                    ans = gen_fail_res(err);
                 }
-                else{
-                    ans = gen_succ_res(purch);
-                    await purch.save((err) => {
-                        if(err){
-                            ans = gen_fail_res(ans);
-                        }
-                    });
-                }
+                purch.save();
+                ans = gen_succ_res(purch);
             });
-        }
-    
-        
+        });
         return ans;
     },
 
     get_purchase: async (block_num, building_num, apartment_num) =>{
         ans = null;
         await Acquisition.findOne({ 'buildNum': building_num, 'fieldNum': block_num, 'apartNum': apartment_num }, function (err, record) {
-            if (err || record == null) ans = {succeed: False, res: err};
-            ans = {succeed: true, res: record};
+            if (err || record == null) ans = {succeed: Flase, res: err};
+            ans = {succeed: True, res: record};
         });
         return ans;
     },
@@ -189,7 +178,7 @@ const Dal = {
         };
         ans = null;
         await Acquisition.findOne({ 'buildNum': building_num, 'fieldNum': block_num, 'apartNum': apartment_num }, async function (err, record) {
-            if (err || record == null) ans = {succeed: false, res: err};
+            if (err || record == null) ans = {succeed: Flase, res: err};
             else{
                 update_ac = {
                     buyerName1: func('buyerName1', record),
@@ -226,6 +215,7 @@ const Dal = {
 
     get_user: async (email) =>{
         ans = await User.findOne({ 'email': email });
+        console.log(ans);
         if(ans == null){
             return gen_fail_res("משתמש לא נמצא במערכת");
         }
@@ -235,7 +225,9 @@ const Dal = {
     },
 
     login: async (mail, pass) => {
+        // console.log("login");
         user = await User.findOne({'email': mail, 'password': pass});
+        // console.log(user);
         ans = null;
         if(user){
             ans = gen_succ_res(user);
@@ -248,9 +240,9 @@ const Dal = {
 
     get_all_unreported_purchases: async () => {
         ans = null;
-        await Acquisition.findOne({ 'reprted': false }, 'fieldNum buildNum apartNum purchaseDate reportDate', function (err, record) {
-            if (err || record == null) ans = {succeed: false, res: err};
-            else ans = {succeed: true, res: record};
+        await Acquisition.findOne({ 'reprted': False }, 'fieldNum buildNum apartNum purchaseDate reportDate', function (err, record) {
+            if (err || record == null) ans = {succeed: Flase, res: err};
+            else ans = {succeed: True, res: record};
         });
         return ans;
     },
@@ -388,16 +380,10 @@ const Dal = {
             apartNum: apartNum
         }, async function(err, res){
                 if(err || res == null){
+                    await asset.save();
                     ans = gen_succ_res(asset);
-                    await asset.save((err) => {
-                        if(err){
-                            ans = gen_fail_res(ans);
-                        }
-                    });
                 }
-                else{
-                    ans = gen_fail_res("דירה כבר קיימת");       
-                }
+                ans = gen_fail_res("דירה כבר קיימת");       
         });
         return ans;
     },
@@ -433,6 +419,7 @@ mongoose.connect('mongodb+srv://mnh:12345@cluster0-sk1ck.mongodb.net/test?retryW
 })
 .then(async ()=>{
     console.log("db is connected");
+
 })
 .catch(()=>{
     console.log("db is NOT connect")
