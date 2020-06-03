@@ -19,6 +19,14 @@ app.use(cors());
 });
 */
 
+//login
+app.post('/login', async (req, res) => {
+    let user_info = req.body;
+    login = await system.login(user_info['username'], user_info['password']);
+    // res.redirect('localhost:3000');
+    res.send(login);
+});
+
 app.post('/uploadpdf', (req, res) =>{
     let sampleFile = req.files.sampleFile;
     sampleFile.mv('C:/Users/Inbar Naus/VisualCodeProjects/Final_Project/Server/PDF_files/' +sampleFile.name, function(err) {
@@ -26,8 +34,8 @@ app.post('/uploadpdf', (req, res) =>{
           return res.status(500).send(err);
         system.add_scanning(req.body.block, req.body.building, req.body.apartment, 
             'C:/Users/Inbar Naus/VisualCodeProjects/Final_Project/Server/PDF_files/' +sampleFile.name); 
-        console.log('File Uploaded');
     });
+    res.redirect('http://localhost:3000');
 });
 
 
@@ -36,8 +44,8 @@ app.post('/addg4', (req, res) => {
     sampleFile.mv('C:/Users/Inbar Naus/VisualCodeProjects/Final_Project/Server/G4/' +sampleFile.name, function(err) {
         if (err)
           return res.status(500).send(err);
-        res.send('File uploaded!');
     });
+    res.redirect('http://localhost:3000');
 });
 
 
@@ -90,14 +98,6 @@ app.post('/edit/:block/:building/:apartment', async (req, res) => {
         res.send(filteredProperties);
     }
     res.send({succeed: false, res: "מלא את כל הפרטים"});
-});
-
-//login
-app.post('/login', async (req, res) => {
-    console.log('naus');
-    let user_info = req.body;
-    login = await system.login(user_info['username'], user_info['password']);
-    // res.send(login);
 });
 
 //Return: rendom password

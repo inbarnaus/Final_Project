@@ -3,6 +3,9 @@ import Login from './Components/UserComponents/Login/Login'
 import Dashboard from './Dashboard'
 import React, { Component } from 'react';
 
+const axios = require('axios');
+axios.create({baseURL: `http://localhost:8080` // the url of our server
+})
 
 class App extends Component {
 
@@ -10,17 +13,35 @@ class App extends Component {
     super()
 
     this.state = {
-      isLoggedIn: true
+      isLoggedIn: false
     }
+  }
+
+  async connect_server () {
+    console.log('inbar');
+    await axios.post('http://localhost:8080/login').then(res => {
+      console.log(res.data.succeed);
+      this.setLogged(res.data.succeed);
+      console.log(this.isLoggedIn);
+        // window.location.replace('http://localhost:3000');
+        // window.history.pushState("", "", '/');
+    })
+    .catch(function (error) {
+        console.log(error);
+    })//,  console.log('ghjk') );
+    //   console.log('👉 Returned data:', response);
+    // } catch (e) {
+    //   console.log(`😱 Axios request failed: ${e}`);
+    // }
   }
   
   setLogged = (logged) =>{
       this.setState({isLoggedIn: logged});
   }
-
   
   render() {
     const {isLoggedIn} = this.state
+    console.log(isLoggedIn);
     return (
       <div className='background-blue'>
         {isLoggedIn ? 
@@ -34,44 +55,3 @@ class App extends Component {
 }
 
 export default App;
-
-
-
-
-
-// import React from "react";
-// // import { Link } from "react-router-dom";
-// import { Nav, Navbar, Form, Button, NavDropdown } from "react-bootstrap";
-// // import { LinkContainer } from "react-router-bootstrap";
-// import "./App.css";
-// import Routes from "./Routes";
-
-
-// function App() {
-//   return (
-//     <div className="container">
-//       <Navbar className="color-nav" expand="lg">
-//     <Navbar.Brand href="/">מקוב-נוף-הוברמן</Navbar.Brand>
-//   <Navbar.Toggle aria-controls="basic-navbar-nav" />
-//   <Navbar.Collapse id="basic-navbar-nav">
-//     <Nav className="mr-auto">
-//       <NavDropdown title="פעולות" id="basic-nav-dropdown">
-//         <NavDropdown.Item href="/uploadpdf">הוספת PDF</NavDropdown.Item>
-//         <NavDropdown.Item href="/searchrepo">חיפוש רשומה</NavDropdown.Item>
-//         <NavDropdown.Item href="/addg4">הוספת ג'4</NavDropdown.Item>
-//         <NavDropdown.Divider />
-//         <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-//       </NavDropdown>
-//       <Nav.Link href="/addrepo">הוספת דיווח</Nav.Link>
-//     </Nav>
-//     <Form inline>
-//       {/* <FormControl type="text" placeholder="Search" className="mr-sm-2" /> */}
-//       <Button href = "/signnew" variant="outline-secondary" color= "white">רישום משתמש חדש</Button>
-//     </Form>
-//   </Navbar.Collapse>
-// </Navbar>
-// <Routes></Routes>
-//     </div>
-//   );
-// }
-// export default App;
