@@ -28,11 +28,11 @@ const Asset = mongoose.model('Asset', new Schema({
     warehouseNum: Number, 
     parkingNum: Number, 
     parkingQuantity1: Number, 
-    parkingQuantity2: Object, 
+    parkingQuantity2: Number, 
     apartNumPrice: Number,
     apartTenantPrice: Number, 
     notes: Object, 
-    apartMMDprice: Object, 
+    apartMMDprice: Number, 
     dir: Object
 }));
 
@@ -151,7 +151,6 @@ const Dal = {
             }
             else{
                 let set_attr = (val) => {return (purchase_attr[val] != null ? purchase_attr[val] : res1[val]);};
-                console.log(set_attr("level"));
                 purch = new Acquisition({
                     'buildNum': apartment_purchase['building'], 
                     'fieldNum': apartment_purchase['block'], 
@@ -160,21 +159,20 @@ const Dal = {
                     'buyerId1': first_buyer_id,
                     'buyerName2': second_buyer_name,
                     'buyerId2': second_buyer_id,
-                    parking1: set_attr('parking1'),
-                    parking2: set_attr('parking2'),
-                    garage: set_attr('garage'),
-                    purchaseDate: set_attr('purchaseDate'),
-                    reportDate: set_attr('reportDate'),
-                    price: set_attr('price'),
-                    assessmentNum: set_attr('assessmentNum'),
-                    referenceNum: set_attr('referenceNum'),
-                    mortgageSum: set_attr('mortgageSum'),
-                    mortageBank: set_attr('mortageBank'),
-                    notes: set_attr('notes'),
-                    scanForm: set_attr('scanForm'),
-                    firstApartment: set_attr('firstApartment'),
+                    parking1: set_attr('parkingQuantity1'),
+                    parking2: set_attr('parkingQuantity2'),
+                    garage: set_attr('warehouseArea'),
+                    purchaseDate: Date(set_attr('purchaseDate')),
+                    reportDate: Date(set_attr('reportDate')),
+                    price: set_attr('apartNumPrice'),
+                    assessmentNum: purchase_attr['assessmentNum'],
+                    referenceNum: purchase_attr['referenceNum'],
+                    mortgageSum: purchase_attr['mortgageSum'],
+                    mortageBank: purchase_attr['mortageBank'],
+                    notes: purchase_attr['notes'],
+                    scanForm: purchase_attr['scanForm'],
+                    firstApartment: purchase_attr['firstApartment'],
                 });
-                console.log(purch);
                 ans = gen_succ_res(purch);
                 await purch.save();
                 return ans;
@@ -185,7 +183,7 @@ const Dal = {
     get_purchase: async (block_num, building_num, apartment_num) =>{
         record = await Acquisition.findOne({ 'buildNum': building_num, 'fieldNum': block_num, 'apartNum': apartment_num });
         if (record == null){
-            return {succeed: false, res: err};
+            return {succeed: false, res: "הדירה הבמוקשת לא נמצאת במערכת"};
         }
         else{
             return {succeed: true, res: record};
@@ -193,43 +191,20 @@ const Dal = {
     },
 
     set_purchase: async (block_num, building_num, apartment_num, new_purchase_features) => {
-        const func = (str, record) => {
-            return (new_purchase_features[str] ? new_purchase_features[str] : record[str]);
-        };
         ans = null;
-        await Acquisition.findOne({ 'buildNum': building_num, 'fieldNum': block_num, 'apartNum': apartment_num }, async function (err, record) {
-            if (err || record == null) ans = {succeed: false, res: err};
-            else{
-                update_ac = {
-                    buyerName1: func('buyerName1', record),
-                    buyerId1: func('buyerId1', record),
-                    buyerName2: func('buyerName2', record),
-                    parking1: func('parking1', record),
-                    parking2: func('parking2', record),
-                    garage: func('garage', record),
-                    purchaseDate: func('purchaseDate', record),
-                    reportDate: func('reportDate', record),
-                    price: func('price', record),
-                    assessmentNum: func('assessmentNum', record),
-                    mortgageSum: func('mortgageSum', record),
-                    mortageBank: func('mortageBank', record),
-                    notes: func('notes', record),
-                    scanForm: func('scanForm', record),
-                    firstApartment: func('firstApartment', record),
-                    reported: func('reported', record)
-                };
-                await Acquisition.findOneAndUpdate({ 'buildNum': building_num, 'fieldNum': block_num, 'apartNum': apartment_num },
-                    $set(update_ac), function(err, updtare_record){
-                        if(err || updtare_record == null){
-                            ans = gen_fail_res(err);
-                        }
-                        else{
-                            ans = gen_succ_res(updtare_record);
-                        }
-                    }
-                );
+        record = await Acquisition.findOne({ 'buildNum': building_num, 'fieldNum': block_num, 'apartNum': apartment_num });
+        if (record == null) return {succeed: false, res: "רכישה לא מתועדת במערכת"};
+        await Acquisition.findOneAndUpdate({ 'buildNum': building_num, 'fieldNum': block_num, 'apartNum': apartment_num },
+            {"$set" : new_purchase_features}, function(err, update_record){
+                if(err || update_record == null){
+                    ans = gen_fail_res(err);
+                }
+                else{
+                    ans = gen_succ_res(update_record);
+                }
             }
-        });
+        );
+        
         return ans;
     },
 
@@ -318,21 +293,20 @@ const Dal = {
 
     add_scanning: async (block, building, apartment, file) =>{
         ans = null;
-        await Asset.findOne({ 'buildNum': building, 'fieldNum': block, 'apartNum': apartment }, async function(err, res){
-            if(err || res == null){
-                ans = gen_fail_res("דירה לא נמצאה");
-            }
-            await Acquisition.findOneAndUpdate({ 'buildNum': building, 'fieldNum': block, 'apartNum': apartment, 'reported': false, 'scanForm': null}, {'scanForm': file}, 
-                function(err, res){
-                    if(err || res == null){
-                        ans = gen_fail_res(err);
-                    }
-                    else{
-                        ans = gen_succ_res(res);
-                    }
+        res = await Asset.findOne({ 'buildNum': building, 'fieldNum': block, 'apartNum': apartment });
+        if(res == null){
+            return gen_fail_res("דירה לא נמצאה");
+        }
+        await Acquisition.findOneAndUpdate({ 'buildNum': building, 'fieldNum': block, 'apartNum': apartment, 'reported': false, 'scanForm': null}, {'scanForm': file}, 
+            function(err, res){
+                if(err || res == null){
+                    ans = gen_fail_res(err);
                 }
-            );
-        });
+                else{
+                    ans = gen_succ_res(res);
+                }
+            }
+        );
         return ans;
     },
 
@@ -447,6 +421,14 @@ mongoose.connect('mongodb+srv://mnh:12345@cluster0-sk1ck.mongodb.net/test?retryW
 })
 .then(async ()=>{
     console.log("db is connected");  
+    // ap1 = await Dal.add_apartment("1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1");
+    // console.log(ap1);
+    // purchase_attr={"apartNumPrice": 1};
+    // pu1 = await Dal.add_purchase({
+    //     "block": 1,
+    //     "building": 1,
+    //     "apartment": 1
+    // }, "avabash", "111", null, null, purchase_attr);
 })
 .catch(()=>{
     console.log("db is NOT connect")

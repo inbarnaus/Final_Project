@@ -1,12 +1,14 @@
 import React, { Component }  from "react";
 import './UploadPDF.css'
 import { withRouter } from 'react-router-dom';
-
+import axios from "axios";
 class UploadPDF extends Component {
   
-  // handleClick = () => {
-  //   return this.props.history.push('/');
-  // }
+  handleClick = async () => {
+    let res = await axios.post('http://localhost:8080/uploadpdf', {});
+    console.log(res);
+    //return this.props.history.push('/');
+  }
 
   render(){
     return (

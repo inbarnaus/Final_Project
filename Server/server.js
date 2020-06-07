@@ -21,11 +21,12 @@ app.use(cors());
 app.post('/uploadpdf', (req, res) =>{
     console.log('naus');
     let sampleFile = req.files.sampleFile;
-    sampleFile.mv('C:/Users/Inbar Naus/VisualCodeProjects/Final_Project/Server/PDF_files/' +sampleFile.name, function(err) {
+    console.log(sampleFile);
+    sampleFile.mv('~/OneDrive/Desktop/school/Final_Project/Final_Project/Server/FileHandlers/files/' +sampleFile.name, function(err) {
         if (err)
           return res.status(500).send(err);
         system.add_scanning(req.body.block, req.body.building, req.body.apartment, 
-            'C:/Users/Inbar Naus/VisualCodeProjects/Final_Project/Server/PDF_files/' +sampleFile.name); 
+            '~/OneDrive/Desktop/school/Final_Project/Final_Project/Server/FileHandlers/files/' +sampleFile.name); 
     });
 });
 
@@ -33,7 +34,7 @@ app.post('/uploadpdf', (req, res) =>{
 app.post('/addg4', (req, res) => {
     console.log('inbar');
     let sampleFile = req.files.sampleFile;
-    sampleFile.mv('C:/Users/Inbar Naus/VisualCodeProjects/Final_Project/Server/G4/' +sampleFile.name, function(err) {
+    sampleFile.mv('C:/Users/Itay/VisualCodeProjects/Final_Project/Server/G4/' +sampleFile.name, function(err) {
         if (err)
           return res.status(500).send(err);
         system.add_4g(sampleFile);

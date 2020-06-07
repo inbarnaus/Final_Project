@@ -63,7 +63,7 @@ const System = {
 
     // get_buildings : (block) => { return dal.get_buildings(block); },
 
-    add_purchase : async (apartment_purchase, first_buyer_name, first_buyer_id, second_buyer_name = null, second_buyer_id = null, level = null, roomNum = null, apartArea = null, apartAreaAq = null, balconyArea = null, warehouseArea = null, warehouseNum = null, parkingNum = null, parkingQuantity1 = null, parkingQuantity2=null, apartNumPrice = null, apartTenantPrice = null, notes=null, apartMMDprice = null, dir = null) => {
+    add_purchase : async (apartment_purchase, first_buyer_name, first_buyer_id, second_buyer_name = null, second_buyer_id = null, roomNum = null, apartArea = null, apartAreaAq = null, balconyArea = null, warehouseArea = null, warehouseNum = null, parkingNum = null, parkingQuantity1 = null, parkingQuantity2=null, purchaseDate, reportDate, apartNumPrice = null, apartTenantPrice = null, notes=null, apartMMDprice = null, dir = null, assessmentNum= null, referenceNum= null, mortgageSum= null, mortageBank= null, firstApartment= null) => {
         return await dal.add_purchase(apartment_purchase, first_buyer_name, first_buyer_id, second_buyer_name, second_buyer_id, prchase_attr = {
             roomNum: roomNum,
             apartArea: apartArea, 
@@ -72,28 +72,21 @@ const System = {
             warehouseArea: warehouseArea, 
             garage: warehouseNum, 
             parkingNum: parkingNum, 
-            parking1: parkingQuantity1, 
-            parking2: parkingQuantity2, 
+            parkingQuantity1: parkingQuantity1, 
+            parkingQuantity2: parkingQuantity2, 
             apartNumPrice: apartNumPrice, 
             apartTenantPrice: apartTenantPrice, 
+            purchaseDate: purchaseDate,
+            reportDate: reportDate,
             notes: notes, 
             apartMMDprice: apartMMDprice, 
-            dir: dir
-
-    // : Number,
-    // : {type: Number, default: null},
-    // : Number,
-    // purchaseDate: Date,
-    // reportDate: Date,
-    // price: Number,
-    // assessmentNum: {type: Number, default: null},
-    // referenceNum: {type: Number, default: null},
-    // mortgageSum: Number,
-    // mortageBank: Number,
-    // notes: String,
-    // scanForm: {type: String, default: null}, //TODO
-    // firstApartment: {type: Boolean, default: true},
-    // reported: {type: Boolean, default: false},
+            dir: dir,
+            assessmentNum: assessmentNum,
+            referenceNum: referenceNum,
+            mortgageSum: mortgageSum,
+            mortageBank: mortageBank,
+            notes: String,
+            firstApartment: firstApartment
         });
     },
 
