@@ -3,6 +3,7 @@ const dal = require('../DataAccess/mongoose');
 const pdf_scanner = require('../FileHandlers/Pdf_Scanner.js').parse_pdf;
 // const xl_scanner = require('../FileHandlers/Excel_Scanner.js');
 const xlsxFile = require('read-excel-file/node');
+const xl_scanner = require('../FileHandlers/Excel_Scanner').parse_xl;
 const email_sender = require('./Mail/MailHandler');
 
 const System = {
@@ -21,37 +22,9 @@ const System = {
     },
 
     add_4g : async (file) => {
-        reverseString = (arr) =>{
-            for(var i=0; i< arr.length; i++){
-                if(typeof arr[i] == 'string' && arr[i] != null){
-                    var revArray = ""; 
-                    const length = arr[i].length - 1; 
-                    for(let j = length; j >= 0; j--) {
-                        revArray += arr[i][j];
-                    }
-                    arr[i] = revArray;  
-                }
-            }
-            console.log(arr);
-            return arr;
-        };
-        ans = null;
-        await xlsxFile(file).then(async (rows) => {
-            for (var i=0; i<rows.length; i++)
-                rows[i] = reverseString(rows[i]);
-            const length = rows.length - 1; 
-            var flag;
-            for(let j = length; j >= 0; j--) {
-                if(typeof rows[j][0] != 'number'){
-                    flag = j+1;
-                    break;
-                }
-            }
-            var tempRepo = rows.slice(flag, length+1);
-            ans = await dal.add_g4(tempRepo, file);
-            // return ans;
-        }).catch((err) => {ans = this.gen_fail_res(err)});
-        return ans;
+        file_rows = await xl_scanner(file);
+        console.log(file_rows);
+        return await dal.add_g4(file_rows, file);
     },
 
     get_apartment : async (block, building, apartment) => { 
@@ -104,11 +77,17 @@ const System = {
 
     get_user : async (mail) => { return await dal.get_user(mail); },
 
-    extract_files_for_purchases : async (files_list) => { return await dal.extract_files_for_purchases(files_list); },
+    // extract_files_for_purchases : async (files_list) => { return await dal.extract_files_for_purchases(files_list); },
 
-    send_report : async(block, building, apartment, file) => {
-        report_stuff = find_report_attr(pdf_scanner(file));
+    upload_pdf : async (block, building, apartment, file) => {
+        let find_report_attr = (attr) => {return null;} //TODO
+        let attr = pdf_scanner(file);
+        let report_stuff = find_report_attr(attr);
         return await dal.send_report(block, building, apartment, report_stuff); 
+    },
+
+    send_report : async(block, building, apartment) => {
+        //TODO
     },
 
     // get_all_registrated_users : () => { return dal.get_all_registrated_users(); },

@@ -92,16 +92,11 @@ function gen_fail_res (data){
 
 const Dal = {
     add_g4 : async (tempReports, file) =>{
-        if(tempReports == []){
+        if(tempReports == null || tempReports == []){
             return gen_succ_res(tempReports);
         }
         block = tempReports[0][1];
-        ans = null;
-        await Block.findOne({'name': block}, 'name', (err, block) =>{
-            if(block){
-                ans = block;
-            }
-        });
+        ans = await Block.findOne({'name': block}, 'name');
         if(ans){
             return gen_fail_res("המגרש כבר קיים במערכת");
         }
@@ -421,14 +416,17 @@ mongoose.connect('mongodb+srv://mnh:12345@cluster0-sk1ck.mongodb.net/test?retryW
 })
 .then(async ()=>{
     console.log("db is connected");  
-    // ap1 = await Dal.add_apartment("1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1");
-    // console.log(ap1);
-    // purchase_attr={"apartNumPrice": 1};
-    // pu1 = await Dal.add_purchase({
-    //     "block": 1,
-    //     "building": 1,
-    //     "apartment": 1
-    // }, "avabash", "111", null, null, purchase_attr);
+    // let apartments = [
+    //     [ 1, 112, 2, 2, 2, 70, null, 10, 5, 1, 1, 12, null, 1200000, 900000, null, null, null, null ],
+    //     [ 2, 112, 3, 2, 3, 70, null, 10, 5, 2, 2, 23, null, 1200000, 900000, null, null, null, null ],
+    //     [ 3, 112, 4, 5, 2, 70, null, 10, 5, 5, 1, 34, null, 1200000, 900000, null, null, null, null ],
+    //     [ 4, 112, 1, 4, 2, 70, null, 10, 5, 4, 1, 13, null, 1200000, 900000, null, null, null, null ],
+    //     [ 5, 112, 2, 3, 4, 90, null, 10, 5, 2, 1, 15, null, 1200000, 900000, null, null, null, null ],
+    //     [ 6, 112, 3, 3, 3, 80, null, 10, 5, 1, 2, 24, null, 1200000, 900000, null, null, null, null ]
+    //  ];
+    // console.log(apartments);
+    // res = await Dal.add_g4(apartments, null);
+    // console.log(res);
 })
 .catch(()=>{
     console.log("db is NOT connect")

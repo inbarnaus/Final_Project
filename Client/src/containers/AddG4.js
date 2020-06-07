@@ -15,7 +15,7 @@ class AddG4 extends Component {
       className = "custom-file-translate-scss"
       id='addg4' 
       action='http://localhost:8080/addg4' 
-      method='post' 
+      method='Post'
       encType="multipart/form-data">
         <div className="form-group">
           
