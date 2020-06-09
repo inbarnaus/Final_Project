@@ -5,6 +5,7 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import Navigate from "../Navigate/Navigate";
 //components
 import NavbarComp from '../NavbarComp/NavbarComp'
 
@@ -13,7 +14,7 @@ class Dashboard extends Component {
         return (
             <div>
                 <NavbarComp />
-
+                <Navigate/>
                 <Router >
                 <Switch>
                     <Route exact path="/">

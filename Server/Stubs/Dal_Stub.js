@@ -1,4 +1,4 @@
-const stub_data = require('./Data_Stub');
+stub_data = require('./Data_Stub');
 
 class Dal_stub {
 
@@ -12,8 +12,8 @@ class Dal_stub {
         if(!block || ! building || ! appartement)
             throw ErrorEvent;
         for(let prop in properties){
-            if((prop['block'] && prop['block'] === block) && prop['buliding'] === building && prop['appartement'] === appartement)
-                return prop;
+            if((properties[prop]['block'] && properties[prop]['block'] === block) && properties[prop]['buliding'] === building && properties[prop]['appartement'] === appartement)
+                return properties[prop];
         }
     };
 
@@ -22,8 +22,8 @@ class Dal_stub {
             throw ErrorEvent;
         let ret = [];
         for(let prop in properties){
-            if((prob.block && prop.block === block) && prop.buliding === building)
-                ret.push(prop);
+            if((properties[prob].block && properties[prop].block === block) && properties[prop].buliding === building)
+                ret.push(properties[prop]);
         }
         return ret;
     };
@@ -33,8 +33,8 @@ class Dal_stub {
             throw ErrorEvent;
         let ret = [];
         for(let prop in properties){
-            if(prob.block && prop.block === block)
-                ret.push(prop);
+            if(properties[prop].block && properties[prop].block.toString() === block)
+                ret.push(properties[prop]);
         }
         return ret;
     };
@@ -126,4 +126,4 @@ class Dal_stub {
     };
 }
 
-module.exports = Dal_stub
+module.exports = Dal_stub;

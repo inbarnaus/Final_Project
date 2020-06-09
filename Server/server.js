@@ -3,7 +3,7 @@
 //import './Stubs/Dal_Stub.js';
 // import Dal_stub from './Stubs/Dal_Stub.js';
 
-const data = require('./Stubs/Dal_Stub');
+const data = require('./Stubs/Dal_Stub').prototype;
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
@@ -20,17 +20,17 @@ app.get('/apartments/:block?/:building?/:apartment?', (req, res) => {
     console.log(`Block: ${block}, building: ${building}, apartment: ${apartment}`);
 
     if (block) {
-        (data.get_buildings(block)).toString() ? filteredProperties = (data.get_buildings(block)).toString(): null;
+        filteredProperties = (data.get_buildings(block));
         if (building) {
-            data.get_appartements(block, building).toString()? filteredProperties = data.get_appartements(block, building).toString(): null;
+            filteredProperties = data.get_appartements(block, building);
             if (apartment) {
-                data.get_appartement(block, building, apartment).toString() ? filteredProperties = data.get_appartement(block, building, apartment).toString(): null;
+                filteredProperties = data.get_appartement(block, building, apartment);
             }
         }
     }
-
     res.send(filteredProperties);
 });
+
 
 app.post('/apartments/:block?/:building?/:apartment?', (req, res) => {
     const block = req.params.block;
@@ -40,15 +40,15 @@ app.post('/apartments/:block?/:building?/:apartment?', (req, res) => {
     console.log(`Block: ${block}, building: ${building}, apartment: ${apartment}`);
 
     if (block) {
-        data.get_buildings(block).toString() === block ? filteredProperties = data.get_buildings(block).toString(): null;
+        filteredProperties = data.get_buildings(block);
         if (building) {
-            data.get_buildings(building).toString() === building ? filteredProperties = data.get_appartements(building).toString(): null;
+            filteredProperties = data.get_appartements(building);
             if (apartment) {
-                data.get_buildings(apartment).toString() === apartment ? filteredProperties = data.get_appartement(apartment).toString(): null;
+                filteredProperties = data.get_appartement(apartment);
             }
         }
     }
-
+    
     res.send(filteredProperties);
 });
 
