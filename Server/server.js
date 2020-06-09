@@ -29,11 +29,12 @@ app.post('/login', async (req, res) => {
 
 app.post('/uploadpdf', (req, res) =>{
     let sampleFile = req.files.sampleFile;
-    sampleFile.mv('C:/Users/Inbar Naus/VisualCodeProjects/Final_Project/Server/PDF_files/' +sampleFile.name, function(err) {
+    console.log(sampleFile);
+    sampleFile.mv('C:/Users/itays/OneDrive/Desktop/school/Final_Project/Final_Project/Server/FileHandlers/files/' +sampleFile.name, function(err) {
         if (err)
           return res.status(500).send(err);
-        system.add_scanning(req.body.block, req.body.building, req.body.apartment, 
-            'C:/Users/Inbar Naus/VisualCodeProjects/Final_Project/Server/PDF_files/' +sampleFile.name); 
+        system.upload_pdf(req.body.block, req.body.building, req.body.apartment, 
+            'C:/Users/itays/OneDrive/Desktop/school/Final_Project/Final_Project/Server/FileHandlers/files/' +sampleFile.name); 
     });
     res.redirect('http://localhost:3000');
 });
@@ -41,7 +42,7 @@ app.post('/uploadpdf', (req, res) =>{
 
 app.post('/addg4', (req, res) => {
     let sampleFile = req.files.sampleFile;
-    sampleFile.mv('C:/Users/Inbar Naus/VisualCodeProjects/Final_Project/Server/G4/' +sampleFile.name, function(err) {
+    sampleFile.mv('C:/Users/itays/OneDrive/Desktop/school/Final_Project/Final_Project/Server/G4/' +sampleFile.name, function(err) {
         if (err)
           return res.status(500).send(err);
     });
@@ -143,6 +144,18 @@ app.post('/send_report', async (req, res) => {
     file = req.files.report;
     ans = await system.send_report(block, building, apartment, file);
     res.send(ans);
+});
+
+app.post('/add_scanning', async (req, res) => {
+    console.log('naus');
+    let sampleFile = req.files.sampleFile;
+    console.log(sampleFile);
+    sampleFile.mv('C:/Users/itays/OneDrive/Desktop/school/Final_Project/Final_Project/Server/FileHandlers/files/' +sampleFile.name, function(err) {
+        if (err)
+          return res.status(500).send(err);
+        system.add_scanning(req.body.block, req.body.building, req.body.apartment, 
+            'C:/Users/itays/OneDrive/Desktop/school/Final_Project/Final_Project/Server/FileHandlers/files/' +sampleFile.name); 
+    });
 });
 
 app.listen(app.get('port'), () => console.log(`Example app listening on port ${port}!`));

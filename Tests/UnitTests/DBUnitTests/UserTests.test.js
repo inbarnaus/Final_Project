@@ -1,59 +1,27 @@
 
-const system = require("../../../Server/DataAccess/mongoose");
+// const system = require("../../../Server/DataAccess/mongoose");
 
-// beforeEach(async ()=>{
-//     console.log("before_S");
-//     await system.register_new_lawyer("aa@gmail.com", "11");
-//     await system.register_new_costumer("aa1@gmail.com", "11");
-//     console.log("before_E");
-// });
-
-// afterEach(async () => {
-//     console.log("after_S");
-//     await system.unregister("aa@gmail.com");
-//     await system.unregister("aa1@gmail.com");
-//     console.log("after_E");
-// });
-
-//final test for mongoose
-test('User integration test', async ()=> {
-    console.log("final test starts:");
-    let tmp1 = await system.get_user("l1");
-    expect(tmp1["succeed"]).toBe(false);
-    let lawyer1 = await system.register_new_lawyer("l1", "l1");
-    expect(lawyer1["succeed"]).toBe(true);
-    expect(lawyer1["res"]["password"]).toBe("l1");
-    let change1 = await system.change_password("l", "l1", "newl1");
-    expect(change1["succeed"]).toBe(false);
-    let change2 = await system.change_password("l1", "l", "newl1");
-    expect(change2["succeed"]).toBe(false);
-    let change3 = await system.change_password("l1", "l1", "newl1");
-    expect(change3["succeed"]).toBe(true);
-    lawyer1 = await system.get_user("l1");
-    expect(lawyer1["succeed"]).toBe(true);
-    expect(lawyer1["res"]["password"]).toBe("newl1");
-    let unreg = await system.unregister("l1");
-    expect(unreg["succeed"]).toBe(true);
-    let tmp2 = await system.get_user("l1");
-    expect(tmp2["succeed"]).toBe(false);
-});
-
-
-// beforeEach(()=>{
-//     console.log("before_S Data");
-//     system.
-//     console.log("before_E Data");
-// });
-
-// //get apartment
-// test('get an existing apartment', ()=>{
-//     let apartment = system.get_apartment("1", "1", "1");
-//     expect(apartment["res"]["price"]).toBe("12");
-// });
-
-// test('get an non-existing apartment', ()=>{
-//     let apartment = system.get_apartment("2", "2", "2");
-//     expect(apartment["succeed"]).toBe(false);
+// //final test for mongoose
+// test('User integration test', async ()=> {
+//     console.log("final test starts:");
+//     let tmp1 = await system.get_user("l1");
+//     expect(tmp1["succeed"]).toBe(false);
+//     let lawyer1 = await system.register_new_lawyer("l1", "l1");
+//     expect(lawyer1["succeed"]).toBe(true);
+//     expect(lawyer1["res"]["password"]).toBe("l1");
+//     let change1 = await system.change_password("l", "l1", "newl1");
+//     expect(change1["succeed"]).toBe(false);
+//     let change2 = await system.change_password("l1", "l", "newl1");
+//     expect(change2["succeed"]).toBe(false);
+//     let change3 = await system.change_password("l1", "l1", "newl1");
+//     expect(change3["succeed"]).toBe(true);
+//     lawyer1 = await system.get_user("l1");
+//     expect(lawyer1["succeed"]).toBe(true);
+//     expect(lawyer1["res"]["password"]).toBe("newl1");
+//     let unreg = await system.unregister("l1");
+//     expect(unreg["succeed"]).toBe(true);
+//     let tmp2 = await system.get_user("l1");
+//     expect(tmp2["succeed"]).toBe(false);
 // });
 
 // //add g4

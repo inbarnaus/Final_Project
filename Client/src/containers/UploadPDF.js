@@ -1,13 +1,14 @@
 import React, { Component }  from "react";
 import './UploadPDF.css'
 import { withRouter } from 'react-router-dom';
-
-
+import axios from "axios";
 class UploadPDF extends Component {
-
-  handleClick = () => {
-    console.log('The link was clicked.');
-  }
+  
+  // handleClick = async () => {
+  //   let res = await axios.post('http://localhost:8080/uploadpdf', {});
+  //   console.log(res);
+  //   //return this.props.history.push('/');
+  // }
 
   render(){
     return (
@@ -15,7 +16,7 @@ class UploadPDF extends Component {
       className = "custom-file-translate-scss"
       id='uploadForm' 
       action='http://localhost:8080/uploadpdf' 
-      method='post' 
+      method='Post' 
       encType="multipart/form-data">
         <div className="form-group">
         <label className="w3-text-blue"><b>מס' בלוק</b></label>
