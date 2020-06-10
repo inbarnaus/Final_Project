@@ -1,10 +1,10 @@
 const system = require("../../../Server/Domain/System");
 
-test('add_g4 test', async() => {
-    xl_path = 'Server/DataAccess/G4_example.xlsx';
-    ans = await system.add_4g(xl_path);
-    console.log(ans);
-})
+// test('add_g4 test', async() => {
+//     xl_path = 'Server/DataAccess/G4_example.xlsx';
+//     ans = await system.add_4g(xl_path);
+//     console.log(ans);
+// })
 
 // test('integration data test', async ()=>{
 //     jest.setTimeout(30000);

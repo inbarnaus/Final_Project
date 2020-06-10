@@ -82,8 +82,9 @@ const System = {
     upload_pdf : async (block, building, apartment, file) => {
         let find_report_attr = (attr) => {return null;} //TODO
         let attr = pdf_scanner(file);
+        console.log(attr);
         let report_stuff = find_report_attr(attr);
-        return await dal.send_report(block, building, apartment, report_stuff); 
+        // return await dal.send_report(block, building, apartment, report_stuff); 
     },
 
     send_report : async(block, building, apartment) => {
