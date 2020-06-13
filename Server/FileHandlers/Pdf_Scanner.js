@@ -1,6 +1,6 @@
 var pdfreader = require("../node_modules/pdfreader");
  
-var rows = {}; // indexed by y-position
+//var rows = {}; // indexed by y-position
  
 function printRows() {
   Object.keys(rows) // => array of y-positions (type: float)
@@ -32,7 +32,7 @@ const Scanner = {
       console.log(item.text);
       if (!item || item.page) {
         // end of file, or page
-        printRows();
+        printRows(rows);
         //console.log("PAGE:", item.page);
         rows = {}; // clear rows for next page
       } else if (item.text) {
