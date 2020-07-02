@@ -71,9 +71,21 @@ const System = {
 
     get_all_unreported_purchases : async () => { return await dal.get_all_unreported_purchases(); },
 
-    register_new_costumer : async (mail, password) => { return await dal.register_new_costumer(mail, password); },
+    register_new_costumer : async (mail) => { 
+        let costumer = await dal.register_new_costumer(mail);
+        if(costumer.succeed){
+            email_sender.mail_registration(mail, costumer.res.password);
+        }
+        return costumer;
+    },
 
-    register_new_lawyer : async (mail, password) => { return await dal.register_new_lawyer(mail, password); },
+    register_new_lawyer : async (mail) => { 
+        let lawyer = await dal.register_new_lawyer(mail);
+        if(lawyer.succeed){
+            email_sender.mail_registration(mail, lawyer.res.password);
+        }
+        return lawyer;
+     },
 
     get_user : async (mail) => { return await dal.get_user(mail); },
 

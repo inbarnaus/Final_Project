@@ -1,4 +1,5 @@
- const mongoose = require('mongoose');
+const randomstring = require("randomstring");
+const mongoose = require('mongoose');
 const fs = require('mongoose-fs');
 // const xlsxFile = require('read-excel-file/node');
 // const mongodb = require('mongodb');
@@ -132,6 +133,8 @@ const Dal = {
     },
 
     add_purchase: async (apartment_purchase, first_buyer_name, first_buyer_id, second_buyer_name = null, second_buyer_id = null, purchase_attr) => {
+        attr = purchase_attr ? purchase_attr : {};
+        console.log(attr);
         block = apartment_purchase['block'];
         building = apartment_purchase['building'];
         apartment = apartment_purchase['apartment'];
@@ -145,7 +148,7 @@ const Dal = {
                 return {succeed: false, res: "דירה לא קיימת במערכת"};
             }
             else{
-                let set_attr = (val) => {return (purchase_attr[val] != null ? purchase_attr[val] : res1[val]);};
+                let set_attr = (val) => {return (attr[val] != null ? attr[val] : res1[val]);};
                 purch = new Acquisition({
                     'buildNum': apartment_purchase['building'], 
                     'fieldNum': apartment_purchase['block'], 
@@ -160,13 +163,13 @@ const Dal = {
                     purchaseDate: Date(set_attr('purchaseDate')),
                     reportDate: Date(set_attr('reportDate')),
                     price: set_attr('apartNumPrice'),
-                    assessmentNum: purchase_attr['assessmentNum'],
-                    referenceNum: purchase_attr['referenceNum'],
-                    mortgageSum: purchase_attr['mortgageSum'],
-                    mortageBank: purchase_attr['mortageBank'],
-                    notes: purchase_attr['notes'],
-                    scanForm: purchase_attr['scanForm'],
-                    firstApartment: purchase_attr['firstApartment'],
+                    assessmentNum: attr['assessmentNum'],
+                    referenceNum: attr['referenceNum'],
+                    mortgageSum: attr['mortgageSum'],
+                    mortageBank: attr['mortageBank'],
+                    notes: attr['notes'],
+                    scanForm: attr['scanForm'],
+                    firstApartment: attr['firstApartment'],
                 });
                 ans = gen_succ_res(purch);
                 await purch.save();
@@ -187,9 +190,7 @@ const Dal = {
 
     set_purchase: async (block_num, building_num, apartment_num, new_purchase_features) => {
         ans = null;
-        record = await Acquisition.findOne({ 'buildNum': building_num, 'fieldNum': block_num, 'apartNum': apartment_num });
-        if (record == null) return {succeed: false, res: "רכישה לא מתועדת במערכת"};
-        await Acquisition.findOneAndUpdate({ 'buildNum': building_num, 'fieldNum': block_num, 'apartNum': apartment_num },
+        record = await Acquisition.findOneAndUpdate({ 'buildNum': building_num, 'fieldNum': block_num, 'apartNum': apartment_num },
             {"$set" : new_purchase_features}, function(err, update_record){
                 if(err || update_record == null){
                     ans = gen_fail_res(err);
@@ -199,7 +200,7 @@ const Dal = {
                 }
             }
         );
-        
+        if (record == null) return {succeed: false, res: "רכישה לא מתועדת במערכת"};
         return ans;
     },
 
@@ -234,12 +235,12 @@ const Dal = {
         return ans;
     },
 
-    register_new_costumer: async (mail, password) => {
+    register_new_costumer: async (mail) => {
         ans = await User.findOne({ 'email': mail });
         if (ans == null) {
             user = new User({
                 'email': mail,
-                'password': password,
+                'password': randomstring.generate(6),
                 'isLawyer': false
             });
             ans = gen_succ_res(user);    
@@ -255,12 +256,12 @@ const Dal = {
         return ans;
     },
 
-    register_new_lawyer: async (mail, password) =>{
+    register_new_lawyer: async (mail) =>{
         ans = await User.findOne({ 'email': mail });
         if (ans == null) {
             user = new User({
                 'email': mail,
-                'password': password,
+                'password': randomstring.generate(6),
                 'isLawyer': true
             });
             ans = gen_succ_res(user);
@@ -293,7 +294,7 @@ const Dal = {
             return gen_fail_res("דירה לא נמצאה");
         }
         await Acquisition.findOneAndUpdate({ 'buildNum': building, 'fieldNum': block, 'apartNum': apartment, 'reported': false, 'scanForm': null}, {'scanForm': file}, 
-            function(err, res){
+            async function(err, res){
                 if(err || res == null){
                     ans = gen_fail_res(err);
                 }
@@ -308,12 +309,14 @@ const Dal = {
     //TODO
     send_report: async (block, building, apartment, file_stuff) =>{
         ans = null;
-        await Acquisition.findOneAndUpdate({ 'buildNum': building, 'fieldNum': block, 'apartNum': apartment, 'reported': false, 'assessmentNum': null, 'referenceNum': null},
-            $set({
-                reported: true, 
-                assessmentNum: file_stuff['assessment'], 
-                referenceNum: file_stuff['reference']
-            }),
+        await Acquisition.findOneAndUpdate({ 'buildNum': building, 'fieldNum': block, 'apartNum': apartment, 'scanForm': { $ne: null} ,'reported': false, 'assessmentNum': null, 'referenceNum': null},
+            {
+                "$set" : {
+                    reported: true, 
+                    assessmentNum: file_stuff['assessment'], 
+                    referenceNum: file_stuff['reference']
+                }
+            },
             function (err, res) {
                 if(err || res == null)
                     ans = gen_fail_res(err);
@@ -427,6 +430,18 @@ mongoose.connect('mongodb+srv://mnh:12345@cluster0-sk1ck.mongodb.net/test?retryW
     // console.log(apartments);
     // res = await Dal.add_g4(apartments, null);
     // console.log(res);
+
+    ap1 = await Dal.add_apartment("1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1");
+    console.log(ap1);
+    pu1 = await Dal.add_purchase(
+        {
+            block: "1",
+            building: "1",
+            apartment: "1"
+        },
+        "avabash",
+        "1");
+    console.log(pu1);
 })
 .catch(()=>{
     console.log("db is NOT connect")
