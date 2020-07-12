@@ -95,8 +95,4 @@ const system = require("../../../Server/Domain/System");
 //     expect(rp1["succeed"]).toBe(true);
 //     ra1 = await system.remove_apartment("1", "1", "1");
 //     expect(ra1["succeed"]).toBe(true);
-<<<<<<< HEAD
 // });
-=======
-// });
->>>>>>> ee4155bb23a11b2b56b6f9abce22a0ac949e5b98

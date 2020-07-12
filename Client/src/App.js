@@ -37,8 +37,8 @@ class App extends Component {
 
   conponentDidMount(){
     axios.get('http://localhost:8080/login').then(res=>{
-      if(res.body.success)
-      
+      // if(res.body.success)
+      return true; // TO CHANGE
     }).catch(error =>{
       console.log("Promise Rejected");
     });
