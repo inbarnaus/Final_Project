@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const app = express();
 //const mongoose = require('./DataAccess/mongoose');
-const port = 8080;
+const port = 5000;
 app.use(fileUpload());
 // const mail_handler = require('./Domain/Mail/MailHandler')
 
@@ -87,6 +87,27 @@ app.get('/editGet/:block/:building/:apartment', async (req, res) => {
     res.send({succeed: false, res: "מלא את כל הפרטים"});
 });
 
+app.post('addPurchase', async (req, res) => {
+    const block = req.body.block;
+    const building = req.body.building;
+    const apartment = req.body.apartment;
+    let filteredProperties;
+    // console.log(`Block: ${block}, building: ${building}, apartment: ${apartment}`);
+    let reqbody = (name) => {return req.body[name];};
+    if(block && building && apartment){
+        filteredProperties = await system.add_purchase({block: block, building: building, apartment: apartment}, 
+            reqbody("first buyer name"), reqbody("first buyer id"), reqbody("second buyer name"),
+             reqbody("second buyer id"), reqbody("roomNum"), reqbody("apartArea"), reqbody("apartAreaAq"),
+              reqbody("balconyArea"), reqbody("warehouseArea"), reqbody("warehouseNum"), reqbody("parkingNum"), 
+              reqbody("parkingQuantity1"), reqbody("parkingQuantity2"), reqbody("purchaseDate"), reqbody("reportDate"), 
+              reqbody("apartNumPrice"), reqbody("apartTenantPrice"), reqbody("notes"), reqbody("apartMMDPrice"), 
+              reqbody("assessmentNum"), reqbody("referenceNum"), reqbody("mortgageSum"), reqbody("mortageBank"),
+               reqbody("firstApartment"));
+        res.send(filteredProperties);
+    }
+    res.send({succeed: false, res: "מלא את כל הפרטים"});
+});
+
 //set_purchase
 app.post('/edit/:block/:building/:apartment', async (req, res) => {
     const block = req.params.block;
@@ -102,39 +123,16 @@ app.post('/edit/:block/:building/:apartment', async (req, res) => {
     res.send({succeed: false, res: "מלא את כל הפרטים"});
 });
 
-//Return: rendom password
-app.post('/register/lawyer', async (req,res) => {
-    let user_info = req.body;
-    // console.log(user_info);
-    if(user_info && user_info['username'] && user_info['email']) {
-        reg = await system.register_new_lawyer(user_info['username'], user_info['email'])
-        res.send(reg);
-    }
-    res.send({succeed:false, res:"הכנס את כל הפרטים"});
-});
-
-app.post('/register/costumer', async (req,res) => {
-    let user_info = req.body;
-    // console.log(user_info);
-    if(user_info && user_info['username'] && user_info['email']) {
-        ans = await system.register_new_costumer(user_info['username'], user_info['email']);
-        res.send(ans);
-    }
-    res.send({succeed:false, res:"הכנס את כל הפרטים"});
-});
-
-//get all unreported purchases
-app.get('/unreported', async (req, res) => {
-    ans = await system.get_all_unreported_purchases();
-    res.send(ans);
-});
-
-//forgot pass
-app.post('/login/forgotpass', async (req, res) => {
-    body = req.body;
-    email = body['email'];
-    ans = await system.confirm_pass(email);
-    res.send(ans);
+app.post('/add_scanning', async (req, res) => {
+    console.log('naus');
+    let sampleFile = req.files.sampleFile;
+    console.log(sampleFile);
+    sampleFile.mv('C:/Users/itays/OneDrive/Desktop/school/Final_Project/Final_Project/Server/FileHandlers/files/' +sampleFile.name, function(err) {
+        if (err)
+          return res.status(500).send(err);
+        system.add_scanning(req.body.block, req.body.building, req.body.apartment, 
+            'C:/Users/itays/OneDrive/Desktop/school/Final_Project/Final_Project/Server/FileHandlers/files/' +sampleFile.name); 
+    });
 });
 
 //send report (temp)
@@ -147,19 +145,66 @@ app.post('/send_report', async (req, res) => {
     res.send(ans);
 });
 
-app.post('/add_scanning', async (req, res) => {
+//get all unreported purchases
+app.get('/unreported', async (req, res) => {
+    ans = await system.get_all_unreported_purchases();
+    res.send(ans);
+});
+
+//login
+app.post('/login', async (req, res) => {
     console.log('naus');
-    let sampleFile = req.files.sampleFile;
-    console.log(sampleFile);
-    sampleFile.mv('C:/Users/itays/OneDrive/Desktop/school/Final_Project/Final_Project/Server/FileHandlers/files/' +sampleFile.name, function(err) {
-        if (err)
-          return res.status(500).send(err);
-        system.add_scanning(req.body.block, req.body.building, req.body.apartment, 
-            'C:/Users/itays/OneDrive/Desktop/school/Final_Project/Final_Project/Server/FileHandlers/files/' +sampleFile.name); 
-    });
+    let user_info = req.body;
+    login = await system.login(user_info['username'], user_info['password']);
+    res.send(login);
+    // if (login.succeed){
+        
+    //     res.redirect('http://localhost:3000');
+    // }
+});
 
+//Return: rendom password
+app.post('/register/lawyer', async (req,res) => {
+    let user_info = req.body;
+    // console.log(user_info);
+    if(user_info && user_info['email']) {
+        reg = await system.register_new_lawyer(user_info['email'])
+        res.send(reg);
+    }
+    else{
+        res.send({succeed:false, res:"הכנס את כל הפרטים"});
+    }
+});
 
+app.post('/register/costumer', async (req,res) => {
+    let user_info = req.body;
+    // console.log(user_info);
+    if(user_info && user_info['email']) {
+        ans = await system.register_new_costumer(user_info['email']);
+        res.send(ans);
+    }
+    else{
+        res.send({succeed:false, res:"הכנס את כל הפרטים"});
+    }
+});
 
+app.post('/changePassword', async (req, res) => {
+    let user_info = req.body
+    if(user_info && user_info['email'] && user_info['password'] && user_info['new_password']) {
+        ans = await system.change_password(user_info['email'], user_info['password'], user_info['new_password']);
+        res.send(ans);
+    }
+    else{
+        res.send({succeed:false, res:"הכנס את כל הפרטים"});
+    }
+})
+
+//forgot pass
+app.post('/login/forgotpass', async (req, res) => {
+    body = req.body;
+    email = body['email'];
+    ans = await system.confirm_pass(email);
+    res.send(ans);
 });
 
 app.listen(app.get('port'), () => console.log(`Example app listening on port ${port}!`));

@@ -30,11 +30,27 @@ var mailOptions = {
 // });
 
 //TODO
-function mail_confirmation(email, password){
+export function mail_confirmation(email, password){
   var confOptions = {
     from: 'mnh.officesystem@gmail.com',
     to: email,
     subject: 'מערכות מומחה - וידוא סיסמא',
+    text: password
+  };
+  transporter.sendMail(confOptions, function(err, info){
+    if(err)
+      return {succeed: false, res: err};
+    else
+      return {succeed: true, res: 'נשלח אימייל וידוא בהצלחה'};
+  })
+  return {succeed: true, res: "confirmation sent"};
+};
+
+export function mail_registration(email, password){
+  var confOptions = {
+    from: 'mnh.officesystem@gmail.com',
+    to: email,
+    subject: 'מערכות מומחה - נרשמת למערכת בהצלחה',
     text: password
   };
   transporter.sendMail(confOptions, function(err, info){

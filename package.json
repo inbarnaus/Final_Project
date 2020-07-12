@@ -18,6 +18,7 @@
     "jest": "^24.9.0"
   },
   "scripts": {
+    "start": "react-scripts start",
     "test": "jest"
   },
   "repository": {

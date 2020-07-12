@@ -14,8 +14,10 @@ class Navigate extends Component{
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
                   <NavDropdown title="פעולות" id="basic-nav-dropdown">
-                    <NavDropdown.Item href="/uploadpdf">הוספת PDF</NavDropdown.Item>
+                    <NavDropdown.Item href="/uploadscanning">הוספת PDF טופס סריקה</NavDropdown.Item>
+                    <NavDropdown.Item href="/uploadpdf">הוספת PDF מש"ח</NavDropdown.Item>
                     <NavDropdown.Item href="/searchrepo">חיפוש רשומה</NavDropdown.Item>
+                    <NavDropdown.Item href="/replaceg4">החלפת ג'4</NavDropdown.Item>
                     <NavDropdown.Item href="/addg4">הוספת ג'4</NavDropdown.Item>
                     <NavDropdown.Divider />
                     <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>

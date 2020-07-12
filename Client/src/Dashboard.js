@@ -11,6 +11,8 @@ import SearchReport from "./containers/SearchReport";
 import UploadPDF from "./containers/UploadPDF";
 import AddG4 from "./containers/AddG4";
 import AddReport from "./containers/AddReport";
+import ReplaceG4 from "./containers/ReplaceG4";
+import UploadScanning from "./containers/UploadScanning";
 // import Login from "./Components/UserComponents/Login/Login"
 
 import Navigate from "./Navigate";
@@ -35,12 +37,18 @@ class Dashboard extends Component {
         <Route exact path="/uploadpdf">
         <UploadPDF />
         </Route>
+        <Route exact path="/uploadscanning">
+        <UploadScanning />
+        </Route>
         <Route exact path="/addrepo">
         <AddReport />
         </Route>
         <Route exact path="/addg4">
         <AddG4 />
         </Route>
+        <Route exact path='/replaceg4'>
+        <ReplaceG4/>
+      </Route>
         {/* <Route exact path="/login">
         <Login />
         </Route> */}

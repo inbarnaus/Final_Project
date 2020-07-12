@@ -25,6 +25,7 @@
     "pdfreader": "^1.0.6",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "randomstring": "^1.1.5",
     "read-excel-file": "^4.0.6",
     "secure-random": "^1.1.2",
     "secure-random-password": "^0.2.1",
