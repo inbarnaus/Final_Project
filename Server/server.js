@@ -24,7 +24,8 @@ app.post('/login', async (req, res) => {
     let user_info = req.body;
     login = await system.login(user_info['username'], user_info['password']);
     // res.redirect('localhost:3000');
-    res.send(login);
+    // res.send(login);
+    res.json({login});
 });
 
 app.post('/uploadpdf', (req, res) =>{
@@ -156,6 +157,9 @@ app.post('/add_scanning', async (req, res) => {
         system.add_scanning(req.body.block, req.body.building, req.body.apartment, 
             'C:/Users/itays/OneDrive/Desktop/school/Final_Project/Final_Project/Server/FileHandlers/files/' +sampleFile.name); 
     });
+
+
+
 });
 
 app.listen(app.get('port'), () => console.log(`Example app listening on port ${port}!`));
