@@ -38,8 +38,7 @@ class UploadPDF extends Component {
         <div className="form-group">
           
         <label className="w3-text-blue"><b></b></label>
-        <input className="input" onClick={() => {alert('הקובף הועלה בהצלחה!'); this.props.history.push('/');}}
-         type="button"/>
+        <button className="input" onClick={() => {alert('הקובף הועלה בהצלחה!');}} type='submit'>Submit</button>
         </div>
     </form> 
     );

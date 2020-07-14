@@ -26,6 +26,7 @@ app.set('port', process.env.PORT || port);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
+ 
 /*var j = schedule.scheduleJob('00 00 08 1-12 0-7', function(){
   console.log('The answer to life, the universe, and everything!');
 });
@@ -195,6 +196,7 @@ app.post('/uploadpdf', [
         system.upload_pdf(req.body.block, req.body.building, req.body.apartment, 
             'C:/Users/itays/OneDrive/Desktop/school/Final_Project/Final_Project/Server/FileHandlers/files/' +sampleFile.name); 
     });
+    res.redirect('http://localhost:3000');
 });
 
 
@@ -213,8 +215,8 @@ app.post('/addg4', [
     sampleFile.mv('C:/Users/itays/OneDrive/Desktop/school/Final_Project/Final_Project/Server/G4/' +sampleFile.name, function(err) {
         if (err)
           return res.status(500).send(err);
-        system.add_4g(sampleFile);
     });
+    res.redirect('http://localhost:3000');
 });
 
 //get apartment

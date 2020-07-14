@@ -30,7 +30,7 @@ var mailOptions = {
 // });
 
 //TODO
-export function mail_confirmation(email, password){
+function mail_confirmation(email, password){
   var confOptions = {
     from: 'mnh.officesystem@gmail.com',
     to: email,
@@ -46,7 +46,7 @@ export function mail_confirmation(email, password){
   return {succeed: true, res: "confirmation sent"};
 };
 
-export function mail_registration(email, password){
+function mail_registration(email, password){
   var confOptions = {
     from: 'mnh.officesystem@gmail.com',
     to: email,
@@ -61,3 +61,5 @@ export function mail_registration(email, password){
   })
   return {succeed: true, res: "confirmation sent"};
 };
+
+module.exports = {mail_confirmation, mail_registration}

@@ -1,2 +1,5 @@
-node_modules
-node_modules
+node_modules/
+.idea/
+.vscode/
+Client/node_modules
+Client/hello-next/node_modules

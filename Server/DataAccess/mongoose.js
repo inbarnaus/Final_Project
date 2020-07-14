@@ -126,8 +126,8 @@ const Dal = {
     get_apartment: async (block, building, apartment) =>{
         ans = null;
         await Asset.findOne({ 'buildNum': building, 'fieldNum': block, 'apartNum': apartment }, function (err, record) {
-            if (err || record == null) ans = {succeed: false, res: err};
-            else ans = {succeed: true, res: record};
+            if (err || record == null) ans = {succeed: Flase, res: err};
+            else ans = {succeed: True, res: record};
         });
         return ans;
     },
@@ -206,6 +206,7 @@ const Dal = {
 
     get_user: async (email) =>{
         ans = await User.findOne({ 'email': email });
+        console.log(ans);
         if(ans == null){
             return gen_fail_res("משתמש לא נמצא במערכת");
         }
@@ -215,7 +216,9 @@ const Dal = {
     },
 
     login: async (mail, pass) => {
+        // console.log("login");
         user = await User.findOne({'email': mail, 'password': pass});
+        // console.log(user);
         ans = null;
         if(user){
             ans = gen_succ_res(user);
@@ -228,9 +231,9 @@ const Dal = {
 
     get_all_unreported_purchases: async () => {
         ans = null;
-        await Acquisition.findOne({ 'reprted': false }, 'fieldNum buildNum apartNum purchaseDate reportDate', function (err, record) {
-            if (err || record == null) ans = {succeed: false, res: err};
-            else ans = {succeed: true, res: record};
+        await Acquisition.findOne({ 'reprted': False }, 'fieldNum buildNum apartNum purchaseDate reportDate', function (err, record) {
+            if (err || record == null) ans = {succeed: Flase, res: err};
+            else ans = {succeed: True, res: record};
         });
         return ans;
     },

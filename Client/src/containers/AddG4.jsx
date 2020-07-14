@@ -1,4 +1,4 @@
-import React, { Component }  from "react";
+import React, {Component} from "react";
 import './AddG4.css'
 import { withRouter } from 'react-router-dom';
 

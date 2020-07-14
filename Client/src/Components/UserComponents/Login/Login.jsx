@@ -1,19 +1,15 @@
 import React, { Component } from 'react';
 import './login.css';
-import { withRouter} from 'react-router-dom';
-
+import { withRouter } from 'react-router-dom';
+// import ReactDOM from 'react-dom';
+// import {findDOMNode} from 'react-dom';
+import App from '../../../App';
 
 class Login extends Component {
-
-    handleClick = () => {
-      console.log('The link was clicked.');
-      // fetch('http://localhost:8080/login')
-      // .then(response => console.log(response.json()))
-      // .then(data => console.log(data));
-      // return <Redirect to="/" />;
-      // this.props.history.push('/');
-    }
-
+  constructor (){
+    super();
+    this.app = new App();
+  }
    render(){
         return (
             <form
@@ -41,79 +37,14 @@ class Login extends Component {
                     </div>
                 </div>
 
-                <button type="submit" className="btn btn-primary btn-block" onClick={this.handleClick}>Submit</button>
+                <button type="submit" className="btn btn-primary btn-block" /*onClick={() => {this.app.connect_server()}}*/>Submit</button>
                 <p className="forgot-password text-right">
                     Forgot <a href="/">password?</a>
                 </p>
-            </form> 
+            </form>
         );
    }
     }
 
     export default withRouter(Login);
-
-
-
-// import React, {Component} from 'react';
-// import {Redirect} from 'react-router-dom';
-// import {PostData} from '../../../PostData';
-// import './login.css';
-
-// class Login extends Component {
-
-//   constructor(){
-//     super();
-   
-//     this.state = {
-//      username: '',
-//      password: '',
-//      redirectToReferrer: false
-//     };
-
-//     this.login = this.login.bind(this);
-//     this.onChange = this.onChange.bind(this);
-//   }
-
-//   login() {
-//     if(this.state.username && this.state.password){
-//       PostData('',this.state).then((result) => {
-//         console.log('naus');
-//        let responseJson = result;
-//        if(responseJson.userData){         
-//          sessionStorage.setItem('userData',JSON.stringify(responseJson));
-//          this.setState({redirectToReferrer: true});
-//        }  
-//       });
-//     }  
-//    }
-
-//   onChange(e){
-//     this.setState({[e.target.name]:e.target.value});
-//    }
-
-//   render() {
-//      if (this.state.redirectToReferrer) {
-//       return (<Redirect to={'/'}/>)
-//     }
-//     if(sessionStorage.getItem('userData')){
-//       return (<Redirect to={'/'}/>)
-//     }
-//      return (
-//       <div className="row" id="Body">
-//         <div className="medium-5 columns left">
-//         <h4>Login</h4>
-//         <label>Username</label>
-//         <input type="text" name="username" placeholder="Username" onChange={this.onChange}/>
-//         <label>Password</label>
-//         <input type="password" name="password"  placeholder="Password" onChange={this.onChange}/>
-//         <input type="submit" className="button success" value="Login" onClick={this.login}/>
-//         <a href="/signup">Registration</a>
-//         </div>
-//       </div>
-//     );
-//   }
-// }
-
-// export default Login;
-
 

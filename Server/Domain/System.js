@@ -102,6 +102,10 @@ const System = {
         //TODO
     },
 
+    send_report : async(block, building, apartment) => {
+        //TODO
+    },
+
     // get_all_registrated_users : () => { return dal.get_all_registrated_users(); },
 
     login : async (username, password) => { return await dal.login(username, password); },
