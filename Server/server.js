@@ -8,16 +8,12 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 const { check, validationResult } = require('express-validator');
-const { login } = require('./DataAccess/mongoose');
-
 
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const app = express();
-//const mongoose = require('./DataAccess/mongoose');
 const port = process.env.PORT || 5000;
 app.use(fileUpload());
-// const mail_handler = require('./Domain/Mail/MailHandler')
 
 app.set('port', process.env.PORT || port);
 app.use(bodyParser.urlencoded({ extended: true }));
