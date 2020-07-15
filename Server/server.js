@@ -15,7 +15,7 @@ const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const app = express();
 //const mongoose = require('./DataAccess/mongoose');
-const port = 8080;
+const port = process.env.PORT || 8080;
 app.use(fileUpload());
 // const mail_handler = require('./Domain/Mail/MailHandler')
 
