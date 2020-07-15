@@ -61,7 +61,11 @@ app.post('/api/searchrepo', async (req, res) => {
         if (building) 
             if (apartment) {
                 filteredProperties = await system.get_apartment(block, building, apartment);
-                res.redirect('http://localhost:3000/showsearch');
+                if(filteredProperties.succeed)
+                    res.redirect('http://localhost:3000/showsearch');
+                // else
+                // alert('לא נמצאו פרטים מתאימים');
+                // res.redirect('http://localhost:3000/searchrepo');
             }
 });
 
