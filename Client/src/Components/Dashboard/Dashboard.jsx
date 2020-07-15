@@ -11,48 +11,12 @@ import UploadPDF from "../../containers/UploadPDF";
 import AddG4 from "../../containers/AddG4";
 import AddReport from "../../containers/AddReport";
 import Navigate from "../Navigate/Navigate";
-<<<<<<< HEAD
-import RegisterLawyer from "../UserComponents/Register/RegisterLawyer";
-import RegisterCostumer from "../UserComponents/Register/RegisterCostumer";
-import ChooseApartment from "../DataComponents/ChooseApartment/ChooseApartment";
-import ChoosePurchase from '../DataComponents/ChoosePurchase/ChoosePurchase';
-import UserProperties from '../UserComponents/UserProperties/UserProperties';
-import Unreported from "../DataComponents/Unreported/Unreported";
-import EditGetPurchase from "../DataComponents/EditPurchase/EditGetPurchase"
-=======
 //components
 import NavbarComp from '../NavbarComp/NavbarComp'
->>>>>>> 9cb62c220ae0963f683a40be2c58fccbba5d31d4
 
 class Dashboard extends Component {
     render() {
         return (
-<<<<<<< HEAD
-            <Navigate>
-            <Switch>
-      <Route exact path="/">
-        <Home />
-      </Route>
-      <Route exact path="/signnew">
-        <NewUser />
-        </Route>
-        <Route exact path="/searchrepo">
-        <SearchReport />
-        </Route>
-        <Route exact path="/uploadpdf">
-        <UploadPDF />
-        </Route>
-        <Route exact path="/addrepo">
-        <AddReport />
-        </Route>
-        <Route exact path="/addg4">
-        <AddG4 />
-        </Route>
-      <Route>
-      </Route>
-    </Switch>   
-    </Navigate>     );
-=======
             <div>
                 <NavbarComp />
                 <Navigate/>
@@ -71,7 +35,6 @@ class Dashboard extends Component {
                 </Router>
             </div>
         );
->>>>>>> 9cb62c220ae0963f683a40be2c58fccbba5d31d4
     }
 }
 

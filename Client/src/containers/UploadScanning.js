@@ -1,7 +1,6 @@
 import React, { Component }  from "react";
 import './UploadPDF.css'
 import { withRouter } from 'react-router-dom';
-import axios from "axios";
 class UploadScanning extends Component {
   
   // handleClick = async () => {

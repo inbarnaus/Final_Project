@@ -49,7 +49,7 @@ class App extends Component {
   }
   
   render() {
-    const {isLoggedIn} = this.state;
+    const {isLoggedIn} = this.state
     console.log(isLoggedIn);
     return (
       <div className='background-blue'>

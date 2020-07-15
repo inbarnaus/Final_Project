@@ -40,7 +40,7 @@ const Scanner = {
 
     parse_xl : async (file) => {
         rows = await xlsxFile(file);
-        console.log(rows);
+        // console.log(rows);
         for (var i=0; i<rows.length; i++)
             rows[i] = Scanner.reverseString(rows[i]);
         const length = rows.length - 1; 

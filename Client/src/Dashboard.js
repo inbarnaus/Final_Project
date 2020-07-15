@@ -13,6 +13,7 @@ import AddG4 from "./containers/AddG4";
 import AddReport from "./containers/AddReport";
 import ReplaceG4 from "./containers/ReplaceG4";
 import UploadScanning from "./containers/UploadScanning";
+import ShowSearch from "./containers/ShowSearch";
 // import Login from "./Components/UserComponents/Login/Login"
 
 import Navigate from "./Navigate";
@@ -45,6 +46,9 @@ class Dashboard extends Component {
         </Route>
         <Route exact path="/addg4">
         <AddG4 />
+        </Route>
+        <Route exact path="/showsearch">
+        <ShowSearch />
         </Route>
         <Route exact path='/replaceg4'>
         <ReplaceG4/>

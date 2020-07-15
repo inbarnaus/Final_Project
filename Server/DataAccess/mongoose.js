@@ -18,7 +18,7 @@ const Block = mongoose.model('Block', new Schema({
 
 const Asset = mongoose.model('Asset', new Schema({
     buildNum: Number, 
-    fieldNum: Number, 
+    blockNum: Number, 
     apartNum: Number, 
     level: Number, 
     roomNum: Number, 
@@ -39,7 +39,7 @@ const Asset = mongoose.model('Asset', new Schema({
 
 const Acquisition = mongoose.model('Acquisition', new Schema({
     buildNum: Number, 
-    fieldNum: Number, 
+    blockNum: Number, 
     apartNum: Number, 
     buyerName1: String,
     buyerId1: String,
@@ -107,7 +107,7 @@ const Dal = {
         }).save();
         reports = []
         for(var i=0; i<tempReports.length; i++){
-            repo = {buildNum: tempReports[i][0], fieldNum: tempReports[i][1], apartNum: tempReports[i][2], 
+            repo = {buildNum: tempReports[i][0], blockNum: tempReports[i][1], apartNum: tempReports[i][2], 
                 level: tempReports[i][3], roomNum: tempReports[i][4], apartArea: tempReports[i][5], apartAreaAq: tempReports[i][6], balconyArea: tempReports[i][7], warehouseArea: tempReports[i][8], 
                 warehouseNum: tempReports[i][9], parkingNum: tempReports[i][10], parkingQuantity1: tempReports[i][11], parkingQuantity2: tempReports[i][12], apartNumPrice: tempReports[i][13], apartTenantPrice: tempReports[i][14], 
                 notes: tempReports[i][15], apartMMDprice: tempReports[i][16], dir: tempReports[i][17]};
@@ -125,9 +125,9 @@ const Dal = {
 
     get_apartment: async (block, building, apartment) =>{
         ans = null;
-        await Asset.findOne({ 'buildNum': building, 'fieldNum': block, 'apartNum': apartment }, function (err, record) {
-            if (err || record == null) ans = {succeed: Flase, res: err};
-            else ans = {succeed: True, res: record};
+        await Asset.findOne({ 'buildNum': building, 'blockNum': block, 'apartNum': apartment }, function (err, record) {
+            if (err || record == null) ans = {succeed: false, res: err};
+            else ans = {succeed: true, res: record};
         });
         return ans;
     },
@@ -138,12 +138,12 @@ const Dal = {
         block = apartment_purchase['block'];
         building = apartment_purchase['building'];
         apartment = apartment_purchase['apartment'];
-        res2 = await Acquisition.findOne({ 'buildNum': building, 'fieldNum': block, 'apartNum': apartment });
+        res2 = await Acquisition.findOne({ 'buildNum': building, 'blockNum': block, 'apartNum': apartment });
         if(res2 != null){
             return gen_fail_res("רכישה כבר מתועדת ברשימה");
         }
         else{
-            res1 = await Asset.findOne({ 'buildNum': building, 'fieldNum': block, 'apartNum': apartment });
+            res1 = await Asset.findOne({ 'buildNum': building, 'blockNum': block, 'apartNum': apartment });
             if (res1 == null) {
                 return {succeed: false, res: "דירה לא קיימת במערכת"};
             }
@@ -151,7 +151,7 @@ const Dal = {
                 let set_attr = (val) => {return (attr[val] != null ? attr[val] : res1[val]);};
                 purch = new Acquisition({
                     'buildNum': apartment_purchase['building'], 
-                    'fieldNum': apartment_purchase['block'], 
+                    'blockNum': apartment_purchase['block'], 
                     'apartNum': apartment_purchase['apartment'], 
                     'buyerName1': first_buyer_name,
                     'buyerId1': first_buyer_id,
@@ -179,7 +179,7 @@ const Dal = {
     },
 
     get_purchase: async (block_num, building_num, apartment_num) =>{
-        record = await Acquisition.findOne({ 'buildNum': building_num, 'fieldNum': block_num, 'apartNum': apartment_num });
+        record = await Acquisition.findOne({ 'buildNum': building_num, 'blockNum': block_num, 'apartNum': apartment_num });
         if (record == null){
             return {succeed: false, res: "הדירה הבמוקשת לא נמצאת במערכת"};
         }
@@ -190,7 +190,7 @@ const Dal = {
 
     set_purchase: async (block_num, building_num, apartment_num, new_purchase_features) => {
         ans = null;
-        record = await Acquisition.findOneAndUpdate({ 'buildNum': building_num, 'fieldNum': block_num, 'apartNum': apartment_num },
+        record = await Acquisition.findOneAndUpdate({ 'buildNum': building_num, 'blockNum': block_num, 'apartNum': apartment_num },
             {"$set" : new_purchase_features}, function(err, update_record){
                 if(err || update_record == null){
                     ans = gen_fail_res(err);
@@ -231,7 +231,7 @@ const Dal = {
 
     get_all_unreported_purchases: async () => {
         ans = null;
-        await Acquisition.findOne({ 'reprted': False }, 'fieldNum buildNum apartNum purchaseDate reportDate', function (err, record) {
+        await Acquisition.findOne({ 'reprted': False }, 'blockNum buildNum apartNum purchaseDate reportDate', function (err, record) {
             if (err || record == null) ans = {succeed: Flase, res: err};
             else ans = {succeed: True, res: record};
         });
@@ -292,11 +292,11 @@ const Dal = {
 
     add_scanning: async (block, building, apartment, file) =>{
         ans = null;
-        res = await Asset.findOne({ 'buildNum': building, 'fieldNum': block, 'apartNum': apartment });
+        res = await Asset.findOne({ 'buildNum': building, 'blockNum': block, 'apartNum': apartment });
         if(res == null){
             return gen_fail_res("דירה לא נמצאה");
         }
-        await Acquisition.findOneAndUpdate({ 'buildNum': building, 'fieldNum': block, 'apartNum': apartment, 'reported': false, 'scanForm': null}, {'scanForm': file}, 
+        await Acquisition.findOneAndUpdate({ 'buildNum': building, 'blockNum': block, 'apartNum': apartment, 'reported': false, 'scanForm': null}, {'scanForm': file}, 
             async function(err, res){
                 if(err || res == null){
                     ans = gen_fail_res(err);
@@ -312,7 +312,7 @@ const Dal = {
     //TODO
     send_report: async (block, building, apartment, file_stuff) =>{
         ans = null;
-        await Acquisition.findOneAndUpdate({ 'buildNum': building, 'fieldNum': block, 'apartNum': apartment, 'scanForm': { $ne: null} ,'reported': false, 'assessmentNum': null, 'referenceNum': null},
+        await Acquisition.findOneAndUpdate({ 'buildNum': building, 'blockNum': block, 'apartNum': apartment, 'scanForm': { $ne: null} ,'reported': false, 'assessmentNum': null, 'referenceNum': null},
             {
                 "$set" : {
                     reported: true, 
@@ -344,10 +344,10 @@ const Dal = {
         }
     },
 
-    add_apartment: async(fieldNum, buildNum, apartNum, level, roomNum, apartArea, apartAreaAq, balconyArea, warehouseArea, warehouseNum, parkingNum, parkingQuantity1, parkingQuantity2=null, apartNumPrice, apartTenantPrice, notes=null, apartMMDprice, dir) =>{
+    add_apartment: async(blockNum, buildNum, apartNum, level, roomNum, apartArea, apartAreaAq, balconyArea, warehouseArea, warehouseNum, parkingNum, parkingQuantity1, parkingQuantity2=null, apartNumPrice, apartTenantPrice, notes=null, apartMMDprice, dir) =>{
         let asset = new Asset({
             buildNum: buildNum, 
-            fieldNum: fieldNum, 
+            blockNum: blockNum, 
             apartNum: apartNum, 
             level: level, 
             roomNum: roomNum, 
@@ -367,7 +367,7 @@ const Dal = {
         });
         res = await Asset.findOne({
             buildNum: buildNum, 
-            fieldNum: fieldNum, 
+            blockNum: blockNum, 
             apartNum: apartNum
         });
         if(res == null){
@@ -380,10 +380,10 @@ const Dal = {
         }
     },
 
-    remove_apartment: async(fieldNum, buildNum, apartNum) =>{
+    remove_apartment: async(blockNum, buildNum, apartNum) =>{
         rec = await Asset.findOneAndRemove({
             buildNum: buildNum, 
-            fieldNum: fieldNum, 
+            blockNum: blockNum, 
             apartNum: apartNum
         });
         if(rec == null){
@@ -394,10 +394,10 @@ const Dal = {
         }
     },
 
-    remove_purchase: async(fieldNum, buildNum, apartNum) =>{
+    remove_purchase: async(blockNum, buildNum, apartNum) =>{
         rec = await Acquisition.findOneAndRemove({
             buildNum: buildNum, 
-            fieldNum: fieldNum, 
+            blockNum: blockNum, 
             apartNum: apartNum
         });
         if(rec == null){
@@ -433,6 +433,18 @@ mongoose.connect('mongodb+srv://mnh:12345@cluster0-sk1ck.mongodb.net/test?retryW
     // console.log(apartments);
     // res = await Dal.add_g4(apartments, null);
     // console.log(res);
+
+    // ap1 = await Dal.add_apartment("1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1");
+    // console.log(ap1);
+    // pu1 = await Dal.add_purchase(
+    //     {
+    //         block: "1",
+    //         building: "1",
+    //         apartment: "1"
+    //     },
+    //     "avabash",
+    //     "1");
+    // console.log(pu1);
 })
 .catch(()=>{
     console.log("db is NOT connect")
