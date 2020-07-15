@@ -3,23 +3,13 @@ import './SearchReport.css'
 import { withRouter } from 'react-router-dom';
 
 class SearchReport extends Component { 
-  constructor(){
-    super()
-    this.state = {reports: []}
-  }
-
-  componentDidMount(){
-    fetch('/api/searchrepo')
-    .then(res => res.json())
-    .then(reports => this.setState({reports}, ()=>{console.log("Reports fetched..", reports)}))
-    .catch(err => err);
-  }
-
   render(){
     return (
       <form
       className = "custom-file-translate-scss"
-      id='uploadForm'
+      id='uploadForm' 
+      action='http://localhost:8080/api/searchrepo' 
+      method='post' 
       encType="multipart/form-data">
         <div className="form-group">
         <label className="w3-text-blue"><b>מס' בלוק</b></label>
@@ -37,7 +27,7 @@ class SearchReport extends Component {
         <div className="form-group">
           
         <label className="w3-text-blue"><b></b></label>
-        <button className="input" onClick={()=> this.props.history.push('/')} type='submit'>Submit</button>
+        <input className="input" type='submit' value='submit!' />
         </div>
     </form> 
           );

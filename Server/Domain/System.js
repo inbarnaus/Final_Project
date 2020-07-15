@@ -134,17 +134,17 @@ const System = {
         return await dal.unregister(email);
     },
 
-    add_apartment : async (fieldNum, buildNum, apartNum, level, roomNum, apartArea, apartAreaAq, balconyArea, warehouseArea, warehouseNum, parkingNum, parkingQuantity1, parkingQuantity2=null, apartNumPrice, apartTenantPrice, notes=null, apartMMDprice, dir) => {//private method for tests
-            return await dal.add_apartment(fieldNum, buildNum, apartNum, level, roomNum, apartArea, apartAreaAq, balconyArea, warehouseArea, 
+    add_apartment : async (blockNum, buildNum, apartNum, level, roomNum, apartArea, apartAreaAq, balconyArea, warehouseArea, warehouseNum, parkingNum, parkingQuantity1, parkingQuantity2=null, apartNumPrice, apartTenantPrice, notes=null, apartMMDprice, dir) => {//private method for tests
+            return await dal.add_apartment(blockNum, buildNum, apartNum, level, roomNum, apartArea, apartAreaAq, balconyArea, warehouseArea, 
                 warehouseNum, parkingNum, parkingQuantity1, parkingQuantity2, apartNumPrice, apartTenantPrice, notes, apartMMDprice, dir);
     },
 
-    remove_apartment : async (fieldNum, buildNum, apartNum) => {
-        return await dal.remove_apartment(fieldNum, buildNum, apartNum);
+    remove_apartment : async (blockNum, buildNum, apartNum) => {
+        return await dal.remove_apartment(blockNum, buildNum, apartNum);
     },
 
-    remove_purchase : async (fieldNum, buildNum, apartNum) => {
-        return await dal.remove_purchase(fieldNum, buildNum, apartNum);
+    remove_purchase : async (blockNum, buildNum, apartNum) => {
+        return await dal.remove_purchase(blockNum, buildNum, apartNum);
     }
 }
 module.exports = System;

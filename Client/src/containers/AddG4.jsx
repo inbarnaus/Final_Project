@@ -3,31 +3,14 @@ import './AddG4.css'
 import { withRouter } from 'react-router-dom';
 
 class AddG4 extends Component {
-  
-  // handleClick = () => {
-  //   return this.props.history.push('/');
-  // }
-
-  componentDidMount(){
-    fetch('http://localhost:8080/addg4', {
-      method: "POST",
-      headers: {
-        'Content-type': 'application/json'
-      },
-      body: JSON.stringify(this.state)
-    })
-    .then((result) => result.json())
-    .then((info) => { console.log(info); })
-  }
-
   render(){
     return (
       <form
-      className = "custom-file-translate-scss"
-      id='addg4' 
-      action='http://localhost:8080/addg4' 
-      method='Post'
-      encType="multipart/form-data">
+        className = "custom-file-translate-scss"
+        id='uploadForm' 
+        action='http://localhost:8080/addg4' 
+        method='post' 
+        encType="multipart/form-data">
         <div className="form-group">
           
         <label className="w3-text-blue"><b></b></label>
@@ -36,8 +19,7 @@ class AddG4 extends Component {
         <div className="form-group">
           
         <label className="w3-text-blue"><b></b></label>
-        <input className="input" onClick={() => {alert('הקובף הועלה בהצלחה!'); this.props.history.push('/');}}
-         type="button"/>
+        <input className="input" type='submit' onClick={() => {alert('הקובף הועלה בהצלחה!');}} value='submit!' />
         </div>
     </form> 
     );

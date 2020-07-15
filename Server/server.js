@@ -30,12 +30,11 @@ app.post('/login', async (req, res) => {
 
 app.post('/uploadpdf', (req, res) =>{
     let sampleFile = req.files.sampleFile;
-    console.log(sampleFile);
-    sampleFile.mv('C:/Users/Inbar Naus/VisualCodeProjects/Final_Project/Server/PDF_files' +sampleFile.name, function(err) {
+    sampleFile.mv('C:/Users/Inbar Naus/VisualCodeProjects/Final_Project/Server/PDF_files/' +sampleFile.name, function(err) {
         if (err)
           return res.status(500).send(err);
-        system.upload_pdf(req.body.block, req.body.building, req.body.apartment, 
-            'C:/Users/itays/OneDrive/Desktop/school/Final_Project/Final_Project/Server/FileHandlers/files/' +sampleFile.name); 
+        // system.upload_pdf(req.body.block, req.body.building, req.body.apartment, 
+        //     'C:/Users/Inbar Naus/VisualCodeProjects/Final_Project/Server/PDF_files/' +sampleFile.name); 
     });
     res.redirect('http://localhost:3000');
 });
@@ -46,31 +45,29 @@ app.post('/addg4', (req, res) => {
     sampleFile.mv('C:/Users/Inbar Naus/VisualCodeProjects/Final_Project/Server/G4/' +sampleFile.name, function(err) {
         if (err)
           return res.status(500).send(err);
+        system.add_4g('C:/Users/Inbar Naus/VisualCodeProjects/Final_Project/Server/G4/' +sampleFile.name);
     });
+
     res.redirect('http://localhost:3000');
 });
-
+let filteredProperties;
 app.post('/api/searchrepo', async (req, res) => {
-    // res.send({succeed: false, res: "מלא את כל הפרטים"});
     const block = req.body.block;
     const building = req.body.building;
     const apartment = req.body.apartment;
-    console.log('inbar');
-    res.json([{block: block, building: building, apartment: apartment}])
-    let filteredProperties;
-    if (block) {
-        // filteredProperties = (system.get_buildings(block));
-        if (building) {
-            // filteredProperties = system.get_apartments(block, building);
+    console.log(`block: ${block}, building: ${building}, apartment: ${apartment}`);
+    
+    if (block) 
+        if (building) 
             if (apartment) {
                 filteredProperties = await system.get_apartment(block, building, apartment);
-                res.send(filteredProperties);
+                res.redirect('http://localhost:3000/showsearch');
             }
-        }
-    }
-    // res.redirect('http://localhost:3000');
 });
 
+app.get('/showsearch', (req, res) => {
+    res.json(filteredProperties);
+})
 
 //get apartment
 app.get('/apartments/:block?/:building?/:apartment?', async (req, res) => {
@@ -228,4 +225,4 @@ app.post('/login/forgotpass', async (req, res) => {
     res.send(ans);
 });
 
-app.listen(app.get('port'), () => console.log(`Example app listening on port ${port}!`));
+app.listen(app.get('port'), () => {console.log(`Example app listening on port ${port}!`);});

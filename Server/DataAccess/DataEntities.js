@@ -11,7 +11,7 @@ const User = mongoose.model('User', new Schema({
 
 const Asset = mongoose.model('Asset', new Schema({
     buildNum: Number, 
-    fieldNum: Number, 
+    blockNum: Number, 
     apartNum: Number, 
     level: Number, 
     roomNum: Number, 
@@ -32,7 +32,7 @@ const Asset = mongoose.model('Asset', new Schema({
 
 const Acquisition = mongoose.model('Acquisition', new Schema({
     buildNum: Number, 
-    fieldNum: Number, 
+    blockNum: Number, 
     apartNum: Number, 
     buyerName1: String,
     buyerId1: String,
