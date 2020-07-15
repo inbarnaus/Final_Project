@@ -10,7 +10,7 @@ const express = require('express');
 const cors = require('cors');
 
 //token validations
-const auth = require('../../middleware/auth');
+const auth = require('./Communication/middleware/auth');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
@@ -26,7 +26,7 @@ app.set('port', process.env.PORT || port);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
- 
+console.log(process.env.PORT);
 /*var j = schedule.scheduleJob('00 00 08 1-12 0-7', function(){
   console.log('The answer to life, the universe, and everything!');
 });
@@ -40,10 +40,11 @@ function requiresAdmin(req, res, next) {
     }
 }
 
-app.post('/login', [
-    check('email', 'please include a valid email').isEmail(),
-    check('password', 'Password is required').not().isEmpty()
-],
+app.post('/login',
+//  [
+//     check('email', 'please include a valid email').isEmail(),
+//     check('password', 'Password is required').not().isEmpty()
+// ],
     async (req, res) => {
         //check for errors
         const errors = validationResult(req);
@@ -56,10 +57,10 @@ app.post('/login', [
         //See if users exists
         try {
             
-            login = await system.login(email, password);
-
-            if(!login.res){
-                res.send(login);
+            let login = await system.login(email, password);
+            console.log(login);
+            if(!login.succeed){
+                return res.send(login);
             }
             /* TODO: MAYBE NEEDS BCRYPT COMPARE */
             // //match password with found user
@@ -84,7 +85,7 @@ app.post('/login', [
 
         } catch (err) {
             console.log(err.message);
-            res.status(500).send('Server error');
+            res.status(500).send('Server error: ' + err);
         }
     });
 
@@ -200,13 +201,17 @@ app.post('/uploadpdf', [
 });
 
 
-app.post('/addg4', [
-    auth,
-    requiresAdmin
- ],(req, res) => {
+app.post('/addg4', 
+// [
+//     auth,
+//     requiresAdmin
+//  ],
+ (req, res) => {
     //check for errors
     const errors = validationResult(req);
+    console.log(errors);
     if (!errors.isEmpty()) {
+        
         return res.status(400).json({ errors: errors.array() });
     }
 
@@ -244,7 +249,7 @@ app.get('/apartments/:block?/:building?/:apartment?', [
             // filteredProperties = system.get_apartments(block, building);
             if (apartment) {
                 filteredProperties = await system.get_apartment(block, building, apartment);
-                res.send(filteredProperties);
+                return res.send(filteredProperties);
             }
         }
     }
@@ -273,7 +278,9 @@ app.get('/editGet/:block/:building/:apartment', [
         filteredProperties = await system.get_purchase(block, building, apartment);
         res.send(filteredProperties);
     }
-    res.send({succeed: false, res: "מלא את כל הפרטים"});
+    else{
+        res.send({succeed: false, res: "מלא את כל הפרטים"});
+    }
 });
 
 app.post('addPurchase', [
@@ -306,7 +313,9 @@ app.post('addPurchase', [
                reqbody("firstApartment"));
         res.send(filteredProperties);
     }
-    res.send({succeed: false, res: "מלא את כל הפרטים"});
+    else{
+        res.send({succeed: false, res: "מלא את כל הפרטים"});
+    }
 });
 
 //set_purchase
@@ -333,15 +342,19 @@ app.post('/edit/:block/:building/:apartment', [
         filteredProperties = await system.set_purchase(block, building, apartment, req.body);
         res.send(filteredProperties);
     }
-    res.send({succeed: false, res: "מלא את כל הפרטים"});
+    else{
+        res.send({succeed: false, res: "מלא את כל הפרטים"});
+    }
 });
 
-app.post('/add_scanning', [
-    auth,
-    check('block', 'Missing block No').not().isEmpty(),
-    check('building', 'Missing building No').not().isEmpty(),
-    check('apartment', 'Missing apartment No').not().isEmpty()
-],async (req, res) => {
+app.post('/add_scanning',
+//  [
+//     auth,
+//     check('block', 'Missing block No').not().isEmpty(),
+//     check('building', 'Missing building No').not().isEmpty(),
+//     check('apartment', 'Missing apartment No').not().isEmpty()
+// ],
+async (req, res) => {
     //check for errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -391,6 +404,11 @@ app.get('/unreported', auth, async (req, res) => {
 
     ans = await system.get_all_unreported_purchases();
     res.send(ans);
+});
+
+app.post('/test', async(req, res) => {
+    console.log('avabash');
+    res.send({avabash: "avabash"});
 });
 
 app.listen(app.get('port'), () => console.log(`Example app listening on port ${port}!`));

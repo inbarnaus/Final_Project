@@ -10,7 +10,6 @@ class AddG4 extends Component {
 
   render(){
     return (
-      <body>
       <form
       className = "custom-file-translate-scss"
       id='addg4' 
@@ -29,9 +28,8 @@ class AddG4 extends Component {
          type="button"/>
         </div>
     </form> 
-    </body> 
     );
-}
+  }
 }
 
 export default withRouter(AddG4);

@@ -2,7 +2,7 @@
 const pdf_scanner = require('../../../Server/FileHandlers/Pdf_Scanner.js').parse_pdf;
 
 test('pdf scanner test', async ()=>{
-    pdf_path = 'Server/DataAccess/mashah.pdf';
+    pdf_path = 'Server/FileHandlers/files/sample.pdf';
     rows = await pdf_scanner(pdf_path);
     console.log(rows);
     // expect(rows).toStrictEqual( [
