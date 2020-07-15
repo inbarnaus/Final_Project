@@ -3,6 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "scripts": {
+    "start": "node Server/server.js",
+    "server": "nodemon Server/server.js",
+    "client": "npm start --prefix Client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
   "dependencies": {
     "before": "0.0.1",
     "bootstrap": "^4.4.1",
@@ -17,10 +23,6 @@
   },
   "devDependencies": {
     "jest": "^24.9.0"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "test": "jest"
   },
   "repository": {
     "type": "git",

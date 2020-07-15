@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const app = express();
 //const mongoose = require('./DataAccess/mongoose');
-const port = 5000;
+const port = 8080;
 app.use(fileUpload());
 // const mail_handler = require('./Domain/Mail/MailHandler')
 
@@ -31,7 +31,7 @@ app.post('/login', async (req, res) => {
 app.post('/uploadpdf', (req, res) =>{
     let sampleFile = req.files.sampleFile;
     console.log(sampleFile);
-    sampleFile.mv('C:/Users/itays/OneDrive/Desktop/school/Final_Project/Final_Project/Server/FileHandlers/files/' +sampleFile.name, function(err) {
+    sampleFile.mv('C:/Users/Inbar Naus/VisualCodeProjects/Final_Project/Server/PDF_files' +sampleFile.name, function(err) {
         if (err)
           return res.status(500).send(err);
         system.upload_pdf(req.body.block, req.body.building, req.body.apartment, 
@@ -43,11 +43,32 @@ app.post('/uploadpdf', (req, res) =>{
 
 app.post('/addg4', (req, res) => {
     let sampleFile = req.files.sampleFile;
-    sampleFile.mv('C:/Users/itays/OneDrive/Desktop/school/Final_Project/Final_Project/Server/G4/' +sampleFile.name, function(err) {
+    sampleFile.mv('C:/Users/Inbar Naus/VisualCodeProjects/Final_Project/Server/G4/' +sampleFile.name, function(err) {
         if (err)
           return res.status(500).send(err);
     });
     res.redirect('http://localhost:3000');
+});
+
+app.post('/api/searchrepo', async (req, res) => {
+    // res.send({succeed: false, res: "מלא את כל הפרטים"});
+    const block = req.body.block;
+    const building = req.body.building;
+    const apartment = req.body.apartment;
+    console.log('inbar');
+    res.json([{block: block, building: building, apartment: apartment}])
+    let filteredProperties;
+    if (block) {
+        // filteredProperties = (system.get_buildings(block));
+        if (building) {
+            // filteredProperties = system.get_apartments(block, building);
+            if (apartment) {
+                filteredProperties = await system.get_apartment(block, building, apartment);
+                res.send(filteredProperties);
+            }
+        }
+    }
+    // res.redirect('http://localhost:3000');
 });
 
 

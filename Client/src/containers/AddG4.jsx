@@ -8,9 +8,20 @@ class AddG4 extends Component {
   //   return this.props.history.push('/');
   // }
 
+  componentDidMount(){
+    fetch('http://localhost:8080/addg4', {
+      method: "POST",
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify(this.state)
+    })
+    .then((result) => result.json())
+    .then((info) => { console.log(info); })
+  }
+
   render(){
     return (
-      <body>
       <form
       className = "custom-file-translate-scss"
       id='addg4' 
@@ -29,7 +40,6 @@ class AddG4 extends Component {
          type="button"/>
         </div>
     </form> 
-    </body> 
     );
 }
 }

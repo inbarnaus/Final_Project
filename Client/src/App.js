@@ -35,14 +35,14 @@ class App extends Component {
   //   // }
   // }
 
-  conponentDidMount(){
-    axios.get('http://localhost:8080/login').then(res=>{
-      // if(res.body.success)
-      return true; // TO CHANGE
-    }).catch(error =>{
-      console.log("Promise Rejected");
-    });
-  }
+  // conponentDidMount(){
+  //   axios.get('http://localhost:8080/login').then(res=>{
+  //     // if(res.body.success)
+  //     return true; // TO CHANGE
+  //   }).catch(error =>{
+  //     console.log("Promise Rejected");
+  //   });
+  // }
 
   setLogged = (logged) =>{
       this.setState({isLoggedIn: logged});
@@ -50,7 +50,6 @@ class App extends Component {
   
   render() {
     const {isLoggedIn} = this.state
-    this.conponentDidMount()
     console.log(isLoggedIn);
     return (
       <div className='background-blue'>

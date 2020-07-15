@@ -434,17 +434,17 @@ mongoose.connect('mongodb+srv://mnh:12345@cluster0-sk1ck.mongodb.net/test?retryW
     // res = await Dal.add_g4(apartments, null);
     // console.log(res);
 
-    ap1 = await Dal.add_apartment("1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1");
-    console.log(ap1);
-    pu1 = await Dal.add_purchase(
-        {
-            block: "1",
-            building: "1",
-            apartment: "1"
-        },
-        "avabash",
-        "1");
-    console.log(pu1);
+    // ap1 = await Dal.add_apartment("1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1");
+    // console.log(ap1);
+    // pu1 = await Dal.add_purchase(
+    //     {
+    //         block: "1",
+    //         building: "1",
+    //         apartment: "1"
+    //     },
+    //     "avabash",
+    //     "1");
+    // console.log(pu1);
 })
 .catch(()=>{
     console.log("db is NOT connect")
