@@ -23,7 +23,7 @@ class AddG4 extends Component {
         </div>
     </form> 
     );
-}
+  }
 }
 
 export default withRouter(AddG4);

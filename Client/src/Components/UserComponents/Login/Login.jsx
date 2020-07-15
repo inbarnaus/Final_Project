@@ -22,7 +22,7 @@ class Login extends Component {
 
                 <div>
                     <label>Email address</label>
-                    <input type="email" className="form-control" placeholder="Enter email" name="username"/>
+                    <input type="email" className="form-control" placeholder="Enter email" name="email"/>
                 </div>
 
                 <div className="form-group">

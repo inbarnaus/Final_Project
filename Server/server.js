@@ -1,6 +1,16 @@
 const system = require('./Domain/System');
 const express = require('express');
 const cors = require('cors');
+
+//token validations
+const auth = require('./Communication/middleware/auth');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const config = require('config');
+const { check, validationResult } = require('express-validator');
+const { login } = require('./DataAccess/mongoose');
+
+
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const app = express();
@@ -13,19 +23,153 @@ app.set('port', process.env.PORT || port);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
- 
+console.log(process.env.PORT);
 /*var j = schedule.scheduleJob('00 00 08 1-12 0-7', function(){
   console.log('The answer to life, the universe, and everything!');
 });
 */
 
-//login
-app.post('/login', async (req, res) => {
-    let user_info = req.body;
-    login = await system.login(user_info['username'], user_info['password']);
-    // res.redirect('localhost:3000');
-    // res.send(login);
-    res.json({login});
+function requiresAdmin(req, res, next) {
+    if(req.user.isLawyer !== true) {
+       res.status(401).end();
+    } else {
+       next();
+    }
+}
+
+app.post('/login',
+//  [
+//     check('email', 'please include a valid email').isEmail(),
+//     check('password', 'Password is required').not().isEmpty()
+// ],
+    async (req, res) => {
+        //check for errors
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        const { email, password } = req.body;
+
+        //See if users exists
+        try {
+            
+            let login = await system.login(email, password);
+            console.log(login);
+            if(!login.succeed){
+                return res.send(login);
+            }
+            /* TODO: MAYBE NEEDS BCRYPT COMPARE */
+            // //match password with found user
+            // const isMatch = await bcrypt.compare(password, user.password);
+            // if (!isMatch) {
+            //     return res.status(400).json({ errors: [{ param: 'password', msg: 'email or password are incorrect' }] });
+            // }
+
+            const payload = {
+                user: login["res"]
+            }
+
+            jwt.sign(
+                payload,
+                config.get('jwtSecret'),
+                { expiresIn: 360000 },
+                (err, token) => {
+                    if (err) throw err;
+                    res.json({ succeed: true, res: token, userData: user });
+                }
+            )
+
+        } catch (err) {
+            console.log(err.message);
+            res.status(500).send('Server error: ' + err);
+        }
+    });
+
+//Return: rendom password
+app.post('/register/lawyer', [
+    auth,
+    requiresAdmin,
+    check('email', 'Missing email').not().isEmpty()
+],
+    async (req,res) => {
+        //check for errors
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        let user_info = req.body;
+        // console.log(user_info);
+        if(user_info && user_info['email']) {
+            reg = await system.register_new_lawyer(user_info['email'])
+            res.send(reg);
+        }
+        else{
+            res.send({succeed:false, res:"הכנס את כל הפרטים"});
+        }
+    });
+
+app.post('/register/costumer', [
+    auth,
+    requiresAdmin,
+    check('email', 'Missing email').not().isEmpty()
+],
+    async (req,res) => {
+        //check for errors
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        let user_info = req.body;
+        // console.log(user_info);
+        if(user_info && user_info['email']) {
+            ans = await system.register_new_costumer(user_info['email']);
+            res.send(ans);
+        }
+        else{
+            res.send({succeed:false, res:"הכנס את כל הפרטים"});
+        }
+    });
+
+app.post('/changePassword', [
+    auth,
+    check('email', 'Missing email').not().isEmpty(),
+    check('password', 'Missing old password').not().isEmpty(),
+    check('new_password', 'Missing new password').not().isEmpty()
+],async (req, res) => {
+    //check for errors
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    let user_info = req.body
+    if(user_info && user_info['email'] && user_info['password'] && user_info['new_password']) {
+        ans = await system.change_password(user_info['email'], user_info['password'], user_info['new_password']);
+        res.send(ans);
+    }
+    else{
+        res.send({succeed:false, res:"הכנס את כל הפרטים"});
+    }
+})
+
+//forgot pass
+app.post('/login/forgotpass', [
+    auth,
+    check('email', 'Missing email').not().isEmpty()
+],async (req, res) => {
+    //check for errors
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    body = req.body;
+    email = body['email'];
+    ans = await system.confirm_pass(email);
+    res.send(ans);
 });
 
 app.post('/uploadpdf', (req, res) =>{
@@ -40,7 +184,21 @@ app.post('/uploadpdf', (req, res) =>{
 });
 
 
-app.post('/addg4', (req, res) => {
+app.post('/addg4', 
+// [
+//     auth,
+//     requiresAdmin
+//  ],
+ (req, res) => {
+    //check for errors
+    const errors = validationResult(req);
+    console.log(errors);
+    if (!errors.isEmpty()) {
+        
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    console.log('inbar');
     let sampleFile = req.files.sampleFile;
     sampleFile.mv('C:/Users/Inbar Naus/VisualCodeProjects/Final_Project/Server/G4/' +sampleFile.name, function(err) {
         if (err)
@@ -87,7 +245,7 @@ app.get('/apartments/:block?/:building?/:apartment?', async (req, res) => {
             // filteredProperties = system.get_apartments(block, building);
             if (apartment) {
                 filteredProperties = await system.get_apartment(block, building, apartment);
-                res.send(filteredProperties);
+                return res.send(filteredProperties);
             }
         }
     }
@@ -106,7 +264,9 @@ app.get('/editGet/:block/:building/:apartment', async (req, res) => {
         filteredProperties = await system.get_purchase(block, building, apartment);
         res.send(filteredProperties);
     }
-    res.send({succeed: false, res: "מלא את כל הפרטים"});
+    else{
+        res.send({succeed: false, res: "מלא את כל הפרטים"});
+    }
 });
 
 app.post('addPurchase', async (req, res) => {
@@ -127,7 +287,9 @@ app.post('addPurchase', async (req, res) => {
                reqbody("firstApartment"));
         res.send(filteredProperties);
     }
-    res.send({succeed: false, res: "מלא את כל הפרטים"});
+    else{
+        res.send({succeed: false, res: "מלא את כל הפרטים"});
+    }
 });
 
 //set_purchase
@@ -142,10 +304,25 @@ app.post('/edit/:block/:building/:apartment', async (req, res) => {
         filteredProperties = await system.set_purchase(block, building, apartment, req.body);
         res.send(filteredProperties);
     }
-    res.send({succeed: false, res: "מלא את כל הפרטים"});
+    else{
+        res.send({succeed: false, res: "מלא את כל הפרטים"});
+    }
 });
 
-app.post('/add_scanning', async (req, res) => {
+app.post('/add_scanning',
+//  [
+//     auth,
+//     check('block', 'Missing block No').not().isEmpty(),
+//     check('building', 'Missing building No').not().isEmpty(),
+//     check('apartment', 'Missing apartment No').not().isEmpty()
+// ],
+async (req, res) => {
+    //check for errors
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
     console.log('naus');
     let sampleFile = req.files.sampleFile;
     console.log(sampleFile);
@@ -229,4 +406,9 @@ app.post('/login/forgotpass', async (req, res) => {
     res.send(ans);
 });
 
-app.listen(app.get('port'), () => {console.log(`Example app listening on port ${port}!`);});
+app.post('/test', async(req, res) => {
+    console.log('avabash');
+    res.send({avabash: "avabash"});
+});
+
+app.listen(app.get('port'), () => console.log(`Example app listening on port ${port}!`));
