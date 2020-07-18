@@ -8,16 +8,12 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 const { check, validationResult } = require('express-validator');
-const { login } = require('./DataAccess/mongoose');
-
 
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const app = express();
-//const mongoose = require('./DataAccess/mongoose');
-const port = 8080;
+const port = process.env.PORT || 5000;
 app.use(fileUpload());
-// const mail_handler = require('./Domain/Mail/MailHandler')
 
 app.set('port', process.env.PORT || port);
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -166,7 +162,7 @@ app.post('/changePassword', [
     else{
         res.send({succeed:false, res:"הכנס את כל הפרטים"});
     }
-})
+});
 
 //forgot pass
 app.post('/login/forgotpass', [
@@ -361,62 +357,6 @@ app.post('/send_report', async (req, res) => {
 //get all unreported purchases
 app.get('/unreported', async (req, res) => {
     ans = await system.get_all_unreported_purchases();
-    res.send(ans);
-});
-
-//login
-app.post('/login', async (req, res) => {
-    console.log('naus');
-    let user_info = req.body;
-    login = await system.login(user_info['username'], user_info['password']);
-    res.send(login);
-    // if (login.succeed){
-        
-    //     res.redirect('http://localhost:3000');
-    // }
-});
-
-//Return: rendom password
-app.post('/register/lawyer', async (req,res) => {
-    let user_info = req.body;
-    // console.log(user_info);
-    if(user_info && user_info['email']) {
-        reg = await system.register_new_lawyer(user_info['email'])
-        res.send(reg);
-    }
-    else{
-        res.send({succeed:false, res:"הכנס את כל הפרטים"});
-    }
-});
-
-app.post('/register/costumer', async (req,res) => {
-    let user_info = req.body;
-    // console.log(user_info);
-    if(user_info && user_info['email']) {
-        ans = await system.register_new_costumer(user_info['email']);
-        res.send(ans);
-    }
-    else{
-        res.send({succeed:false, res:"הכנס את כל הפרטים"});
-    }
-});
-
-app.post('/changePassword', async (req, res) => {
-    let user_info = req.body
-    if(user_info && user_info['email'] && user_info['password'] && user_info['new_password']) {
-        ans = await system.change_password(user_info['email'], user_info['password'], user_info['new_password']);
-        res.send(ans);
-    }
-    else{
-        res.send({succeed:false, res:"הכנס את כל הפרטים"});
-    }
-})
-
-//forgot pass
-app.post('/login/forgotpass', async (req, res) => {
-    body = req.body;
-    email = body['email'];
-    ans = await system.confirm_pass(email);
     res.send(ans);
 });
 
