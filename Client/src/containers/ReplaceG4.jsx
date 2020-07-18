@@ -1,5 +1,5 @@
 import React, { Component }  from "react";
-import './AddG4.css'
+import '../css/AddG4.css'
 import { withRouter } from 'react-router-dom';
 
 class ReplaceG4 extends Component {

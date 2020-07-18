@@ -27,7 +27,7 @@ class Login extends Component {
 
                 <div className="form-group">
                     <label>Password</label>
-                    <input type="password" className="form-control" placeholder="Enter password" name="password"/>
+                    <input type="password" className="form-control" placeholder="Enter password" name="password" autoComplete="on"/>
                 </div>
 
                 <div className="form-group">
