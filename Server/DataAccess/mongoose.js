@@ -1,9 +1,7 @@
 const randomstring = require("randomstring");
 const mongoose = require('mongoose');
 const fs = require('mongoose-fs');
-// const xlsxFile = require('read-excel-file/node');
-// const mongodb = require('mongodb');
-// const ObjectId = Schema.ObjectId;
+
 const Schema = mongoose.Schema;
 const User = mongoose.model('User', new Schema({
     email: String,

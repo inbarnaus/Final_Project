@@ -1,5 +1,5 @@
 
-// const xlsxFile = require("../../../Server/node_modules/read-excel-file/node");
+
 // const xl_scanner = require('../../../Server/FileHandlers/Excel_Scanner').parse_xl;
 // test('xl scanner test', async ()=>{
 //     xl_path = 'Server/DataAccess/G4_example.xlsx';

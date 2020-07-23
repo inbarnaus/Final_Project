@@ -1,8 +1,6 @@
 const dal = require('../DataAccess/mongoose');
 
 const pdf_scanner = require('../FileHandlers/Pdf_Scanner.js').parse_pdf;
-// const xl_scanner = require('../FileHandlers/Excel_Scanner.js');
-// const xlsxFile = require('read-excel-file/node');
 const xl_scanner = require('../FileHandlers/Excel_Scanner').parse_xl;
 const email_sender = require('./Mail/MailHandler');
 
