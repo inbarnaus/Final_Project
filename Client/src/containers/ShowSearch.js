@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import './ShowSearch.css'
+import '../css/ShowSearch.css'
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 
@@ -24,6 +24,7 @@ class ShowSearch extends Component {
     render(){
         return (
             <div>
+                <br></br>
                 <table className="w3-table">
                     <tbody>
                     <tr>

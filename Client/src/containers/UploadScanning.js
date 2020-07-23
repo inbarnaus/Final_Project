@@ -1,5 +1,5 @@
 import React, { Component }  from "react";
-import './UploadPDF.css'
+import '../css/UploadPDF.css'
 import { withRouter } from 'react-router-dom';
 class UploadScanning extends Component {
   

@@ -33,54 +33,67 @@ function requiresAdmin(req, res, next) {
     }
 }
 
+let userLogin;
 app.post('/login',
 //  [
 //     check('email', 'please include a valid email').isEmail(),
 //     check('password', 'Password is required').not().isEmpty()
 // ],
     async (req, res) => {
-        //check for errors
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
-        }
-
         const { email, password } = req.body;
+        let login = await system.login(email, password);
+        userLogin = login;
+        if(!login.succeed)
+        res.redirect('http://localhost:3000');
+        else
+            res.redirect('http://localhost:3000/log');
 
-        //See if users exists
-        try {
+
+    //     //check for errors
+    //     const errors = validationResult(req);
+    //     if (!errors.isEmpty()) {
+    //         return res.status(400).json({ errors: errors.array() });
+    //     }
+
+    //     const { email, password } = req.body;
+
+    //     //See if users exists
+    //     try {
             
-            let login = await system.login(email, password);
-            console.log(login);
-            if(!login.succeed){
-                return res.send(login);
-            }
-            /* TODO: MAYBE NEEDS BCRYPT COMPARE */
-            // //match password with found user
-            // const isMatch = await bcrypt.compare(password, user.password);
-            // if (!isMatch) {
-            //     return res.status(400).json({ errors: [{ param: 'password', msg: 'email or password are incorrect' }] });
-            // }
+    //         let login = await system.login(email, password);
+    //         if(!login.succeed){
+    //             return res.send(login);
+    //         }
+    //         /* TODO: MAYBE NEEDS BCRYPT COMPARE */
+    //         // //match password with found user
+    //         // const isMatch = await bcrypt.compare(password, user.password);
+    //         // if (!isMatch) {
+    //         //     return res.status(400).json({ errors: [{ param: 'password', msg: 'email or password are incorrect' }] });
+    //         // }
 
-            const payload = {
-                user: login["res"]
-            }
+    //         const payload = {
+    //             user: login["res"]
+    //         }
 
-            jwt.sign(
-                payload,
-                config.get('jwtSecret'),
-                { expiresIn: 360000 },
-                (err, token) => {
-                    if (err) throw err;
-                    res.json({ succeed: true, res: token, userData: user });
-                }
-            )
+    //         jwt.sign(
+    //             payload,
+    //             config.get('jwtSecret'),
+    //             { expiresIn: 360000 },
+    //             (err, token) => {
+    //                 if (err) throw err;
+    //                 res.json({ succeed: true, res: token, userData: user });
+    //             }
+    //         )
 
-        } catch (err) {
-            console.log(err.message);
-            res.status(500).send('Server error: ' + err);
-        }
+    //     } catch (err) {
+    //         console.log(err.message);
+    //         res.status(500).send('Server error: ' + err);
+    //     }
     });
+
+app.get('/log',(req, res) => {
+    res.json(userLogin);
+})
 
 //Return: rendom password
 app.post('/register/lawyer', [
@@ -204,6 +217,7 @@ app.post('/addg4',
 
     res.redirect('http://localhost:3000');
 });
+
 let filteredProperties;
 app.post('/api/searchrepo', async (req, res) => {
     const block = req.body.block;
@@ -215,7 +229,11 @@ app.post('/api/searchrepo', async (req, res) => {
         if (building) 
             if (apartment) {
                 filteredProperties = await system.get_apartment(block, building, apartment);
-                res.redirect('http://localhost:3000/showsearch');
+                if(filteredProperties.succeed)
+                    res.redirect('http://localhost:3000/showsearch');
+                // else
+                // alert('לא נמצאו פרטים מתאימים');
+                // res.redirect('http://localhost:3000/searchrepo');
             }
 });
 
