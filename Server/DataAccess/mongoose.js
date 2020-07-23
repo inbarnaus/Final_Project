@@ -125,10 +125,9 @@ const Dal = {
 
     get_apartment: async (block, building, apartment) =>{
         ans = null;
-        await Asset.findOne({ 'buildNum': building, 'blockNum': block, 'apartNum': apartment }, function (err, record) {
-            if (err || record == null) ans = {succeed: false, res: err};
-            else ans = {succeed: true, res: record};
-        });
+        let record = await Asset.findOne({ 'buildNum': building, 'blockNum': block, 'apartNum': apartment });
+        if (record == null) ans = {succeed: false, res: "הדירה לא קיימת ברשומות"};
+        else ans = {succeed: true, res: record};
         return ans;
     },
 
