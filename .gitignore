@@ -3,4 +3,4 @@ node_modules/
 .vscode/
 Client/node_modules
 Client/hello-next/node_modules
-node_modules
+Server/node_modules
