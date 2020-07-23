@@ -1,4 +1,4 @@
-var pdfreader = require("../node_modules/pdfreader");
+var pdfreader = require("pdfreader");
 var fs = require("fs");
 var pdfr2 = require("pdfreader").PdfReader;
  
