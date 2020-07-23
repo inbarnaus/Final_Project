@@ -44,7 +44,7 @@ app.post('/login',
         let login = await system.login(email, password);
         userLogin = login;
         if(!login.succeed)
-        res.redirect('http://localhost:3000');
+            res.redirect('http://localhost:3000');
         else
             res.redirect('http://localhost:3000/log');
 
