@@ -15,7 +15,7 @@ class Login extends Component {
             <form
               className = "custom-file-translate-scss"
               id='login' 
-              action='http://localhost:8080/login' 
+              action='http://10.100.102.14:8080/login' 
               method='post' 
               encType="multipart/form-data">
                 <h3>Login</h3>

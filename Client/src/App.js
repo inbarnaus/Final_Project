@@ -4,7 +4,7 @@ import Dashboard from './Dashboard'
 import React, { Component } from 'react';
 import axios from 'axios';
 
-axios.create({baseURL: `http://localhost:8080` // the url of our server
+axios.create({baseURL: `http://10.100.102.14:8080` // the url of our server
 })
 
 class App extends Component {
