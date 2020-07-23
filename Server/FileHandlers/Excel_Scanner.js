@@ -21,7 +21,7 @@
 
 // excelMongo.covertToMongo(credentials, options, (callback) => {console.log(callback)}); //returns documents inserted in the database.
 
-const xlsxFile = require('read-excel-file/node');
+const xlsxFile = require('read-excel-file');
 const Scanner = {
     reverseString : (arr) =>{
         for(var i=0; i< arr.length; i++){
