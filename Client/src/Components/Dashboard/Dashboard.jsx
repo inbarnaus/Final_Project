@@ -2,16 +2,23 @@ import React, { Component } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link
+  Route
 } from "react-router-dom";
+import Home from "../../containers/Home";
+import NewUser from "../../containers/signNewUser";
+import SearchReport from "../../containers/SearchReport";
+import UploadPDF from "../../containers/UploadPDF";
+import AddG4 from "../../containers/AddG4";
+import AddReport from "../../containers/AddReport";
 import Navigate from "../Navigate/Navigate";
 //components
-//import {Brand, Toggle, type, Collapse} from Navbar
+import NavbarComp from '../NavbarComp/NavbarComp'
+
 class Dashboard extends Component {
     render() {
         return (
             <div>
+                <NavbarComp />
                 <Navigate/>
                 <Router >
                 <Switch>
