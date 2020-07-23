@@ -1,1 +1,1 @@
-web: start --prefix Client/
+web: start client
