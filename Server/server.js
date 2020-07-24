@@ -15,10 +15,10 @@ const fileUpload = require('express-fileupload');
 const app = express();
 const port = process.env.PORT || 8080;
 
-app.use(express.static(path.join(__dirname, 'build')));
-app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
+// app.use(express.static(path.join(__dirname, 'build')));
+// app.get('/*', (req, res) => {
+//   res.sendFile(path.join(__dirname, 'build', 'index.html'));
+// });
 
 app.use(fileUpload());
 
@@ -27,10 +27,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
 
-app.use(express.static(path.join(__dirname, 'build')));
-app.get('/*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'build', 'index.html'));
-  });
+// app.use(express.static(path.join(__dirname, 'build')));
+// app.get('/*', (req, res) => {
+//     res.sendFile(path.join(__dirname, 'build', 'index.html'));
+//   });
 
 console.log(process.env.PORT);
 /*var j = schedule.scheduleJob('00 00 08 1-12 0-7', function(){
@@ -55,6 +55,7 @@ app.post('/login',
     async (req, res) => {
         const { email, password } = req.body;
         let login = await system.login(email, password);
+        console.log(login);
         userLogin = login;
         if(!login.succeed)
             res.redirect('http://localhost:3000');
@@ -105,6 +106,7 @@ app.post('/login',
     });
 
 app.get('/log',(req, res) => {
+    console.log("server log");
     res.json(userLogin);
 })
 
