@@ -1,6 +1,7 @@
 
 import Login from './Components/UserComponents/Login/Login'
-import Dashboard from './Dashboard'
+import LawyerDashboard from './LawyerDashboard'
+import ClientDashboard from './ClientDashboard'
 import React, { Component } from 'react';
 import axios from 'axios';
 import {Permissioned} from  'react-permissions';
@@ -37,10 +38,11 @@ class App extends Component {
   
   render() {
     const {isLoggedIn} = this.state
+    const {isLawyer} = this.state
     return (
       <div className='background-blue'>
         {isLoggedIn ? 
-          <Dashboard />
+        (isLawyer ? <LawyerDashboard /> : <ClientDashboard />)  
           :
           <Login />
         }
