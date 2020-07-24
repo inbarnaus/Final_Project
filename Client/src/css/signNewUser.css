@@ -1,13 +1,13 @@
-.NewUser .lander {
+  .lander {
     padding: 80px 0;
     text-align: center;
   }
   
-  .NewUser .lander h1 {
+  .lander h1 {
     font-family: "Open Sans", sans-serif;
     font-weight: 600;
   }
   
-  .NewUser .lander p {
+  .lander p {
     color: #999;
   }

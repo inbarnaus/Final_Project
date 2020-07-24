@@ -52,7 +52,7 @@ app.post('/login',
         let login = await system.login(email, password);
         userLogin = login;
         if(!login.succeed)
-        res.redirect('http://localhost:3000');
+            res.redirect('http://localhost:3000');
         else
             res.redirect('http://localhost:3000/log');
 
@@ -103,6 +103,18 @@ app.get('/log',(req, res) => {
     res.json(userLogin);
 })
 
+
+app.post('/register', async (req,res) => {
+    let type = req.body.type;
+    let email = req.body.mail;
+    if(type == 'lawyer')
+        console.log(await system.register_new_lawyer(email));
+    else
+        await system.register_new_costumer(email);
+    res.redirect('http://localhost:3000');
+})
+
+
 //Return: rendom password
 app.post('/register/lawyer', [
     auth,
@@ -132,7 +144,7 @@ app.post('/register/costumer', [
     requiresAdmin,
     check('email', 'Missing email').not().isEmpty()
 ],
-    async (req,res) => {
+async (req,res) => {
         //check for errors
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
