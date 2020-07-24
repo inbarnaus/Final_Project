@@ -43,10 +43,6 @@ function requiresAdmin(req, res, next) {
     }
 }
 
-app.get('/', function(req, res){
-    res.redirect('/login');
- });
-
 let userLogin;
 app.post('/login',
 //  [
