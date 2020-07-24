@@ -14,7 +14,7 @@ import Navigate from "../Navigate/Navigate";
 //components
 import NavbarComp from '../NavbarComp/NavbarComp'
 
-class Dashboard extends Component {
+class LawyerDashboard extends Component {
     render() {
         return (
             <div>
@@ -38,4 +38,4 @@ class Dashboard extends Component {
     }
 }
 
-export default Dashboard;
+export default LawyerDashboard;
