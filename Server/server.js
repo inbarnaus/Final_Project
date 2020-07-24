@@ -44,7 +44,7 @@ function requiresAdmin(req, res, next) {
 }
 
 app.get('/', async(req, res) =>{
-    res.redirect("http:localhost:3000");
+    res.redirect("http://localhost:3000");
 })
 
 let userLogin;
