@@ -1,3 +1,5 @@
+const path = require('path');
+
 const system = require('./Domain/System');
 const express = require('express');
 const cors = require('cors');
@@ -19,6 +21,12 @@ app.set('port', process.env.PORT || port);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
+
+app.use(express.static(path.join(__dirname, 'build')));
+app.get('/*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+  });
+
 console.log(process.env.PORT);
 /*var j = schedule.scheduleJob('00 00 08 1-12 0-7', function(){
   console.log('The answer to life, the universe, and everything!');
