@@ -1,7 +1,12 @@
 
-import Login from './Components/Login/Login'
-import Dashboard from './Components/Dashboard/Dashboard'
+import Login from './Components/UserComponents/Login/Login'
+import Dashboard from './Dashboard'
 import React, { Component } from 'react';
+import axios from 'axios';
+import {Permissioned} from  'react-permissions';
+
+axios.create({baseURL: `http://10.100.102.14:8080` // the url of our server
+})
 
 class App extends Component {
 
@@ -9,18 +14,31 @@ class App extends Component {
     super()
 
     this.state = {
-      isLoggedIn: true
+      isLoggedIn: false,
+      isLawyer: false
     }
   }
 
-  //this.setState({
-  //   isLoggedIn: variable
-  //})
+  setLogged = (logged) =>{
+      this.setState({isLoggedIn: logged});
+  }
 
+  setType = (bool) =>{
+    this.setState({isLawyer: bool});
+}
+
+  async componentDidMount(){
+    axios.get('/log')
+    .then(response => {
+      this.setLogged(response.data.succeed)
+      this.setType(response.data.res.isLawyer)
+    })  
+  }
+  
   render() {
     const {isLoggedIn} = this.state
     return (
-      <div className="App">
+      <div className='background-blue'>
         {isLoggedIn ? 
           <Dashboard />
           :
