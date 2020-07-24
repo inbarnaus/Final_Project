@@ -43,6 +43,10 @@ function requiresAdmin(req, res, next) {
     }
 }
 
+app.get('/', async(req, res) =>{
+    console.log("what?");
+});
+
 let userLogin;
 app.post('/login',
 //  [
