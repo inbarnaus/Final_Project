@@ -9,6 +9,9 @@
     "client": "npm start --prefix Client",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
+  "engines": {
+    "node": "10.x"
+  },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "before": "0.0.1",
