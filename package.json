@@ -22,6 +22,7 @@
     "popups": "^1.1.3",
     "randomstring": "^1.1.5",
     "react-bootstrap": "^1.0.0-beta.16",
+    "react-permissions": "^1.0.5",
     "react-scripts": "^3.3.0",
     "secure-random-password": "^0.2.1",
     "test": "^0.6.0"

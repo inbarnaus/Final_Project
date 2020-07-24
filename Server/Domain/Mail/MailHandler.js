@@ -13,12 +13,12 @@ var transporter = nodemailer.createTransport({
   //logger: true
 });
 
-var mailOptions = {
-  from: 'mnh.officesystem@gmail.com',
-  to: 'inbarnaus1@gmail.com',
-  subject: 'עדכון יומי- דיווחים שטרם דווחו',
-  text: 'That was easy!'
-};
+// var mailOptions = {
+//   from: 'mnh.officesystem@gmail.com',
+//   to: 'inbarnaus1@gmail.com',
+//   subject: 'עדכון יומי- דיווחים שטרם דווחו',
+//   text: 'That was easy!'
+// };
 
 //TODO: only at a specific hour
 // transporter.sendMail(mailOptions, function(error, info){
@@ -46,20 +46,32 @@ function mail_confirmation(email, password){
   return {succeed: true, res: "confirmation sent"};
 };
 
+
 function mail_registration(email, password){
-  var confOptions = {
+  
+  transporter.sendMail({
     from: 'mnh.officesystem@gmail.com',
     to: email,
     subject: 'מערכות מומחה - נרשמת למערכת בהצלחה',
     text: password
-  };
-  transporter.sendMail(confOptions, function(err, info){
-    if(err)
-      return {succeed: false, res: err};
-    else
-      return {succeed: true, res: 'נשלח אימייל וידוא בהצלחה'};
-  })
-  return {succeed: true, res: "confirmation sent"};
-};
+  });
+}
+
+
+// function mail_registration(email, password){
+//   var confOptions = {
+//     from: 'mnh.officesystem@gmail.com',
+//     to: email,
+//     subject: 'מערכות מומחה - נרשמת למערכת בהצלחה',
+//     text: password
+//   };
+//   transporter.sendMail(confOptions, function(err, info){
+//     if(err)
+//       return {succeed: false, res: err};
+//     else
+//       return {succeed: true, res: 'נשלח אימייל וידוא בהצלחה'};
+//   })
+//   return {succeed: true, res: "confirmation sent"};
+// };
 
 module.exports = {mail_confirmation, mail_registration}
