@@ -1,0 +1,520 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- saved from url=(0037)https://www.shaam2.gov.il/svnewmyazeg -->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="he" lang="he"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+<title>רשות המסים</title>
+
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<style>
+body {
+margin:0;
+padding:0;
+font:normal 12px Arial;
+color:#000000;
+link:midnightblue;
+alink:midnightblue;
+vlink:midnightblue;
+background:#cbd4de url(https://www.misim.gov.il/shaamtemplates/images/401/bg_top.jpg) no-repeat top;
+}
+input {
+font:bold 24px Arial;
+width:100%;
+border:0;
+color:midnightblue;
+text-align:center;
+}
+div {
+margin:0;
+padding:0;
+}
+
+a img {
+border:0;
+}
+
+.container{
+margin:0 auto;
+margin-top:7px;
+width:966px;
+height:auto !important;
+height:600px;
+min-height:600px;
+direction:rtl;
+text-align:right;
+}
+
+.container .header{
+float:right;
+width:100%;
+height:50px;
+}
+
+a.tax{
+float:right;
+width:187px;
+height:41px;
+background:url(https://www.misim.gov.il/shaamtemplates/images/401/logo_tax.png) no-repeat top;
+}
+
+a.tax span{display:none;}
+
+a.shaam{
+float:left;
+width:67px;
+height:43px;
+background:url(https://www.misim.gov.il/shaamtemplates/images/401/logo_shaam.png) no-repeat top;
+}
+
+a.shaam span{display:none;}
+
+.username{
+float:left;
+margin:2px 0px 0px 30px;
+color:#182f5d;
+}
+
+.menu{
+float:right;
+width:966px;
+height:69px;
+background:url(https://www.misim.gov.il/shaamtemplates/images/401/box_top.jpg) no-repeat top;
+}
+
+.menu_title{
+float:right;
+margin:2px 11px 0px 0px;
+width:115px;
+height:35px;
+font-size:18px;
+font-weight:bold;
+color:#ffffff;
+line-height:16px;
+display:inline;
+}
+/*
+ul.top_menu{
+float:right;
+margin:1px 55px 0px 0px;
+padding:0px;
+width:640px;
+height:32px;
+list-style:none;
+}
+
+ul.top_menu li{
+float:right;
+display:inline;
+width:80px;
+height:32px;
+}
+
+ul.top_menu li a{
+float:right;
+padding-top:3px;
+width:80px;
+height:29px;
+color:#ffffff;
+font-size:14px;
+line-height:13px;
+text-align:center;
+text-decoration:none;
+background:url(https://www.misim.gov.il/shaamtemplates/images/401/menu_over.jpg) no-repeat top;
+}
+
+ul.top_menu li a:hover{
+padding-top:3px;
+width:80px;
+height:29px;
+background:url(https://www.misim.gov.il/shaamtemplates/images/401/menu_over.jpg) no-repeat bottom;
+}
+
+ul.top_menu li a.current{
+padding-top:3px;
+width:80px;
+height:29px;
+color:#7b4703;
+font-weight:bold;
+line-height:13px;
+text-align:center;
+background:url(https://www.misim.gov.il/shaamtemplates/images/401/menu_current.jpg) no-repeat top;
+}
+*/
+
+a.logout{
+float:left;
+margin:3px 0px 0px 4px;
+padding-right:34px;
+color:#122753;
+height:22px;
+line-height:22px;
+background:url(https://www.misim.gov.il/shaamtemplates/images/401/icon-logout.gif) no-repeat right;
+}
+
+a.logout:hover{
+text-decoration:none;
+}
+
+.breadcrumbs{
+float:right;
+margin:5px 19px 0px 0px;
+width:928px;
+height:25px;
+line-height:25px;
+color:#262674;
+display:inline;
+}
+
+.breadcrumbs a{
+color:#262674;
+text-decoration:none;
+}
+
+.breadcrumbs a:hover{
+text-decoration:underline;
+}
+
+.bold{font-weight:bold;}
+
+.main{
+float:right;
+width:100%;
+height:auto !important;
+height:20px;
+min-height:20px;
+background:url(https://www.misim.gov.il/shaamtemplates/images/401/box_middle.gif) repeat-y top;
+}
+
+.content{
+float:right;
+padding:7px 7px 0px 7px;
+width:952px;
+height:auto !important;
+height:520px;
+min-height:520px;
+}
+
+.main_bottom{
+float:right;
+width:100%;
+height:9px;
+font-size:0px;
+line-height:0px;
+background:url(https://www.misim.gov.il/shaamtemplates/images/401/box_bottom.gif) no-repeat bottom;
+}
+
+.footer{
+float:right;
+width:100%;
+height:26px;
+}
+
+.footer ul{
+margin:1px auto 0px auto;
+padding:0px;
+width:auto;
+height:20px;
+list-style:none;
+text-align:center;
+}
+
+.footer ul li, .footer ul li.last{
+display:inline;
+padding:0px 4px 0px 5px;
+width:auto;
+height:20px;
+background:url(https://www.misim.gov.il/shaamtemplates/images/401/footermenu_pipe.gif) no-repeat 0% 50%;
+text-align:center;
+}
+
+.footer ul li.last{
+background:none;
+}
+
+.footer ul li a{
+color:#3a61af;
+display:inline;
+height:20px;
+line-height:20px;
+text-decoration:none;
+text-align:center;
+}
+
+.footer ul li a:hover{
+text-decoration:underline;
+}
+
+/************ MENU ************/
+
+ul.top_menu {
+float:right;
+margin:1px 55px 0px 0px;
+padding:0px;
+width:640px;
+height:32px;
+list-style:none;
+}
+
+
+
+/*TEXT ALIGNMENT AND FLOATINGS */
+ul.top_menu li, ul.top_menu li ul li, ul.top_menu li ul li ul li {
+float: right;
+text-align: right;
+direction: rtl;
+}
+
+/************ TOP MENU ************/
+
+ul.top_menu li {
+padding: 0px;
+margin: 0px;
+list-style: none;
+border-collapse: collapse;
+float: right;
+width:80px;
+height:32px;
+}
+
+/*Top menu links*/
+ul.top_menu li a {
+width:80px;
+height:29px;
+text-align:center;
+font: normal 14px Arial;
+color: #ffffff;
+padding: 0px;
+padding-top:3px;
+display: block;
+text-decoration: none;
+line-height:13px;
+text-align:center;
+background:url(https://www.misim.gov.il/shaamtemplates/images/401/menu_over.jpg) no-repeat top;
+}
+
+ul.top_menu li a:hover {
+background:url(https://www.misim.gov.il/shaamtemplates/images/401/menu_over.jpg) no-repeat bottom;
+}
+
+ul.top_menu li a.current{
+padding-top:3px;
+width:80px;
+height:29px;
+color:#7b4703;
+font-weight:bold;
+line-height:13px;
+text-align:center;
+background:url(https://www.misim.gov.il/shaamtemplates/images/401/menu_current.jpg) no-repeat top;
+}
+
+/** FIRST POPUP ***/
+
+ul.top_menu li ul {
+width: 115px;
+display: none;
+position: absolute;
+height: auto;
+padding:0;
+margin: 0px;
+border: 0px;
+top: 29px;
+right: 0px;
+}
+
+ul.top_menu li ul li {
+width: 115px;
+border: 0px;
+padding:0;
+margin:0;
+background:url(https://www.misim.gov.il/shaamtemplates/images/401/dd.png) repeat-y top;
+height:auto;
+}
+
+ul.top_menu li:hover ul li:hover {
+background:url(https://www.misim.gov.il/shaamtemplates/images/401/dd_hover.png) repeat-y top;
+}
+
+ul.top_menu li ul li.dd_top, ul.top_menu li ul li.dd_top:hover{
+height:4px;
+background:url(https://www.misim.gov.il/shaamtemplates/images/401/dd_top.png) no-repeat top !important;
+line-height:0px;
+font-size:0px;
+}
+
+ul.top_menu li ul li.dd_bottom, ul.top_menu li ul li.dd_bottom:hover{
+height:4px;
+background:url(https://www.misim.gov.il/shaamtemplates/images/401/dd_bottom.png) no-repeat top !important;
+line-height:0px;
+font-size:0px;
+}
+
+ul.top_menu li ul li a {
+margin:0px;
+padding:3px 11px;
+font: normal 12px Arial;
+color: #ffffff;
+width: 93px;
+height:auto;
+display: block;
+text-align:right;
+text-decoration: none;
+background-image:none;
+}
+
+ul.top_menu li ul li:hover a {
+color: #7b4703;
+font-weight:bold;
+background-image:none;
+}
+
+ul.top_menu li ul li a.menu_arrow {
+background:url(https://www.misim.gov.il/shaamtemplates/images/401/MenuArrow.gif) no-repeat 7px 7px;
+}
+
+ul.top_menu li ul li:hover a.menu_arrow {
+background:url(https://www.misim.gov.il/shaamtemplates/images/401/MenuArrow_mo.gif) no-repeat 7px 7px;
+}
+
+ul.top_menu li ul li a.menu_arrow:hover {
+background:url(https://www.misim.gov.il/shaamtemplates/images/401/MenuArrow_mo.gif) no-repeat 7px 7px;
+}
+
+/* most left pop up should be aligned to right */
+
+/********SECOND POPUP********/
+ul.top_menu li ul li ul {
+top: -4px;
+right: 114px;
+background-image: none;
+display: none;
+position: absolute;
+height: auto !important;
+height: 20px;
+min-height: 20px;
+margin: 0px;
+background-color: transparent;
+list-style: none;
+border: 0px;
+z-index: 200;
+width: 115px;
+padding: 0px;
+}
+
+ul.top_menu li ul li ul li {
+position: relative;
+display: inline;
+padding-left: 0px;
+padding-right: 0px;
+margin: 0px;
+clear: both;
+z-index: 300;
+width: 115px;
+height:auto;
+background:url(https://www.misim.gov.il/shaamtemplates/images/401/dd.png) repeat-y top;
+}
+
+ul.top_menu li ul li ul li a, ul.top_menu li ul li:hover ul li a  {
+margin:0px;
+padding:3px 11px;
+font: normal 12px Arial;
+color: #ffffff;
+width: 93px;
+display: block;
+text-align:right;
+text-decoration: none;
+}
+
+ul.top_menu li ul li:hover ul li:hover a {
+color: #7b4703;
+font-weight:bold;
+}
+
+/*** GENERAL SETTINGS - NO NEED TO CHANGE ***/
+
+ul.top_menu li ul li a.last, ul.top_menu li ul li ul li a.last{border:0px;}
+
+ul.top_menu li:hover ul li:hover, ul.top_menu li:hover {
+position: relative;
+}
+
+ul.top_menu li:hover ul li:hover ul, ul.top_menu li:hover ul {
+display: block;
+}
+
+ul.top_menu li:hover ul li ul{
+display: none;
+}
+
+ul.top_menu li ul li, ul.top_menu li ul li ul li {
+border-collapse: collapse;
+}
+
+
+/********** END MENU ************/
+
+</style>
+</head>
+<body link="midnightblue" vlink="midnightblue" alink="midnightblue">
+<div class="container">
+<div class="header">
+<a class="tax" href="https://www.shaam2.gov.il/svnewmyazeg#"><span>רשות המסים</span></a>
+<a class="shaam" href="https://www.shaam2.gov.il/svnewmyazeg#"><span>שירות עיבודים ממוחשבים</span></a>
+<span class="username"></span>
+</div>
+<div class="main">
+<div class="menu">
+<div class="menu_title">אינך מזוהה<br>במערכת</div>
+<ul class="top_menu">
+<li><a href="http://www.misim.gov.il/" class="current">לתפריט<br>היישומים</a></li>
+</ul>
+</div>
+<div class="content">
+<center><br><br><br><br>
+<font face="arial" color="black">
+</font><table>
+<tbody><tr><td><h3 style="color:midnightblue"><u>לקוח/ה נכבד/ה</u></h3></td></tr>
+<tr><td><input name="err1" readonly=""></td></tr>
+<tr><td>12213</td></tr>
+<tr><td><center><font size="3"><a href="https://taxes.gov.il/">ניתן להקיש כאן למעבר לתפריט יישומים</a></font></center></td></tr>
+<tr><td>&nbsp;</td></tr>
+<tr><td width="700"><h3 style="color:midnightblue"><hr></h3></td></tr>
+
+<tr><td>&nbsp;</td></tr>
+<tr><td>Error Code: 403 Forbidden. The page requires a client certificate as part of the authentication process. If you are using a smart card, you will need to insert your smart card to select an appropriate certificate. Otherwise, contact your server administrator. </td></tr>
+</tbody></table><font face="arial" color="black">
+</font></center><font face="arial" color="black">
+</font></div><font face="arial" color="black">
+<div class="main_bottom"></div>
+</font></div><font face="arial" color="black">
+<div class="footer">
+<ul>
+</ul>
+</div>
+</font></div><font face="arial" color="black">
+
+
+<script language="javascript"> 
+var txt ="אמצעי הזיהוי שנבחר אינו מתאים לכניסה למערכת"
+var a = document.body.innerText
+if(a.indexOf("12230") > 0)
+{
+   txt= "הכרטיס אינו בתוקף";
+}
+if(a.indexOf("12202") > 0)
+{
+   txt= "כרטיס זה אינו מורשה לישום";
+}
+if(a.indexOf("12213") > 0)
+{
+   txt= "לא נבחר כרטיס המתאים לישומי שעם";
+}
+err1.value=txt;
+
+//var len = a.indexOf("<LI id=L_defaultr_12>Error Code: ") + 33;
+//a=a.substr(len,len+ 100);
+//len=a.indexOf("</UL>");
+//a=a.substr(0,len);
+//err2.value=a;
+</script></font></body></html>

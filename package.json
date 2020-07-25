@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node Server/server.js",
+    "start": "npm run client",
     "server": "nodemon Server/server.js",
     "client": "npm start --prefix Client",
+    "test": "jest",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "engines": {
@@ -21,7 +22,9 @@
     "express-validator": "^6.6.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose-fs": "^0.2.7",
+    "nodejs-web-scraper": "^3.1.3",
     "nodemon": "^2.0.4",
+    "pdf-parse": "^1.1.1",
     "popups": "^1.1.3",
     "randomstring": "^1.1.5",
     "react-bootstrap": "^1.0.0-beta.16",
