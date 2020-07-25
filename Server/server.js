@@ -16,11 +16,6 @@ const fileUpload = require('express-fileupload');
 const app = express();
 const port = process.env.PORT || 8080;
 
-// app.use(express.static(path.join(__dirname, 'build')));
-// app.get('/*', (req, res) => {
-//   res.sendFile(path.join(__dirname, 'build', 'index.html'));
-// });
-
 app.use(fileUpload());
 
 app.set('port', process.env.PORT || port);
@@ -33,7 +28,7 @@ console.log(process.env.PORT);
 
 app.use(express.static(__dirname + '/Client/build'));
 app.get('*', function (req, res) {
-    const index = path.join(__dirname, 'build', 'index.html');
+    const index = path.join(__dirname, 'Client/build', 'index.html');
     res.sendFile(index);
   });
 
