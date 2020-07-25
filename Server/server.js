@@ -25,12 +25,12 @@ app.use(cors());
 
 console.log(process.env.PORT);
 
-const favicon = require('express-favicon');
-app.use(express.static(__dirname + '../Client/build'));
-app.get('*', function (req, res) {
-    const index = path.join(__dirname, '../Client/build', 'index.html');
-    res.sendFile(index);
-  });
+// const favicon = require('express-favicon');
+// app.use(express.static(__dirname + '../Client/build'));
+// app.get('*', function (req, res) {
+//     const index = path.join(__dirname, '../Client/build', 'index.html');
+//     res.sendFile(index);
+//   });
 
 function requiresAdmin(req, res, next) {
     if(req.user.isLawyer !== true) {
