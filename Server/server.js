@@ -27,13 +27,15 @@ app.set('port', process.env.PORT || port);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
-app.use(favicon(__dirname + '/public/favicon.png'));
+// app.use(favicon(__dirname + '/public/favicon.png'));
 
 console.log(process.env.PORT);
-/*var j = schedule.scheduleJob('00 00 08 1-12 0-7', function(){
-  console.log('The answer to life, the universe, and everything!');
-});
-*/
+
+app.use(express.static(__dirname + '/build'));
+app.get('*', function (req, res) {
+    const index = path.join(__dirname, 'build', 'index.html');
+    res.sendFile(index);
+  });
 
 function requiresAdmin(req, res, next) {
     if(req.user.isLawyer !== true) {
