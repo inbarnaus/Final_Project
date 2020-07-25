@@ -52,9 +52,9 @@ app.post('/login',
         console.log(login);
         userLogin = login;
         if(!login.succeed)
-            res.redirect('http://localhost:3000');
+            res.redirect('http://localhost:5000');
         else
-            res.redirect('http://localhost:3000/log');
+            res.redirect('http://localhost:5000/log');
 
 
     //     //check for errors
