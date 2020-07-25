@@ -31,7 +31,7 @@ app.use(cors());
 
 console.log(process.env.PORT);
 
-app.use(express.static(__dirname + '/build'));
+app.use(express.static(__dirname + '/Client/build'));
 app.get('*', function (req, res) {
     const index = path.join(__dirname, 'build', 'index.html');
     res.sendFile(index);
