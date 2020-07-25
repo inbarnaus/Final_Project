@@ -1,7 +1,6 @@
 const path = require('path');
 const system = require('./Domain/System');
 const express = require('express');
-const favicon = require('express-favicon');
 const cors = require('cors');
 
 //token validations
@@ -26,7 +25,8 @@ app.use(cors());
 
 console.log(process.env.PORT);
 
-app.use(express.static(__dirname + '/Client/build'));
+const favicon = require('express-favicon');
+app.use(express.static(__dirname + 'Client/build'));
 app.get('*', function (req, res) {
     const index = path.join(__dirname, 'Client/build', 'index.html');
     res.sendFile(index);
