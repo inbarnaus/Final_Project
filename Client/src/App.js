@@ -15,10 +15,15 @@ class App extends Component {
     super()
 
     this.state = {
-      isLoggedIn: false,
-      isLawyer: false
+      isLoggedIn: true,
+      isLawyer: true
     }
   }
+
+  // setState = (state) => {
+  //   this.setState({isLoggedIn: state.data.succeed});
+  //   this.setState({isLawyer: state.data.res.isLawyer});
+  // }
 
   setLogged = (logged) =>{
       this.setState({isLoggedIn: logged});
@@ -28,13 +33,15 @@ class App extends Component {
     this.setState({isLawyer: bool});
 }
 
-  async componentDidMount(){
-    axios.get('/log')
-    .then(response => {
-      this.setLogged(response.data.succeed)
-      this.setType(response.data.res.isLawyer)
-    })  
-  }
+  // async componentDidMount(){
+  //   axios.get('/log')
+  //   .then(response => {
+  //     if(response.data !== ""){
+  //       this.setLogged(response.data.succeed)
+  //       this.setType(response.data.res.isLawyer)
+  //     }
+  //   })  
+  // }
   
   render() {
     const {isLoggedIn} = this.state

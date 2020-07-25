@@ -14,6 +14,7 @@ import AddReport from "./containers/AddReport";
 import ReplaceG4 from "./containers/ReplaceG4";
 import UploadScanning from "./containers/UploadScanning";
 import ShowSearch from "./containers/ShowSearch";
+import EditReport from "./containers/EditReport";
 // import Login from "./Components/UserComponents/Login/Login"
 
 import Navigate from "./Navigate";
@@ -50,6 +51,9 @@ class LawyerDashboard extends Component {
         <Route exact path="/showsearch">
         <ShowSearch />
         </Route>
+        <Route exact path='/editrepo'>
+        <EditReport/>
+      </Route>
         <Route exact path='/replaceg4'>
         <ReplaceG4/>
       </Route>

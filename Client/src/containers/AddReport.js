@@ -1,58 +1,40 @@
-import React from "react";
-import { Form, Col, Button } from 'react-bootstrap';
+import React, {Component} from "react";
+import '../css/SearchReport.css'
+import { withRouter } from 'react-router-dom';
+import {Form, Button, Row, Col} from 'react-bootstrap';
 
-export default function AddReport() {
+class AddReport extends Component { 
+  render(){
     return (
-<Form>
-  <Form.Row>
-    <Form.Group as={Col} controlId="formGridEmail">
-      <Form.Label>Email</Form.Label>
-      <Form.Control type="email" placeholder="Enter email" />
-    </Form.Group>
-
-    <Form.Group as={Col} controlId="formGridPassword">
-      <Form.Label>Password</Form.Label>
-      <Form.Control type="password" placeholder="Password" />
-    </Form.Group>
-  </Form.Row>
-
-  <Form.Group controlId="formGridAddress1">
-    <Form.Label>Address</Form.Label>
-    <Form.Control placeholder="1234 Main St" />
-  </Form.Group>
-
-  <Form.Group controlId="formGridAddress2">
-    <Form.Label>Address 2</Form.Label>
-    <Form.Control placeholder="Apartment, studio, or floor" />
-  </Form.Group>
-
-  <Form.Row>
-    <Form.Group as={Col} controlId="formGridCity">
-      <Form.Label>City</Form.Label>
-      <Form.Control />
-    </Form.Group>
-
-    <Form.Group as={Col} controlId="formGridState">
-      <Form.Label>State</Form.Label>
-      <Form.Control as="select" value="Choose...">
-        <option>Choose...</option>
-        <option>...</option>
-      </Form.Control>
-    </Form.Group>
-
-    <Form.Group as={Col} controlId="formGridZip">
-      <Form.Label>Zip</Form.Label>
-      <Form.Control />
-    </Form.Group>
-  </Form.Row>
-
-  <Form.Group id="formGridCheckbox">
-    <Form.Check type="checkbox" label="Check me out" />
-  </Form.Group>
-
-  <Button variant="primary" type="submit">
-    Submit
-  </Button>
-</Form>
-    );
+      <Form
+        className = "custom-file-translate-scss"
+        id='uploadForm' 
+        action='http://localhost:8080/addrepo' 
+        method='post' 
+        encType="multipart/form-data">
+          <Col md={{ span: 8, offset: 5 }}>
+            <Form.Group controlId="block">
+              <Row><Form.Label>מספר בלוק</Form.Label></Row>
+              <Form.Control name="block" type="text" placeholder="הכנס מספר בלוק"/>
+            </Form.Group>
+          
+            <Form.Group controlId="building">
+              <Row><Form.Label>מספר בניין</Form.Label></Row>
+              <Form.Control name="building" type="text" placeholder="הכנס מספר בניין"/>
+            </Form.Group>
+          
+            <Form.Group controlId="apartment">
+              <Row><Form.Label>מספר דירה</Form.Label></Row>
+              <Form.Control name="apartment" type="text" placeholder="הכנס מספר דירה" />
+            </Form.Group>
+          
+            <Button variant="primary" type="submit">
+              אישור
+            </Button>
+        </Col>
+      </Form>
+          );
+      };
 }
+
+export default withRouter(AddReport);

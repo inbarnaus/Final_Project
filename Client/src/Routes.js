@@ -8,6 +8,7 @@ import AddG4 from "./containers/AddG4";
 import AddReport from "./containers/AddReport";
 import ReplaceG4 from "./containers/ReplaceG4";
 import UploadScanning from "./containers/UploadScanning";
+import EditReport from "./containers/EditReport";
 
 export default function Routes() {
   return (
@@ -15,27 +16,39 @@ export default function Routes() {
       <Route exact path="/">
         <Home />
       </Route>
+
       <Route exact path="/signnew">
         <NewUser />
         </Route>
+
         <Route exact path="/searchrepo">
         <SearchReport />
         </Route>
+
         <Route exact path="/uploadpdf">
         <UploadPDF />
         </Route>
+
         <Route exact path="/uploadscanning">
         <UploadScanning />
         </Route>
+
         <Route exact path="/addrepo">
         <AddReport />
         </Route>
+
+        <Route exact path="/editrepo">
+        <EditReport />
+        </Route>
+
         <Route exact path="/addg4">
         <AddG4 />
         </Route>
+
       <Route exact path='/replaceg4'>
         <ReplaceG4/>
       </Route>
+      
     </Switch>
   );
 }

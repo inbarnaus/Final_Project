@@ -15,11 +15,6 @@ const fileUpload = require('express-fileupload');
 const app = express();
 const port = process.env.PORT || 8080;
 
-app.use(express.static(path.join(__dirname, 'build')));
-app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
-
 app.use(fileUpload());
 
 app.set('port', process.env.PORT || port);
@@ -39,6 +34,8 @@ function requiresAdmin(req, res, next) {
        next();
     }
 }
+
+let filteredProperties; // for searchrepo, addrepo
 
 let userLogin;
 app.post('/login',
@@ -102,7 +99,6 @@ app.get('/log',(req, res) => {
     res.json(userLogin);
 })
 
-
 app.post('/register', async (req,res) => {
     let type = req.body.type;
     let email = req.body.mail;
@@ -113,6 +109,86 @@ app.post('/register', async (req,res) => {
     res.redirect('http://localhost:3000');
 })
 
+app.post('/addrepo', async (req,res) => {
+    const block = req.body.block;
+    const building = req.body.building;
+    const apartment = req.body.apartment;
+    console.log(`block: ${block}, building: ${building}, apartment: ${apartment}`);
+    
+    if (block) 
+        if (building) 
+            if (apartment) {
+                filteredProperties = await system.get_apartment(block, building, apartment);
+                if(filteredProperties.succeed)
+                    res.redirect('http://localhost:3000/editrepo');
+                // else
+                //     alert('לא נמצאו פרטים מתאימים');
+                //     res.redirect('http://localhost:3000/searchrepo');
+            }
+})
+
+app.get('/editrepo', (req,res) => {
+    res.json(filteredProperties);
+})
+
+app.post('/uploadpdf', (req, res) =>{
+    let sampleFile = req.files.sampleFile;
+    sampleFile.mv('C:/Users/Inbar Naus/VisualCodeProjects/Final_Project/Server/PDF_files/' +sampleFile.name, function(err) {
+        if (err)
+          return res.status(500).send(err);
+        // system.upload_pdf(req.body.block, req.body.building, req.body.apartment, 
+        //     'C:/Users/Inbar Naus/VisualCodeProjects/Final_Project/Server/PDF_files/' +sampleFile.name); 
+    });
+    res.redirect('http://localhost:3000');
+});
+
+
+app.post('/addg4', 
+// [
+//     auth,
+//     requiresAdmin
+//  ],
+ (req, res) => {
+    //check for errors
+    const errors = validationResult(req);
+    console.log(errors);
+    if (!errors.isEmpty()) {
+        
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    console.log('inbar');
+    let sampleFile = req.files.sampleFile;
+    sampleFile.mv('C:/Users/Inbar Naus/VisualCodeProjects/Final_Project/Server/G4/' +sampleFile.name, function(err) {
+        if (err)
+          return res.status(500).send(err);
+        system.add_4g('C:/Users/Inbar Naus/VisualCodeProjects/Final_Project/Server/G4/' +sampleFile.name);
+    });
+
+    res.redirect('http://localhost:3000');
+});
+
+app.post('/api/searchrepo', async (req, res) => {
+    const block = req.body.block;
+    const building = req.body.building;
+    const apartment = req.body.apartment;
+    console.log(`block: ${block}, building: ${building}, apartment: ${apartment}`);
+    
+    if (block) 
+        if (building) 
+            if (apartment) {
+                filteredProperties = await system.get_apartment(block, building, apartment);
+                if(filteredProperties.succeed)
+                    res.redirect('http://localhost:3000/showsearch');
+                // else
+                // alert('לא נמצאו פרטים מתאימים');
+                // res.redirect('http://localhost:3000/searchrepo');
+            }
+});
+
+app.get('/showsearch', (req, res) => {
+    res.json(filteredProperties);
+})
 
 //Return: rendom password
 app.post('/register/lawyer', [
@@ -199,66 +275,6 @@ app.post('/login/forgotpass', [
     ans = await system.confirm_pass(email);
     res.send(ans);
 });
-
-app.post('/uploadpdf', (req, res) =>{
-    let sampleFile = req.files.sampleFile;
-    sampleFile.mv('C:/Users/Inbar Naus/VisualCodeProjects/Final_Project/Server/PDF_files/' +sampleFile.name, function(err) {
-        if (err)
-          return res.status(500).send(err);
-        // system.upload_pdf(req.body.block, req.body.building, req.body.apartment, 
-        //     'C:/Users/Inbar Naus/VisualCodeProjects/Final_Project/Server/PDF_files/' +sampleFile.name); 
-    });
-    res.redirect('http://localhost:3000');
-});
-
-
-app.post('/addg4', 
-// [
-//     auth,
-//     requiresAdmin
-//  ],
- (req, res) => {
-    //check for errors
-    const errors = validationResult(req);
-    console.log(errors);
-    if (!errors.isEmpty()) {
-        
-        return res.status(400).json({ errors: errors.array() });
-    }
-
-    console.log('inbar');
-    let sampleFile = req.files.sampleFile;
-    sampleFile.mv('C:/Users/Inbar Naus/VisualCodeProjects/Final_Project/Server/G4/' +sampleFile.name, function(err) {
-        if (err)
-          return res.status(500).send(err);
-        system.add_4g('C:/Users/Inbar Naus/VisualCodeProjects/Final_Project/Server/G4/' +sampleFile.name);
-    });
-
-    res.redirect('http://localhost:3000');
-});
-
-let filteredProperties;
-app.post('/api/searchrepo', async (req, res) => {
-    const block = req.body.block;
-    const building = req.body.building;
-    const apartment = req.body.apartment;
-    console.log(`block: ${block}, building: ${building}, apartment: ${apartment}`);
-    
-    if (block) 
-        if (building) 
-            if (apartment) {
-                filteredProperties = await system.get_apartment(block, building, apartment);
-                if(filteredProperties.succeed)
-                    res.redirect('http://localhost:3000/showsearch');
-                // else
-                // alert('לא נמצאו פרטים מתאימים');
-                // res.redirect('http://localhost:3000/searchrepo');
-            }
-});
-
-app.get('/showsearch', (req, res) => {
-    res.json(filteredProperties);
-})
 
 //get apartment
 app.get('/apartments/:block?/:building?/:apartment?', async (req, res) => {
