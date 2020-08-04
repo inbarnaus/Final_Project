@@ -15,10 +15,15 @@ class App extends Component {
     super()
 
     this.state = {
-      isLoggedIn: false,
-      isLawyer: false
+      isLoggedIn: true,
+      isLawyer: true
     }
   }
+
+  // setState = (state) => {
+  //   this.setState({isLoggedIn: state.data.succeed});
+  //   this.setState({isLawyer: state.data.res.isLawyer});
+  // }
 
   setLogged = (logged) =>{
       this.setState({isLoggedIn: logged});

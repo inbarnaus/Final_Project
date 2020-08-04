@@ -228,9 +228,9 @@ const Dal = {
 
     get_all_unreported_purchases: async () => {
         ans = null;
-        await Acquisition.findOne({ 'reprted': False }, 'blockNum buildNum apartNum purchaseDate reportDate', function (err, record) {
-            if (err || record == null) ans = {succeed: Flase, res: err};
-            else ans = {succeed: True, res: record};
+        await Acquisition.find({ 'reprted': false }, 'blockNum buildNum apartNum purchaseDate reportDate', function (err, record) {
+            if (err || record == null || record === []) ans = {succeed: false, res: err};
+            else ans = {succeed: true, res: record};
         });
         return ans;
     },
