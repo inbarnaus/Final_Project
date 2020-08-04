@@ -20,7 +20,7 @@
     "serverless": "^1.67.3",
     "styled-components": "^5.1.0"
   },
-  "proxy":"http://10.100.102.14:8080",
+  "proxy":"http://localhost:8080",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
