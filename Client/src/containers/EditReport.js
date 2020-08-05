@@ -44,91 +44,103 @@ class EditReport extends Component {
     render(){
         return (
             <div className="testbox">
-      <form action="/">
-        <h1>עריכת פרטי רכישה</h1>
-        <div className="item">
-          <p>פרטי רוכש/ים</p>
-          <div className="name-item">
-            <input type="text" name="name" placeholder="תז רוכש 1" />
-            <input type="text" name="name" placeholder="שם רוכש 1" />
-          </div>
-          <div className="name-item">
-            <input type="text" name="name" placeholder="תז רוכש 2" />
-            <input type="text" name="name" placeholder="שם רוכש 2" />
-          </div>
-        </div>
-        
-        <div className="item">
-          <p>פרטי הרשומה</p>
-          <input type="text" name="name" placeholder={"מספר דירה: " + this.state.report.apartNum} disabled/>
-          <input type="text" name="name" placeholder={"מספר בניין: " + this.state.report.buildNum} disabled/>
-          <input type="text" name="name" placeholder={"מספר בלוק: " + this.state.report.blockNum} disabled/>
+        <form 
+            className = "custom-file-translate-scss"
+            id='uploadForm' 
+            action='http://localhost:8080/addPurchase' 
+            method='post' 
+            encType="multipart/form-data">
+            <h1>עריכת פרטי רכישה</h1>
+            <br></br>
+            <br></br>
+            <br></br>
+            <div className="item">
+            <p>פרטי רוכש/ים</p>
+            <br></br>
+            <br></br>
+            <div className="name-item">
+                <input type="text" name="idclient1" placeholder="תז רוכש 1" size="60" />
+                <input type="text" name="nameclient1" placeholder="שם רוכש 1" size="60" />
+            </div>
+            <div className="name-item">
+                <input type="text" name="idclient2" placeholder="תז רוכש 2" size="60" />
+                <input type="text" name="nameclient2" placeholder="שם רוכש 2" size="60" />
+            </div>
+            </div>
+            
+            <div className="item">
+            <p>פרטי הרשומה</p>
+            <br></br>
+            <br></br>
 
-          <div className="item">
-          <input type="text" name="name" placeholder={"מספר כיוונים: " + this.state.report.dir} disabled/>
-          <input type="text" name="name" placeholder={"מספר חדרים: " + this.state.report.roomNum} disabled/>
-          <input type="text" name="name" placeholder={"מספר קומה: " + this.state.report.level} disabled/>
-          </div>
+            <div className="item">
+            <input type="text" name="apart" value={this.state.report.apartNum} placeholder={this.state.report.apartNum} size={60} readonly="readonly"/>
+            <lable> מספר בלוק </lable>
+            <input type="text" name="block" value={this.state.report.blockNum} placeholder={this.state.report.blockNum} readonly="readonly"/>
+            <lable> מספר בניין </lable>
+            <input type="text" name="build" value={this.state.report.buildNum} placeholder={this.state.report.buildNum} readonly="readonly"/>
+            <lable> מספר דירה </lable>
+            </div>
+            
+            <div className="item">
+            <input type="text" name="roomNum" placeholder={this.state.report.roomNum} disabled/>
+            <lable> מספר קומה </lable>
+            <input type="text" name="level" placeholder={this.state.report.level} disabled/>
+            <lable> מספר כיוונים </lable>
+            <input type="text" name="dir" placeholder={this.state.report.dir} disabled/>
+            <lable> מספר חדרים </lable>
+            </div>
+            
+            <div className="item">
+            <input type="text" name="balconyArea" placeholder={this.state.report.balconyArea} disabled/>
+            <lable> שטח דירה </lable>
+            <input type="text" name="apartArea" placeholder={this.state.report.apartArea} disabled/>
+            <lable> שטח דירה אקווילנטי </lable>
+            <input type="text" name="apartAreaAq" placeholder={this.state.report.apartAreaAq} disabled/>
+            <lable> שטח מרפסת/גינה </lable>
+            </div>
 
-          <div className="item">
-          <input type="text" name="name" placeholder={"שטח מרפסת/גינה: " + this.state.report.balconyArea} disabled/>
-          <input type="text" name="name" placeholder={"שטח דירה אקווילנטי: " + this.state.report.apartAreaAq} disabled/>
-          <input type="text" name="name" placeholder={"שטח דירה: " + this.state.report.apartArea} disabled/>
-          </div>
-          <div className="item">
-          <input type="text" name="name" placeholder={"מספר חניה 2: " + this.state.report.parkingQuantity2} />
-          <input type="text" name="name" placeholder={"מספר חניה 1: " + this.state.report.parkingQuantity1} />
-          <input type="text" name="name" placeholder={"מספר חניות: " + this.state.report.parkingNum} />
-          </div>
+            <br></br>
 
-          <div className="item">
-          <input type="text" name="name" placeholder={"מספר מחסן: " + this.state.report.warehouseNum} />
-          <input type="text" name="name" placeholder={"שטח מחסן: " + this.state.report.warehouseArea} />
-          </div>
+            <div className="item">
+            <input type="text" name="parkingQuantity2" placeholder={this.state.report.parkingQuantity2} />
+            <lable> מספר חניות </lable>
+            <input type="text" name="parkingNum" placeholder={this.state.report.parkingNum} />
+            <lable> מספר חניה 1 </lable>
+            <input type="text" name="parkingQuantity1" placeholder={this.state.report.parkingQuantity1} />
+            <lable> מספר חניה 2 </lable>
+            </div>
 
-          <div className="item">
-          <input type="text" name="name" placeholder={"מחיר דירה ממודד: " + this.state.report.apartMMDprice} />
-          <input type="text" name="name" placeholder={"מחיר במסגרת מחיר למשתכן: " + this.state.report.apartTenantPrice} />
-          <input type="text" name="name" placeholder={"מחיר דירה נומינלי: " + this.state.report.apartNumPrice} />
-          </div>
+            <div className="item">
+            <input type="text" name="apartNumPrice" placeholder={this.state.report.apartNumPrice} />
+            <lable> מספר מחסן </lable>
+            <input type="text" name="warehouseNum" placeholder={this.state.report.warehouseNum} />
+            <lable> שטח מחסן </lable>
+            <input type="text" name="warehouseArea" placeholder={this.state.report.warehouseArea} />
+            <lable> מחיר דירה </lable>
+            </div>
+
+
+            </div>
+            <div className="item">
+            <p>הערות</p>
+            <textarea name="notes" type="text" rows="4">{this.state.report.notes}</textarea>
+            </div>
+
+            <br></br>
+            
+            <div className="item">
+            <p>הכנס תאריך רכישה</p>
+            <br></br>
+            <br></br>
+            <input type="date" id="start" name="purchaseDate"/>
+            </div>
+            
+            <div className="btn-block">
+            <button type="submit" href="/">שלח</button>
+            </div>
+        </form>
         </div>
-        <div className="item">
-          <p>הערות</p>
-        <textarea rows="4">{this.state.report.notes}</textarea>
-        </div>
-        
-        <div className="item">
-        <p>הכנס תאריך רכישה</p>
-        <input type="date" id="start" name="trip-start"/>
-        </div>
-        
-        <div className="item">
-          <p>Name</p>
-          <div className="name-item">
-            <input type="text" name="name" placeholder="First" />
-            <input type="text" name="name" placeholder="Last" />
-          </div>
-        </div>
-        <div className="item">
-          <p>Daytime Phone</p>
-          <input type="text" name="name"/>
-        </div>
-        <div className="item">
-          <p>Your Address</p>
-          <input type="text" name="name" placeholder="Street address"/>
-          <input type="text" name="name" placeholder="Street address line 2"/>
-          
-        </div>
-        
-        <div className="item">
-          <p>Email</p>
-          <input type="text" name="name"/>
-        </div>
-        <div className="btn-block">
-          <button type="submit" href="/">SEND</button>
-        </div>
-      </form>
-    </div>
         );
     };
 }

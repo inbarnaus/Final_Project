@@ -1,24 +1,34 @@
 /* html, body {
     min-height: 100%;
     } */
-    body, div, form, input, select, p { 
+    body, select, div, form, input{ 
     padding: 0;
     margin: 0;
     outline: none;
     font-family: Roboto, Arial, sans-serif;
     font-size: 14px;
-    color: #666;
+    color: rgba(82, 77, 77, 0.603);
     line-height: 22px;
     }
-    /* h1 {
+    input:read-only { background-color:#ccc; }
+    p{
+      font-family: Roboto, Arial, sans-serif;
+      font-size: 14px;
+      color: rgba(82, 77, 77, 0.603);
+      float: right;
+      margin-top: 0.67em;
+      margin-bottom: 0.67em;
+    }
+    h1{
         display: block;
-        font-size: 2em;
+        font-size: 1em;
         margin-top: 0.67em;
         margin-bottom: 0.67em;
         margin-left: 0;
         margin-right: 100;
         font-weight: bold;
-      } */
+        float: right;
+      }
     .testbox {
     display: flex;
     justify-content: center;
@@ -34,7 +44,7 @@
     } */
     input, select, textarea {
     margin-bottom: 10;
-    border: 1px solid #ccc;
+    border: 1px solid #666;
     border-radius: 3px;
     }
     /* input {
@@ -47,8 +57,12 @@
     background: transparent;
     } */
     textarea {
-    width: calc(100% - 6px);
-}
+      width: calc(100% - 6px);
+      text-align:right;
+    }
+    .lable {
+      text-align:right;
+    }
     /* .item {
     position: relative;
     margin: 10px 0;
@@ -63,6 +77,10 @@
     margin-top: 20px;
     text-align: center;
     }
+    .name-item {
+      /* margin-top: 20px; */
+      text-align: right;
+      }
     button {
     width: 150px;
     padding: 10px;
@@ -90,3 +108,12 @@
     .city-item select {
     width: calc(50% - 8px);
     }
+
+    input[type="text"]:disabled {
+      background: #ccc;
+    }
+
+    input[type="date"] {
+      float: right;
+    }
+    ::-webkit-input-placeholder { text-align:right; }

@@ -131,6 +131,7 @@ app.get('/editrepo', (req,res) => {
     res.json(filteredProperties);
 })
 
+
 app.post('/uploadpdf', (req, res) =>{
     let sampleFile = req.files.sampleFile;
     sampleFile.mv('C:/Users/Inbar Naus/VisualCodeProjects/Final_Project/Server/PDF_files/' +sampleFile.name, function(err) {
@@ -314,17 +315,20 @@ app.get('/editGet/:block/:building/:apartment', async (req, res) => {
     }
 });
 
-app.post('addPurchase', async (req, res) => {
+app.post('/addPurchase', async (req, res) => {
+    console.log("********************************")
+    console.log(req.body)
     const block = req.body.block;
-    const building = req.body.building;
-    const apartment = req.body.apartment;
+    const building = req.body.build;
+    const apartment = req.body.apart;
     let filteredProperties;
     // console.log(`Block: ${block}, building: ${building}, apartment: ${apartment}`);
     let reqbody = (name) => {return req.body[name];};
+    console.log(reqbody)
     if(block && building && apartment){
         filteredProperties = await system.add_purchase({block: block, building: building, apartment: apartment}, 
-            reqbody("first buyer name"), reqbody("first buyer id"), reqbody("second buyer name"),
-             reqbody("second buyer id"), reqbody("roomNum"), reqbody("apartArea"), reqbody("apartAreaAq"),
+            reqbody("nameclient1"), reqbody("idclient1"), reqbody("nameclient2"),
+             reqbody("idclient2"), reqbody("roomNum"), reqbody("apartArea"), reqbody("apartAreaAq"),
               reqbody("balconyArea"), reqbody("warehouseArea"), reqbody("warehouseNum"), reqbody("parkingNum"), 
               reqbody("parkingQuantity1"), reqbody("parkingQuantity2"), reqbody("purchaseDate"), reqbody("reportDate"), 
               reqbody("apartNumPrice"), reqbody("apartTenantPrice"), reqbody("notes"), reqbody("apartMMDPrice"), 
