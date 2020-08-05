@@ -35,6 +35,9 @@ const System = {
     // get_buildings : (block) => { return dal.get_buildings(block); },
 
     add_purchase : async (apartment_purchase, first_buyer_name, first_buyer_id, second_buyer_name = null, second_buyer_id = null, roomNum = null, apartArea = null, apartAreaAq = null, balconyArea = null, warehouseArea = null, warehouseNum = null, parkingNum = null, parkingQuantity1 = null, parkingQuantity2=null, purchaseDate, reportDate, apartNumPrice = null, apartTenantPrice = null, notes=null, apartMMDprice = null, dir = null, assessmentNum= null, referenceNum= null, mortgageSum= null, mortageBank= null, firstApartment= null) => {
+        if(!first_buyer_id || !first_buyer_name || !purchaseDate){
+            return this.gen_fail_res("אנא מלא את כל השדות ההכרחיים");
+        }
         return await dal.add_purchase(apartment_purchase, first_buyer_name, first_buyer_id, second_buyer_name, second_buyer_id, prchase_attr = {
             roomNum: roomNum,
             apartArea: apartArea, 
