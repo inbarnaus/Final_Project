@@ -28,9 +28,9 @@ const Scanner = {
     let pdfReader = new pdfreader.PdfReader();
     console.log(file);
     
-    let parsed_file = pdfReader.parseFileItems(file, function(err,item) {
+    let item = await pdfReader.parseFileItems(file);
       
-      console.log(err);
+      // console.log(err);
       console.log(item);
       console.log(item.text);
       if (!item || item.page) {
@@ -43,9 +43,9 @@ const Scanner = {
         console.log(item);
         (rows[item.y] = rows[item.y] || []).push(item.text);// x- each column, y-each row
       }
-    });
+    
     console.log(rows);
-    return parsed_file;
+    return item;
   }
 
   // parse_pdf2: async (path) => {
