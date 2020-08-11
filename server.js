@@ -1,20 +1,20 @@
 const path = require('path');
-const system = require('./Domain/System');
+const system = require('./Server/Domain/System');
 const express = require('express');
-const cors = require('cors');
+
 
 //token validations
-const auth = require('./Communication/middleware/auth');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const config = require('config');
+const auth = require('./Server/Communication/middleware/auth');
+// const bcrypt = require('bcryptjs');
+// const jwt = require('jsonwebtoken');
+// const config = require('config');
 const { check, validationResult } = require('express-validator');
 
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const app = express();
 const port = process.env.PORT || 8080;
-
+const cors = require('cors');
 app.use(fileUpload());
 
 app.set('port', process.env.PORT || port);
@@ -37,10 +37,10 @@ console.log(process.env.NODE_ENV);
 
 if (process.env.NODE_ENV === 'production') {
     // Set static folder
-    app.use(express.static('client/build'));
+    app.use(express.static('Client/build'));
 
     app.get('*', (req, res) => {
-        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+        res.sendFile(path.resolve(__dirname, 'Client', 'build', 'index.html'));
     })
 }
 
