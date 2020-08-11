@@ -1,52 +1,29 @@
-var pdfreader = require("../node_modules/pdfreader");
 var fs = require("fs");
-var pdfr2 = require("pdfreader").PdfReader;
+const pdf = require('pdf-parse');
  
-var rows = {}; // indexed by y-position
- 
-function printRows() {
-  Object.keys(rows) // => array of y-positions (type: float)
-    .sort((y1, y2) => parseFloat(y1) - parseFloat(y2)) // sort float positions
-    .forEach(y => console.log((rows[y] || []).join("")));
-}
-// console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-// new pdfreader.PdfReader().parseFileItems('Files/sample.pdf', function(err,item) {
-//   if (!item || item.page) {
-//     // end of file, or page
-//     printRows();
-//     //console.log("PAGE:", item.page);
-//     rows = {}; // clear rows for next page
-//   } else if (item.text) {
-//     // accumulate text items into rows object, per line
-//     console.log(item);
-//     (rows[item.x] = rows[item.x] || []).push(item.text);// x- each column, y-each row
-//   }
-// });
-
 const Scanner = {
   parse_pdf : async (file) => {
-    let pdfReader = new pdfreader.PdfReader();
-    console.log(file);
+    let res = null;
+    let dataBuffer = fs.readFileSync(file, 'utf-8');
+    pdf(dataBuffer).then(function(data) {
     
-    let item = await pdfReader.parseFileItems(file);
-      
-      // console.log(err);
-      console.log(item);
-      console.log(item.text);
-      if (!item || item.page) {
-        // end of file, or page
-        printRows(rows);
-        console.log("PAGE:", item.page);
-        rows = {}; // clear rows for next page
-      } else if (item.text) {
-        // accumulate text items into rows object, per line
-        console.log(item);
-        (rows[item.y] = rows[item.y] || []).push(item.text);// x- each column, y-each row
-      }
-    
-    console.log(rows);
-    return item;
-  }
+        // number of pages
+        console.log(data.numpages);
+        // number of rendered pages
+        console.log(data.numrender);
+        // PDF info
+        console.log(data.info);
+        // PDF metadata
+        console.log(data.metadata); 
+        // PDF.js version
+        // check https://mozilla.github.io/pdf.js/getting_started/
+        console.log(data.version);
+        // PDF text
+        console.log(data.text); 
+        res = data.text;
+    }).catch((err) => {if(err){console.log(err);}});
+    return res;
+
 
   // parse_pdf2: async (path) => {
   //   fs.readFile(path, (err, pdfBuffer) => {
@@ -61,6 +38,7 @@ const Scanner = {
   //          });
   //   });
   // }
+  }
 }
 
 module.exports = Scanner;
