@@ -6,7 +6,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import {Permissioned} from  'react-permissions';
 
-axios.create({baseURL: `https://itayinbar.herokuapp.com/:8080` // the url of our server
+axios.create({baseURL: `https://itayinbar.herokuapp.com` // the url of our server
 })
 
 class App extends Component {
