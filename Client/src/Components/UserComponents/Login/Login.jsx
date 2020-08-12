@@ -15,7 +15,7 @@ class Login extends Component {
             <form
               className = "custom-file-translate-scss"
               id='login' 
-              action='http://localhost:8080/login' 
+              action='http://itayinbar.herokuapp.com/' 
               method='post' 
               encType="multipart/form-data">
                 <h3>Login</h3>
