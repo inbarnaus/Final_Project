@@ -36,7 +36,9 @@ class App extends Component {
   async componentDidMount(){
     axios.get('/log')
     .then(response => {
+      console.log('/////');
       console.log(response.data);
+      console.log('/////');
       this.setLogged(response.data.succeed)
       // this.setType(response.data.res.isLawyer)
     })  
