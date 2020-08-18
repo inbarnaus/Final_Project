@@ -58,9 +58,9 @@ app.post('/login',
         console.log(login);
         userLogin = login;
         if(!login.succeed)
-            res.redirect('http://localhost:3000');
+            res.redirect('https://itayinbar.herokuapp.com/');
         else
-            res.redirect('http://localhost:3000/log');
+            res.redirect('https://itayinbar.herokuapp.com/log');
 
 
     //     //check for errors
