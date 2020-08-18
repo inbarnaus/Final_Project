@@ -57,11 +57,11 @@ app.post('/login',
         let login = await system.login(email, password);
         console.log(login);
         userLogin = login;
-        // if(!login.succeed)
-        //     res.redirect('https://itayinbar.herokuapp.com/');
-        // else
-        //     res.redirect('https://itayinbar.herokuapp.com/log');
-        res.send(login);
+        if(!login.succeed)
+            res.redirect('https://itayinbar.herokuapp.com/');
+        else
+            res.redirect('https://itayinbar.herokuapp.com/');
+        
 
     //     //check for errors
     //     const errors = validationResult(req);
