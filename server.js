@@ -105,7 +105,7 @@ app.post('/login',
     //     }
     });
 
-app.get('/log1',(req, res) => {
+app.get('/log',(req, res) => {
     console.log("server log");
     res.json(userLogin);
 })

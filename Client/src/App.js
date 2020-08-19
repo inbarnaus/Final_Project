@@ -34,7 +34,7 @@ class App extends Component {
 }
 
   async componentDidMount(){
-    axios.get('/log1')
+    axios.get('/log')
     .then(response => {
       console.log('/////');
       console.log(response);
