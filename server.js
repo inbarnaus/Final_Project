@@ -107,7 +107,12 @@ app.post('/login',
 
 app.get('/log',(req, res) => {
     console.log("server log");
-    res.json(userLogin);
+    if(!userLogin || !userLogin.succeed){
+        res.status(400);
+    }
+    else{
+        res.json(userLogin);
+    }
 })
 
 app.post('/register', async (req,res) => {
