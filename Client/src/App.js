@@ -15,7 +15,7 @@ class App extends Component {
     super()
 
     this.state = {
-      isLoggedIn: false,
+      isLoggedIn: true,
       isLawyer: true
     }
   }
