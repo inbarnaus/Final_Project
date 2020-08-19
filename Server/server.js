@@ -102,8 +102,9 @@ app.get('/log',(req, res) => {
 app.post('/register', async (req,res) => {
     let type = req.body.type;
     let email = req.body.mail;
-    if(type == 'lawyer')
+    if(type == 'lawyer'){
         console.log(await system.register_new_lawyer(email));
+    }
     else
         await system.register_new_costumer(email);
     res.redirect('http://localhost:3000');

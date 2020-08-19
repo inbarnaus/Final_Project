@@ -34,7 +34,8 @@ class NewUser extends Component {
   </fieldset>
   <Form.Group as={Row}>
                 <Col sm={{ span: 10, offset: 5 }}>
-                <Button type="submit" onClick={() => {alert('משתמש הוסף בהצלחה!')}}>submit</Button>
+                <Button type="submit">submit</Button>
+                {/* onClick={() => {alert('משתמש הוסף בהצלחה!')}} */}
                 </Col>
             </Form.Group>
             </Form>

@@ -4,7 +4,6 @@ import LawyerDashboard from './LawyerDashboard'
 import ClientDashboard from './ClientDashboard'
 import React, { Component } from 'react';
 import axios from 'axios';
-import {Permissioned} from  'react-permissions';
 
 axios.create({baseURL: `http://localhost:8080` // the url of our server
 })
@@ -15,7 +14,7 @@ class App extends Component {
     super()
 
     this.state = {
-      isLoggedIn: true,
+      isLoggedIn: false,
       isLawyer: true
     }
   }
@@ -33,15 +32,16 @@ class App extends Component {
     this.setState({isLawyer: bool});
 }
 
-  // async componentDidMount(){
-  //   axios.get('/log')
-  //   .then(response => {
-  //     if(response.data !== ""){
-  //       this.setLogged(response.data.succeed)
-  //       this.setType(response.data.res.isLawyer)
-  //     }
-  //   })  
-  // }
+  async componentDidMount(){
+    axios.get('/log')
+    .then(response => {
+      if(response.data !== ""){
+        console.log(response.data)
+        this.setLogged(response.data.succeed)
+        this.setType(response.data.res.isLawyer)
+      }
+    })  
+  }
   
   render() {
     const {isLoggedIn} = this.state
