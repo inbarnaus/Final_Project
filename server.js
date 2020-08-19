@@ -111,7 +111,7 @@ app.get('/log',(req, res) => {
         res.status(400);
     }
     else{
-        res.json(userLogin);
+        res.send(userLogin);
     }
 })
 
