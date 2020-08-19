@@ -39,7 +39,7 @@ class App extends Component {
       console.log('/////');
       console.log(response);
       console.log('/////');
-      if(response.data !== ""){
+      if(response.data !== "" && response.data.succeed !== undefined){
         this.setLogged(response.data.succeed);
       }
       // this.setType(response.data.res.isLawyer)
