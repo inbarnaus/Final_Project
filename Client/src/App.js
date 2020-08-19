@@ -37,7 +37,7 @@ class App extends Component {
     let response = await axios.get('/log');
     // .then(response => {
       console.log('/////');
-      console.log(response.data);
+      console.log(response);
       console.log('/////');
       if(response.data !== ""){
         this.setLogged(response.data.succeed);
