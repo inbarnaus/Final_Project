@@ -60,7 +60,7 @@ app.post('/login',
         if(!login.succeed)
             res.redirect('https://itayinbar.herokuapp.com/');
         else
-            res.redirect('https://itayinbar.herokuapp.com/');
+            res.redirect('https://itayinbar.herokuapp.com/log');
         
 
     //     //check for errors
