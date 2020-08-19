@@ -46,7 +46,7 @@ if (process.env.NODE_ENV === 'production') {
 
 let filteredProperties; // for searchrepo, addrepo
 
-let userLogin={avabash: avabash};
+let userLogin={'avabash': 'avabash'};
 app.post('/login',
 //  [
 //     check('email', 'please include a valid email').isEmail(),
