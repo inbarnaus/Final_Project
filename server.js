@@ -21,7 +21,6 @@ app.set('port', process.env.PORT || port);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
-// app.use(favicon(__dirname + '/public/favicon.png'));
 
 console.log(process.env.PORT);
 
@@ -57,10 +56,10 @@ app.post('/login',
         let login = await system.login(email, password);
         console.log(login);
         userLogin = login;
-        // if(!login.succeed)
-        //     res.redirect('https://itayinbar.herokuapp.com/');
-        // else
-        //     res.redirect('https://itayinbar.herokuapp.com/log');
+        if(!login.succeed)
+            res.redirect('https://itayinbar.herokuapp.com/');
+        else
+            res.redirect('https://itayinbar.herokuapp.com/');
         
 
     //     //check for errors
