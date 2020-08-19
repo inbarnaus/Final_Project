@@ -133,7 +133,6 @@ const Dal = {
 
     add_purchase: async (apartment_purchase, first_buyer_name, first_buyer_id, second_buyer_name = null, second_buyer_id = null, purchase_attr) => {
         attr = purchase_attr ? purchase_attr : {};
-        console.log(attr);
         block = apartment_purchase['block'];
         building = apartment_purchase['building'];
         apartment = apartment_purchase['apartment'];
@@ -159,8 +158,8 @@ const Dal = {
                     parking1: set_attr('parkingQuantity1'),
                     parking2: set_attr('parkingQuantity2'),
                     garage: set_attr('warehouseArea'),
-                    purchaseDate: Date(set_attr('purchaseDate')),
-                    reportDate: Date(set_attr('reportDate')),
+                    purchaseDate: Date(attr['purchaseDate']),
+                    reportDate: (attr['reportDate'] ? Date(attr['reportDate']) : Date(attr['purchaseDate']) + 30),
                     price: set_attr('apartNumPrice'),
                     assessmentNum: attr['assessmentNum'],
                     referenceNum: attr['referenceNum'],
