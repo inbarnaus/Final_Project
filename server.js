@@ -61,7 +61,7 @@ app.post('/login',
         //     res.redirect('https://itayinbar.herokuapp.com/');
         // else
         //     res.redirect('https://itayinbar.herokuapp.com/log');
-        res.status(200).json(login);
+        res.redirect('https://itayinbar.herokuapp.com/');
 
     //     //check for errors
     //     const errors = validationResult(req);
