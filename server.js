@@ -61,7 +61,7 @@ app.post('/login',
         //     res.redirect('https://itayinbar.herokuapp.com/');
         // else
         //     res.redirect('https://itayinbar.herokuapp.com/log');
-        res.redirect('log');
+        
 
     //     //check for errors
     //     const errors = validationResult(req);
@@ -107,12 +107,7 @@ app.post('/login',
 
 app.get('/log',(req, res) => {
     console.log("server log");
-    if(!userLogin || !userLogin.succeed){
-        res.status(400);
-    }
-    else{
-        res.send(userLogin);
-    }
+    res.json(userLogin);
 })
 
 app.post('/register', async (req,res) => {
