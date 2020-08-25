@@ -9,6 +9,7 @@
     font-size: 14px;
     color: rgba(82, 77, 77, 0.603);
     line-height: 22px;
+    /* text-align: right; */
     }
     input:read-only { background-color:#ccc; }
     p{
@@ -18,6 +19,7 @@
       float: right;
       margin-top: 0.67em;
       margin-bottom: 0.67em;
+      text-align: right;
     }
     h1{
         display: block;
@@ -36,26 +38,12 @@
     height: inherit;
     /* padding: 5px; */
     }
-    /* form {
-    width: 100%;
-    padding: 20px;
-    background: #fff;
-    box-shadow: 0 2px 5px #ccc; 
-    } */
     input, select, textarea {
     margin-bottom: 10;
     border: 1px solid #666;
     border-radius: 3px;
     }
-    /* input {
-    width: calc(150% - 10px);
-    padding: 5px;
-    } */
-    /* select {
-    width: 100%;
-    padding: 7px 0;
-    background: transparent;
-    } */
+    
     textarea {
       width: calc(100% - 6px);
       text-align:right;
@@ -63,24 +51,16 @@
     .lable {
       text-align:right;
     }
-    /* .item {
+    .item {
     position: relative;
     margin: 10px 0;
-    } */
-    /* .item:hover p, .item:hover i {
-    color: #095484;
+    text-align: right;
     }
-    input:hover, select:hover, textarea:hover {
-    box-shadow: 0 0 5px 0 #095484;
-    } */
     .btn-block {
     margin-top: 20px;
     text-align: center;
     }
-    .name-item {
-      /* margin-top: 20px; */
-      text-align: right;
-      }
+
     button {
     width: 150px;
     padding: 10px;
@@ -117,3 +97,4 @@
       float: right;
     }
     ::-webkit-input-placeholder { text-align:right; }
+    

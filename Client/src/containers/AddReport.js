@@ -12,6 +12,9 @@ class AddReport extends Component {
         action='http://localhost:8080/addrepo' 
         method='post' 
         encType="multipart/form-data">
+          <div className="header">
+            <h1>הוספת רכישה</h1>
+          </div>
           <Col md={{ span: 8, offset: 5 }}>
             <Form.Group controlId="block">
               <Row><Form.Label>מספר בלוק</Form.Label></Row>

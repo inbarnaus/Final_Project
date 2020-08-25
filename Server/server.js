@@ -114,7 +114,7 @@ app.post('/addrepo', async (req,res) => {
     const block = req.body.block;
     const building = req.body.building;
     const apartment = req.body.apartment;
-    console.log(`block: ${block}, building: ${building}, apartment: ${apartment}`);
+    // console.log(`block: ${block}, building: ${building}, apartment: ${apartment}`);
     
     if (block) 
         if (building) 
@@ -122,14 +122,20 @@ app.post('/addrepo', async (req,res) => {
                 filteredProperties = await system.get_apartment(block, building, apartment);
                 if(filteredProperties.succeed)
                     res.redirect('http://localhost:3000/editrepo');
-                // else
-                //     alert('לא נמצאו פרטים מתאימים');
-                //     res.redirect('http://localhost:3000/searchrepo');
+                else{
+                    // alert('לא נמצאו פרטים מתאימים');
+                    res.redirect('http://localhost:3000/addrepo');
+                }
             }
 })
 
 app.get('/editrepo', (req,res) => {
     res.json(filteredProperties);
+})
+
+app.get('/reports', (req,res) => {
+    let reports = system.get_all_unreported_purchases();
+    res.send(reports)
 })
 
 
@@ -159,7 +165,6 @@ app.post('/addg4',
         return res.status(400).json({ errors: errors.array() });
     }
 
-    console.log('inbar');
     let sampleFile = req.files.sampleFile;
     sampleFile.mv('C:/Users/Inbar Naus/VisualCodeProjects/Final_Project/Server/G4/' +sampleFile.name, function(err) {
         if (err)
@@ -189,6 +194,10 @@ app.post('/api/searchrepo', async (req, res) => {
 });
 
 app.get('/showsearch', (req, res) => {
+    res.json(filteredProperties);
+})
+
+app.get('/reports', (req, res) => {
     res.json(filteredProperties);
 })
 
@@ -318,7 +327,7 @@ app.get('/editGet/:block/:building/:apartment', async (req, res) => {
 
 app.post('/addPurchase', async (req, res) => {
     console.log("********************************")
-    console.log(req.body)
+    // console.log(req.body)
     const block = req.body.block;
     const building = req.body.build;
     const apartment = req.body.apart;
@@ -335,10 +344,11 @@ app.post('/addPurchase', async (req, res) => {
               reqbody("apartNumPrice"), reqbody("apartTenantPrice"), reqbody("notes"), reqbody("apartMMDPrice"), 
               reqbody("assessmentNum"), reqbody("referenceNum"), reqbody("mortgageSum"), reqbody("mortageBank"),
                reqbody("firstApartment"));
-        res.send(filteredProperties);
+        // res.send(filteredProperties);
+        res.redirect('http://localhost:3000')
     }
     else{
-        res.send({succeed: false, res: "מלא את כל הפרטים"});
+        res.redirect('http://localhost:3000/editrepo')
     }
 });
 
@@ -372,8 +382,6 @@ async (req, res) => {
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
-
-    console.log('naus');
     let sampleFile = req.files.sampleFile;
     console.log(sampleFile);
     sampleFile.mv('C:/Users/itays/OneDrive/Desktop/school/Final_Project/Final_Project/Server/FileHandlers/files/' +sampleFile.name, function(err) {
