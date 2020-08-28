@@ -229,7 +229,8 @@ const Dal = {
 
     get_all_unreported_purchases: async () => {
         ans = null;
-        await Acquisition.find({ 'reprted': false }, 'blockNum buildNum apartNum purchaseDate reportDate', function (err, record) {
+        console.log("mongoose");
+        await Acquisition.find({ 'reported': false }, 'fieldNum buildNum apartNum purchaseDate reportDate', function (err, record) {
             if (err || record == null || record === []) ans = {succeed: false, res: err};
             else ans = {succeed: true, res: record};
         });
@@ -420,6 +421,8 @@ mongoose.connect('mongodb+srv://mnh:12345@cluster0-sk1ck.mongodb.net/test?retryW
 })
 .then(async ()=>{
     console.log("db is connected");  
+    ans = await Dal.get_all_unreported_purchases();
+    console.log(ans);
     // let apartments = [
     //     [ 1, 112, 2, 2, 2, 70, null, 10, 5, 1, 1, 12, null, 1200000, 900000, null, null, null, null ],
     //     [ 2, 112, 3, 2, 3, 70, null, 10, 5, 2, 2, 23, null, 1200000, 900000, null, null, null, null ],

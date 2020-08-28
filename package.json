@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "npm run client",
-    "server": "nodemon Server/server.js",
+    "server": "node Server/server.js",
     "client": "npm start --prefix Client",
     "test": "jest",
     "dev": "concurrently \"npm run server\" \"npm run client\""
@@ -26,6 +26,7 @@
     "nodemon": "^2.0.4",
     "pdf": "^0.1.0",
     "pdf-parse": "^1.1.1",
+    "pdf-to-text": "0.0.7",
     "pdfjs-dist": "^2.4.456",
     "popups": "^1.1.3",
     "randomstring": "^1.1.5",
