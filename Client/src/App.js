@@ -27,19 +27,23 @@ class App extends Component {
     this.setState({isLawyer: bool});
   }
 
-  async componentDidMount(){
-    axios.get('https://itayinbar.herokuapp.com/log')
-    .then(response => {
-      console.log('/////');
-      console.log(response);
-      console.log('/////');
-      if(response.data !== "" && response.data.succeed !== undefined){
-        this.setLogged(response.data.succeed);
-        this.setType(response.data.res.isLawyer)
-      }
-      
-    })  
+  handleLoginSubmit = (isLoggedIn) =>{
+    this.setState({isLoggedIn});
   }
+
+  // async componentDidMount(){
+  //   axios.get('https://itayinbar.herokuapp.com/log')
+  //   .then(response => {
+  //     console.log('/////');
+  //     console.log(response);
+  //     console.log('/////');
+  //     if(response.data !== "" && response.data.succeed !== undefined){
+  //       this.setLogged(response.data.succeed);
+  //       this.setType(response.data.res.isLawyer)
+  //     }
+      
+  //   })  
+  // }
 
   // handleLoginSubmit = async (email, password) => {
   //   axios.post('/login').then(res => {
@@ -60,7 +64,7 @@ class App extends Component {
         {isLoggedIn ? 
         (isLawyer ? <LawyerDashboard /> : <ClientDashboard />)  
           :
-          <Login/>
+          <Login handleLogin={this.handleLoginSubmit}/>
         }
       </div>
     );

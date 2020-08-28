@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import './login.css';
 import { withRouter } from 'react-router-dom';
 // import ReactDOM from 'react-dom';
@@ -8,26 +9,51 @@ import App from '../../../App';
 class Login extends Component {
   constructor (){
     super();
-    this.app = new App();
+    this.state = {
+        email: '',
+        password: ''
+    }
   }
+
+  submit = async(e) => {
+    e.preventDefault();
+    const {email,password} = this.state;
+
+    let body = {
+        email,
+        password
+    }
+    let response = await axios.post('http://localhost:8080/login',body);
+    if(this.props.handleLogin)
+    this.props.handleLogin(response.data.succeed);
+  }
+
+  handleChange = (e) => {
+    this.setState({
+        [e.target.name] : e.target.value
+    });
+  }
+
    render(){
         return (
             <form
               className = "custom-file-translate-scss"
               id='login' 
-              action='https://itayinbar.herokuapp.com/login' 
-              method='post' 
-              encType="multipart/form-data">
+            //   action='https://itayinbar.herokuapp.com/login' 
+            //   method='post' 
+              onSubmit={this.submit}
+              encType="multipart/form-data"
+            >
                 <h3>Login</h3>
 
                 <div>
                     <label>Email address</label>
-                    <input type="email" className="form-control" placeholder="Enter email" name="email"/>
+                    <input type="email" className="form-control" placeholder="Enter email" name="email" onChange={this.handleChange}/>
                 </div>
 
                 <div className="form-group">
                     <label>Password</label>
-                    <input type="password" className="form-control" placeholder="Enter password" name="password" autoComplete="on"/>
+                    <input type="password" className="form-control" placeholder="Enter password" name="password" autoComplete="on" onChange={this.handleChange}/>
                 </div>
 
                 <div className="form-group">
