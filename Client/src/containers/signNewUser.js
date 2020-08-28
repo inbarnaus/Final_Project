@@ -13,31 +13,32 @@ class NewUser extends Component {
         encType="multipart/form-data">
         <br></br>
             <Form.Group as={Row} controlId="formHorizontalEmail">
+                <Col sm={{ span: 4, offset: 4 }}>
                 <Form.Label >
-                דוא"ל
+                כתובת מייל
                 </Form.Label>
-                <Col sm={5}>
-                <Form.Control type="email" name="mail"placeholder="הכנס דוא'ל" />
+                <Form.Control type="email" name="mail" placeholder="הכנס כתובת מייל"/>
                 </Col>
                 <Row></Row>
             </Form.Group>
 
             <fieldset> 
-    <Form.Group as={Row}>
-      
-      <Col sm={{ span: 8, offset: 2 }}> 
-       <input type="radio" name="type" value="lawyer" defaultChecked /> עורך דין
-       <br></br>
-        <input type="radio" name="type" value="client" /> לקוח 
-       </Col>
-     </Form.Group>
-  </fieldset>
-  <Form.Group as={Row}>
-                <Col sm={{ span: 10, offset: 5 }}>
-                <Button type="submit" onClick={() => {alert('משתמש הוסף בהצלחה!')}}>submit</Button>
+              <Form.Group as={Row}>
+                <Col sm={{ span: 0, offset: 4 }}> 
+                <input type="radio" name="type" value="lawyer" defaultChecked /> עורך דין
+                <br></br>
+                  <input type="radio" name="type" value="client" /> לקוח 
+                </Col>
+              </Form.Group>
+            </fieldset>
+
+            <Form.Group as={Row}>
+                <Col sm={{ span: 1, offset: 5 }}>
+                <Button type="submit">submit</Button>
                 </Col>
             </Form.Group>
             </Form>
+            
             );
         };
   }

@@ -34,11 +34,9 @@ class App extends Component {
   // async componentDidMount(){
   //   axios.get('https://itayinbar.herokuapp.com/log')
   //   .then(response => {
-  //     console.log('/////');
-  //     console.log(response);
-  //     console.log('/////');
-  //     if(response.data !== "" && response.data.succeed !== undefined){
-  //       this.setLogged(response.data.succeed);
+  //     if(response.data !== ""){
+  //       console.log(response.data)
+  //       this.setLogged(response.data.succeed)
   //       this.setType(response.data.res.isLawyer)
   //     }
       
