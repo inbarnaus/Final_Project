@@ -25,7 +25,7 @@ class Login extends Component {
     }
     let response = await axios.post('http://localhost:8080/login',body);
     if(this.props.handleLogin)
-    this.props.handleLogin(response.succeed);
+    this.props.handleLogin(response.data.succeed);
   }
 
   handleChange = (e) => {
