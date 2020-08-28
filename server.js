@@ -54,12 +54,6 @@ app.post('/login',
     async (req, res) => {
         const { email, password } = req.body;
         let login = await system.login(email, password);
-        console.log(login);
-        userLogin = login;
-        // if(!login.succeed)
-        //     res.redirect('https://itayinbar.herokuapp.com/');
-        // else
-        //     res.redirect('https://itayinbar.herokuapp.com/');
         res.send(login);
 
     //     //check for errors

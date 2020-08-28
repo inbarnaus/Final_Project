@@ -23,7 +23,7 @@ class Login extends Component {
         email,
         password
     }
-    let response = await axios.post('http://localhost:8080/login',body);
+    let response = await axios.post('https://itayinbar.herokuapp.com/login',body);
     if(this.props.handleLogin)
     this.props.handleLogin(response.data.succeed);
   }
@@ -39,8 +39,6 @@ class Login extends Component {
             <form
               className = "custom-file-translate-scss"
               id='login' 
-            //   action='https://itayinbar.herokuapp.com/login' 
-            //   method='post' 
               onSubmit={this.submit}
               encType="multipart/form-data"
             >
