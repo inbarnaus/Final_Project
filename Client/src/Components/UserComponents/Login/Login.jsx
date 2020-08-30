@@ -25,7 +25,7 @@ class Login extends Component {
     }
     let response = await axios.post('https://itayinbar.herokuapp.com/login',body);
     if(this.props.handleLogin)
-    this.props.handleLogin(response.data.succeed);
+      this.props.handleLogin(response.data.succeed);
   }
 
   handleChange = (e) => {
