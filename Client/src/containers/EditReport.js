@@ -8,56 +8,56 @@ class EditReport extends Component {
     constructor(){
         super();
         this.state = {
-            // report:{
-            //     apartArea: '',
-            //     apartAreaAq: '',
-            //     apartMMDprice: '',
-            //     apartNum: '',
-            //     apartNumPrice: '',
-            //     apartTenantPrice: '',
-            //     balconyArea: '',
-            //     blockNum: '',
-            //     buildNum: '',
-            //     dir: '',
-            //     level: '',
-            //     notes: '',
-            //     parkingNum: '',
-            //     parkingQuantity1: '',
-            //     parkingQuantity2: '',
-            //     roomNum: '',
-            //     warehouseArea: '',
-            //     warehouseNum: ''
-            // }
-            report: {
-                apartArea: 70,
-                apartAreaAq: "-",
-                apartMMDprice: "-",
-                apartNum: 2,
-                apartNumPrice: 1200000,
-                apartTenantPrice: 900000,
-                balconyArea: 10,
-                blockNum: 112,
-                buildNum: 1,
-                dir: 5,
-                level: 2,
-                notes: "היי, שלום עולם",
-                parkingNum: 1,
-                parkingQuantity1: 12,
-                parkingQuantity2: "-",
-                roomNum: 2,
-                warehouseArea: 5,
-                warehouseNum: 1
+            report:{
+                apartArea: '',
+                apartAreaAq: '',
+                apartMMDprice: '',
+                apartNum: '',
+                apartNumPrice: '',
+                apartTenantPrice: '',
+                balconyArea: '',
+                blockNum: '',
+                buildNum: '',
+                dir: '',
+                level: '',
+                notes: '',
+                parkingNum: '',
+                parkingQuantity1: '',
+                parkingQuantity2: '',
+                roomNum: '',
+                warehouseArea: '',
+                warehouseNum: ''
             }
+            // report: {
+            //     apartArea: 70,
+            //     apartAreaAq: "-",
+            //     apartMMDprice: "-",
+            //     apartNum: 2,
+            //     apartNumPrice: 1200000,
+            //     apartTenantPrice: 900000,
+            //     balconyArea: 10,
+            //     blockNum: 112,
+            //     buildNum: 1,
+            //     dir: 5,
+            //     level: 2,
+            //     notes: "היי, שלום עולם",
+            //     parkingNum: 1,
+            //     parkingQuantity1: 12,
+            //     parkingQuantity2: "-",
+            //     roomNum: 2,
+            //     warehouseArea: 5,
+            //     warehouseNum: 1
+            // }
         }
     }
 
     async componentDidMount(){
         axios.get('/editrepo')
         .then(response => {
-            // console.log(response.data.res)
-            // this.setState({
-            //     report: response.data.res
-            // })
+            console.log(response.data.res)
+            this.setState({
+                report: response.data.res
+            })
         })
     }
 
@@ -81,22 +81,22 @@ class EditReport extends Component {
             <Row >
                 <Col md={6}>
                     <Form.Group>
-                        <Form.Label>תז רוכש 1</Form.Label>
-                        <Form.Control type="text" name="idclient1" placeholder="הכנס תז" />
+                        <Form.Label>שם רוכש 2</Form.Label>
+                        <Form.Control type="text" name="nameclient2" placeholder="הכנס שם" />
                     </Form.Group>
-                    <Form.Group>
-                        <Form.Label>שם רוכש 1</Form.Label>
-                        <Form.Control type="text" name="nameclient1" placeholder="הכנס שם" />
-                    </Form.Group>
-                </Col>
-                <Col md={6}>
                     <Form.Group>
                         <Form.Label>תז רוכש 2</Form.Label>
                         <Form.Control type="text" name="idclient2" placeholder="הכנס תז" />
                     </Form.Group>
+                </Col>
+                <Col md={6}>
                     <Form.Group>
-                        <Form.Label>שם רוכש 2</Form.Label>
-                        <Form.Control type="text" name="nameclient2" placeholder="הכנס שם" />
+                        <Form.Label>שם רוכש 1</Form.Label>
+                        <Form.Control type="text" name="nameclient1" placeholder="הכנס שם" />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>תז רוכש 1</Form.Label>
+                        <Form.Control type="text" name="idclient1" placeholder="הכנס תז" />
                     </Form.Group>
                 </Col>
             </Row>

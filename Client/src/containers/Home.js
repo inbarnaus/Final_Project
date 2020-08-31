@@ -39,12 +39,13 @@ const StyledTableRow = withStyles((theme) => ({
 class Home extends Component {
 
   async componentDidMount(){
-    axios.get('/editrepo')
+    axios.get('/reportss')
     .then(response => {
-        // this.setState({
-        //     report: response.data.res
-        // })
-        console.log(this.state)
+      console.log('inbar')
+        this.setState({
+            report: response.data.res
+        })
+        // console.log(this.state)
     })
 }
 
@@ -60,9 +61,14 @@ class Home extends Component {
     return (
       <Form className = "custom-file-translate-scss"
         id='uploadForm' 
-        action='http://localhost:8080/reports' 
+        action='http://localhost:8080/home' 
         method='post' 
         encType="multipart/form-data">
+          <div className="Home">
+          <div className="lander">
+          <h1>דיווחים- טרם דווחו</h1>
+          </div>
+          </div>
       <TableContainer component={Paper}>
         <Table className="table" aria-label="customized table">
           <TableHead>
@@ -93,6 +99,9 @@ class Home extends Component {
     );
   }
 }
+
+export default withRouter(Home);
+
   // return (
   //   <div className="Home">
   //     <div className="lander">
@@ -101,5 +110,3 @@ class Home extends Component {
   //     </div>
   //   </div>
   // );
-
-export default withRouter(Home);

@@ -12,6 +12,7 @@ const { check, validationResult } = require('express-validator');
 
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
+const { report } = require('process');
 const app = express();
 const port = process.env.PORT || 8080;
 
@@ -36,8 +37,22 @@ function requiresAdmin(req, res, next) {
 }
 
 let filteredProperties; // for searchrepo, addrepo
-
 let userLogin;
+
+app.get('/', (req,res) => {
+    res.redirect('http://localhost:3000/reports')
+})
+
+let reports;
+app.post('/reports', async (res,req) => {
+    reports = await system.get_all_unreported_purchases();
+    res.redirect('http://localhost:3000/reportss')
+})
+
+app.get('/reportss', async (res,req) => {
+    res.json(reports)
+})
+
 app.post('/login',
 //  [
 //     check('email', 'please include a valid email').isEmail(),
@@ -114,16 +129,16 @@ app.post('/addrepo', async (req,res) => {
     const block = req.body.block;
     const building = req.body.building;
     const apartment = req.body.apartment;
-    // console.log(`block: ${block}, building: ${building}, apartment: ${apartment}`);
+    console.log(`block: ${block}, building: ${building}, apartment: ${apartment}`);
     
     if (block) 
         if (building) 
             if (apartment) {
                 filteredProperties = await system.get_apartment(block, building, apartment);
+                console.log(filteredProperties)
                 if(filteredProperties.succeed)
                     res.redirect('http://localhost:3000/editrepo');
                 else{
-                    // alert('לא נמצאו פרטים מתאימים');
                     res.redirect('http://localhost:3000/addrepo');
                 }
             }
@@ -132,12 +147,6 @@ app.post('/addrepo', async (req,res) => {
 app.get('/editrepo', (req,res) => {
     res.json(filteredProperties);
 })
-
-app.get('/reports', (req,res) => {
-    let reports = system.get_all_unreported_purchases();
-    res.send(reports)
-})
-
 
 app.post('/uploadpdf', (req, res) =>{
     let sampleFile = req.files.sampleFile;
