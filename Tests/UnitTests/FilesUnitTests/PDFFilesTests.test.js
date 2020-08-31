@@ -1,10 +1,12 @@
 
-const pdf_scanner = require('../../../Server/FileHandlers/Pdf_Scanner.js').parse_pdf;
+const pdf_scanner = require('../../../Server/FileHandlers/Pdf_Scanner.js');
 
 test('pdf scanner test', async ()=>{
-    pdf_path = 'Server/FileHandlers/files/sample.pdf';
-    rows = await pdf_scanner(pdf_path);
-    console.log(rows);
+    pdf_path = 'C:/Users/itays/OneDrive/Desktop/school/Final_Project/Final_Project/Server/FileHandlers/files/sample.pdf';
+    res = pdf_scanner(pdf_path);
+    // while(res.text == null);
+    // console.log(res);
+    
     // expect(rows).toStrictEqual( [
     //     [ 1, 112, 2, 2, 2, 70, null, 10, 5, 1, 1, 12, null, 1200000, 900000, null, null, null, null ],
     //     [ 2, 112, 3, 2, 3, 70, null, 10, 5, 2, 2, 23, null, 1200000, 900000, null, null, null, null ],

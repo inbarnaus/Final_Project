@@ -32,16 +32,16 @@ class App extends Component {
     this.setState({isLawyer: bool});
 }
 
-  async componentDidMount(){
-    axios.get('/log')
-    .then(response => {
-      if(response.data !== ""){
-        console.log(response.data)
-        this.setLogged(response.data.succeed)
-        this.setType(response.data.res.isLawyer)
-      }
-    })  
-  }
+  // async componentDidMount(){
+  //   axios.get('/log')
+  //   .then(response => {
+  //     if(response.data !== ""){
+  //       console.log(response.data)
+  //       this.setLogged(response.data.succeed)
+  //       this.setType(response.data.res.isLawyer)
+  //     }
+  //   })  
+  // }
   
   render() {
     const {isLoggedIn} = this.state

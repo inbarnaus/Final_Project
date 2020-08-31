@@ -1,44 +1,29 @@
-var fs = require("fs");
-const pdf = require('pdf-parse');
- 
-const Scanner = {
-  parse_pdf : async (file) => {
-    let res = null;
-    let dataBuffer = fs.readFileSync(file, 'utf-8');
-    pdf(dataBuffer).then(function(data) {
-    
-        // number of pages
-        console.log(data.numpages);
-        // number of rendered pages
-        console.log(data.numrender);
-        // PDF info
-        console.log(data.info);
-        // PDF metadata
-        console.log(data.metadata); 
-        // PDF.js version
-        // check https://mozilla.github.io/pdf.js/getting_started/
-        console.log(data.version);
-        // PDF text
-        console.log(data.text); 
-        res = data.text;
-    }).catch((err) => {if(err){console.log(err);}});
-    return res;
+const pdfUtil = require('pdf-to-text');
 
-
-  // parse_pdf2: async (path) => {
-  //   fs.readFile(path, (err, pdfBuffer) => {
-  //     new pdfr2().parseBuffer(pdfBuffer, function(err, item){
-  //       // console.log(item);
-  //       if (err)
-  //           console.log(err);
-  //        else if (!item)
-  //            console.log("no item");
-  //         else if (item.text)
-  //            console.log(item.text);
-  //          });
-  //   });
-  // }
-  }
+const pdf_info = {
+  err: null,
+  text: null
 }
 
-module.exports = Scanner;
+function change_info(err, data) {
+  console.log(pdf_info);
+  pdf_info['err'] = err;
+  pdf_info['text'] = data;
+  console.log(pdf_info);
+}
+
+// function wait_for_info(){
+//   if(!pdf_info['err'] && !pdf_info['text']){
+//     console.log('!');
+//     setTimeout(wait_for_info, 250);
+//   }
+// }
+
+function parse_pdf(path){
+  pdfUtil.pdfToText(path, change_info);
+  // wait_for_info();
+  console.log(pdf_info);
+  return pdf_info;
+}
+
+module.exports = parse_pdf;
