@@ -49,7 +49,8 @@ app.post('/reports', async (res,req) => {
     res.redirect('http://localhost:3000/reportss')
 })
 
-app.get('/reportss', async (res,req) => {
+app.get('/', async (res,req) => {
+    console.log('naus')
     res.json(reports)
 })
 
