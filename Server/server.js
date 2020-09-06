@@ -39,34 +39,30 @@ function requiresAdmin(req, res, next) {
 let filteredProperties; // for searchrepo, addrepo
 let userLogin;
 
-app.get('/', (req,res) => {
-    res.redirect('http://localhost:3000/reports')
-})
-
-let reports;
-app.post('/reports', async (res,req) => {
-    reports = await system.get_all_unreported_purchases();
-    res.redirect('http://localhost:3000/reportss')
-})
-
-app.get('/', async (res,req) => {
-    console.log('naus')
-    res.json(reports)
-})
-
-app.post('/login',
-//  [
-//     check('email', 'please include a valid email').isEmail(),
-//     check('password', 'Password is required').not().isEmpty()
-// ],
-    async (req, res) => {
-        const { email, password } = req.body;
+// app.get('/', (req,res) => {
+//         res.redirect('http://localhost:3000/home')
+//     })
+    
+    let reports;
+    app.get('/reports', async (req,res) => {
+        reports = await system.get_all_unreported_purchases();
+        console.log('111')
+        res.json(reports);
+    })
+    
+    app.post('/login',
+    //  [
+        //     check('email', 'please include a valid email').isEmail(),
+        //     check('password', 'Password is required').not().isEmpty()
+        // ],
+        async (req, res) => {
+            const { email, password } = req.body;
         let login = await system.login(email, password);
         userLogin = login;
         if(!login.succeed)
-            res.redirect('http://localhost:3000');
+            res.redirect('http://localhost:3000/login');
         else
-            res.redirect('http://localhost:3000/log');
+            res.redirect('http://localhost:3000');
 
 
     //     //check for errors
@@ -114,6 +110,7 @@ app.post('/login',
 app.get('/log',(req, res) => {
     res.json(userLogin);
 })
+
 
 app.post('/register', async (req,res) => {
     let type = req.body.type;
@@ -207,9 +204,9 @@ app.get('/showsearch', (req, res) => {
     res.json(filteredProperties);
 })
 
-app.get('/reports', (req, res) => {
-    res.json(filteredProperties);
-})
+// app.get('/reports', (req, res) => {
+//     res.json(filteredProperties);
+// })
 
 //Return: rendom password
 app.post('/register/lawyer', [
@@ -412,11 +409,6 @@ app.post('/send_report', async (req, res) => {
     res.send(ans);
 });
 
-//get all unreported purchases
-app.get('/unreported', async (req, res) => {
-    ans = await system.get_all_unreported_purchases();
-    res.send(ans);
-});
 
 app.post('/test', async(req, res) => {
     console.log('avabash');

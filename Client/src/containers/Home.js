@@ -12,8 +12,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
+function createData(blockNum, buildNum, apartNum, purchaseDate, reportDate) {
+  return { blockNum, buildNum, apartNum, purchaseDate, reportDate };
 }
 
 const StyledTableCell = withStyles((theme) => ({
@@ -37,27 +37,54 @@ const StyledTableRow = withStyles((theme) => ({
 }))(TableRow);
 
 class Home extends Component {
+  constructor(){
+    super()
 
-  async componentDidMount(){
-    axios.get('/reportss')
-    .then(response => {
-      console.log('inbar')
-        this.setState({
-            report: response.data.res
+    this.state = {
+      reports: [{
+        blockNum: '',
+        buildNum: '',
+        apartNum: '',
+        purchaseDate: '',
+        reportDate: ''
+      }]
+    }
+  }
+  
+
+  UNSAFE_componentWillMount() {
+    axios.get('/reports')
+        .then(response => {
+              this.setState({
+                reports: response.data.res
+            })
+            console.log(this.state.reports)
         })
-        // console.log(this.state)
-    })
-}
+  }
+
+  // shouldComponentUpdate() {
+  //   return false;
+  // }
+
+  makerows(){
+    var rows = [];
+    this.state.reports.forEach(element => {
+      rows.push(createData(element.blockNum, element.buildNum, element.apartNum, element.purchaseDate, element.reportDate))
+    });
+    return rows;
+  }
 
   render(){
-    const rows = [
-      createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-      createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-      createData('Eclair', 262, 16.0, 24, 6.0),
-      createData('Cupcake', 305, 3.7, 67, 4.3),
-      createData('Gingerbread', 356, 16.0, 49, 3.9),
-    ];
-
+    const rows = this.makerows()
+    // [
+    //   // createData(this.state.reports[0].blockNum, 159, 6.0, 24, 4.0),
+    //   createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
+    //   createData('Eclair', 262, 16.0, 24, 6.0),
+    //   createData('Cupcake', 305, 3.7, 67, 4.3),
+    //   createData('Gingerbread', 356, 16.0, 49, 3.9),
+    // ];
+    
+    console.log(this.state.reports)
     return (
       <Form className = "custom-file-translate-scss"
         id='uploadForm' 
@@ -73,8 +100,9 @@ class Home extends Component {
         <Table className="table" aria-label="customized table">
           <TableHead>
             <TableRow>
-              <StyledTableCell align="right">דווח</StyledTableCell>
-              <StyledTableCell align="right">(קובץ סריקה (האם קיים</StyledTableCell>
+            <StyledTableCell align="right"></StyledTableCell>
+              <StyledTableCell align="right">תאריך אחרון לדיווח</StyledTableCell>
+              <StyledTableCell align="right">תאריך רכישה</StyledTableCell>
               <StyledTableCell align="right">דירה</StyledTableCell>
               <StyledTableCell align="right">בניין</StyledTableCell>
               <StyledTableCell align="right">מגרש</StyledTableCell>
@@ -83,13 +111,12 @@ class Home extends Component {
           <TableBody>
             {rows.map((row) => (
               <StyledTableRow key={row.name}>
-                <StyledTableCell component="th" scope="row">
-                  {row.name}
-                </StyledTableCell>
-                <StyledTableCell align="right">{row.calories}</StyledTableCell>
-                <StyledTableCell align="right">{row.fat}</StyledTableCell>
-                <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-                <StyledTableCell align="right">{row.protein}</StyledTableCell>
+                <StyledTableCell align="right" href="/">דווח</StyledTableCell>
+                <StyledTableCell align="right">{row.reportDate}</StyledTableCell>
+                <StyledTableCell align="right">{row.purchaseDate}</StyledTableCell>
+                <StyledTableCell align="right">{row.apartNum}</StyledTableCell>
+                <StyledTableCell align="right">{row.buildNum}</StyledTableCell>
+                <StyledTableCell align="right">{row.blockNum}</StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>

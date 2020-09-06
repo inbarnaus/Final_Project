@@ -229,8 +229,8 @@ const Dal = {
 
     get_all_unreported_purchases: async () => {
         ans = null;
-        console.log("mongoose");
-        await Acquisition.find({ 'reported': false }, 'fieldNum buildNum apartNum purchaseDate reportDate', function (err, record) {
+        // console.log("mongoose");
+        await Acquisition.find({ 'reported': false }, 'blockNum buildNum apartNum purchaseDate reportDate', function (err, record) {
             if (err || record == null || record === []) ans = {succeed: false, res: err};
             else ans = {succeed: true, res: record};
         });
