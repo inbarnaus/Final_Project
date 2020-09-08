@@ -34,7 +34,7 @@ function requiresAdmin(req, res, next) {
 }
 
 // const file_address = 'C:/Users/itays/OneDrive/Desktop/school/Final_Project/Final_Project'
-const file_address = 'app'
+const file_address = '/app'
 console.log(process.env.NODE_ENV);
 
 if (process.env.NODE_ENV === 'production') {
