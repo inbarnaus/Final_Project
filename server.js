@@ -33,6 +33,8 @@ function requiresAdmin(req, res, next) {
     }
 }
 
+// const file_address = 'C:/Users/itays/OneDrive/Desktop/school/Final_Project/Final_Project'
+const file_address = 'app'
 console.log(process.env.NODE_ENV);
 
 if (process.env.NODE_ENV === 'production') {
@@ -94,7 +96,7 @@ app.get('/reports', async (req,res) => {
 app.post('/uploadpdf', (req, res) =>{
     let sampleFile = req.files.sampleFile;
     console.log(req);
-    sampleFile.mv('C:/Users/itays/OneDrive/Desktop/school/Final_Project/Final_Project/Server/FileHandlers/files/' +sampleFile.name, function(err) {
+    sampleFile.mv(file_address + '/Server/FileHandlers/files/' +sampleFile.name, function(err) {
         if (err)
           return res.status(500).send(err);
         system.upload_pdf(req.body.block, req.body.building, req.body.apartment, sampleFile);
@@ -118,11 +120,11 @@ app.post('/addg4',
         }
         let sampleFile = req.files.sampleFile;
         console.log(sampleFile);
-        sampleFile.mv('C:/Users/itays/OneDrive/Desktop/school/Final_Project/Final_Project/Server/G4/' +sampleFile.name, async function(err) {
+        sampleFile.mv(file_address + '/Server/G4/' +sampleFile.name, async function(err) {
             if (err)
                 res.status(500).send(err);
             system.add_4g(
-                'C:/Users/itays/OneDrive/Desktop/school/Final_Project/Final_Project/Server/G4/' +sampleFile.name);
+                file_address + '/Server/G4/' +sampleFile.name);
         });
 });
 
@@ -141,11 +143,11 @@ app.post('/replaceg4',
         }
         let sampleFile = req.files.sampleFile;
         console.log(sampleFile);
-        sampleFile.mv('C:/Users/itays/OneDrive/Desktop/school/Final_Project/Final_Project/Server/G4/' +sampleFile.name, async function(err) {
+        sampleFile.mv(file_address + '/Server/G4/' +sampleFile.name, async function(err) {
             if (err)
                 res.status(500).send(err);
             system.replace_4g(
-                'C:/Users/itays/OneDrive/Desktop/school/Final_Project/Final_Project/Server/G4/' +sampleFile.name);
+                file_address + '/Server/G4/' +sampleFile.name);
         });
 });
 
@@ -343,11 +345,11 @@ app.post('/addscanning',
     console.log(req);
     let sampleFile = req.files.sampleFile;
     console.log(sampleFile);
-    sampleFile.mv('C:/Users/itays/OneDrive/Desktop/school/Final_Project/Final_Project/Server/FileHandlers/files/' +sampleFile.name, function(err) {
+    sampleFile.mv(file_address + '/Server/FileHandlers/files/' +sampleFile.name, function(err) {
         if (err)
           return res.status(500).send(err);
         system.add_scanning(req.body.block, req.body.building, req.body.apartment, 
-            'C:/Users/itays/OneDrive/Desktop/school/Final_Project/Final_Project/Server/FileHandlers/files/' +sampleFile.name);
+            file_address + '/Server/FileHandlers/files/' +sampleFile.name);
         
     });
 });
