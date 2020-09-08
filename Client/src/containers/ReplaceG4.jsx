@@ -2,6 +2,7 @@ import React, { Component }  from "react";
 import '../css/AddG4.css'
 import { withRouter } from 'react-router-dom';
 import {Form, Button, Col} from 'react-bootstrap';
+import address from '../server_address';
 
 class ReplaceG4 extends Component {
   
@@ -14,7 +15,7 @@ class ReplaceG4 extends Component {
       <Form
         className = "custom-file-translate-scss"
         id='replaceg4' 
-        action='http://localhost:8080/replaceg4' 
+        action={address + '/replaceg4'}
         method='Post'
         encType="multipart/form-data">
         <Col>

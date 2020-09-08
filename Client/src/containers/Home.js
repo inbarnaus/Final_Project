@@ -11,6 +11,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import address from '../server_address';
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
@@ -39,14 +40,14 @@ const StyledTableRow = withStyles((theme) => ({
 class Home extends Component {
 
   async componentDidMount(){
-    axios.get('/editrepo')
+    axios.get(address + '/unreported')
     .then(response => {
-        // this.setState({
-        //     report: response.data.res
-        // })
+        this.setState({
+            report: response.data.res
+        })
         console.log(this.state)
     })
-}
+  }
 
   render(){
     const rows = [
@@ -60,7 +61,7 @@ class Home extends Component {
     return (
       <Form className = "custom-file-translate-scss"
         id='uploadForm' 
-        action='http://localhost:8080/reports' 
+        action={address + '/reports'}
         method='post' 
         encType="multipart/form-data">
       <TableContainer component={Paper}>

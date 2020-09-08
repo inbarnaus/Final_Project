@@ -15,6 +15,7 @@ import ReplaceG4 from "./containers/ReplaceG4";
 import UploadScanning from "./containers/UploadScanning";
 import ShowSearch from "./containers/ShowSearch";
 import EditReport from "./containers/EditReport";
+import ChangePass from "./containers/ChangePass";
 // import Login from "./Components/UserComponents/Login/Login"
 
 import Navigate from "./Navigate";
@@ -57,10 +58,8 @@ class LawyerDashboard extends Component {
         <Route exact path='/replaceg4'>
         <ReplaceG4/>
       </Route>
-        {/* <Route exact path="/login">
-        <Login />
-        </Route> */}
-      <Route>
+      <Route exact path='/changepass'>
+        <ChangePass/>
       </Route>
     </Switch>
                 </Router>

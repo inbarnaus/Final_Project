@@ -20,9 +20,16 @@ const System = {
     },
 
     add_4g : async (file) => {
+        console.log("system addg4");
+        console.log(file);
         file_rows = await xl_scanner(file);
         console.log(file_rows);
         return await dal.add_g4(file_rows, file);
+    },
+
+    replace_4g : async (file) => {
+        file_rows = await xl_scanner(file);
+        return await dal.replace_g4(file_rows, file);
     },
 
     get_apartment : async (block, building, apartment) => { 
@@ -34,7 +41,7 @@ const System = {
 
     // get_buildings : (block) => { return dal.get_buildings(block); },
 
-    add_purchase : async (apartment_purchase, first_buyer_name, first_buyer_id, second_buyer_name = null, second_buyer_id = null, roomNum = null, apartArea = null, apartAreaAq = null, balconyArea = null, warehouseArea = null, warehouseNum = null, parkingNum = null, parkingQuantity1 = null, parkingQuantity2=null, purchaseDate, reportDate, apartNumPrice = null, apartTenantPrice = null, notes=null, apartMMDprice = null, dir = null, assessmentNum= null, referenceNum= null, mortgageSum= null, mortageBank= null, firstApartment= null) => {
+    add_purchase : async (apartment_purchase, first_buyer_name, first_buyer_id, second_buyer_name = null, second_buyer_id = null, roomNum = null, apartArea = null, apartAreaAq = null, balconyArea = null, warehouseArea = null, warehouseNum = null, parkingNum = null, parking1 = null, parking2=null, purchaseDate, reportDate, price = null, apartTenantPrice = null, notes=null, apartMMDprice = null, dir = null, assessmentNum= null, referenceNum= null, mortgageSum= null, mortageBank= null, firstApartment= null) => {
         if(!first_buyer_id || !first_buyer_name || !purchaseDate){
             return this.gen_fail_res("אנא הכנס את כל פרטי הרכישה");
         }
@@ -44,11 +51,11 @@ const System = {
             apartAreaAq: apartAreaAq, 
             balconyArea: balconyArea, 
             warehouseArea: warehouseArea, 
-            garage: warehouseNum, 
+            warehouseNum: warehouseNum, 
             parkingNum: parkingNum, 
-            parkingQuantity1: parkingQuantity1, 
-            parkingQuantity2: parkingQuantity2, 
-            apartNumPrice: apartNumPrice, 
+            parking1: parking1, 
+            parking2: parking2, 
+            price: price, 
             apartTenantPrice: apartTenantPrice, 
             purchaseDate: purchaseDate,
             reportDate: reportDate,
@@ -135,9 +142,9 @@ const System = {
         return await dal.unregister(email);
     },
 
-    add_apartment : async (blockNum, buildNum, apartNum, level, roomNum, apartArea, apartAreaAq, balconyArea, warehouseArea, warehouseNum, parkingNum, parkingQuantity1, parkingQuantity2=null, apartNumPrice, apartTenantPrice, notes=null, apartMMDprice, dir) => {//private method for tests
+    add_apartment : async (blockNum, buildNum, apartNum, level, roomNum, apartArea, apartAreaAq, balconyArea, warehouseArea, warehouseNum, parkingNum, parking1, parking2=null, price, apartTenantPrice, notes=null, apartMMDprice, dir) => {//private method for tests
             return await dal.add_apartment(blockNum, buildNum, apartNum, level, roomNum, apartArea, apartAreaAq, balconyArea, warehouseArea, 
-                warehouseNum, parkingNum, parkingQuantity1, parkingQuantity2, apartNumPrice, apartTenantPrice, notes, apartMMDprice, dir);
+                warehouseNum, parkingNum, parking1, parking2, price, apartTenantPrice, notes, apartMMDprice, dir);
     },
 
     remove_apartment : async (blockNum, buildNum, apartNum) => {

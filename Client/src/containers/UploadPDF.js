@@ -2,14 +2,40 @@ import React, { Component }  from "react";
 import '../css/UploadPDF.css'
 import { withRouter } from 'react-router-dom';
 import {Form, Button, Row, Col} from 'react-bootstrap';
+import address from '../server_address';
 
 class UploadPDF extends Component {
+
+  constructor (){
+    super();
+    this.state = {
+        block: '',
+        building: '',
+        apartment: '',
+        file: null
+    }
+  }
+
+  handleChange = (e) => {
+    console.log(this.state);
+    this.setState({
+        [e.target.name] : e.target.value
+    });
+  }
+
+  onChangeFile=event=>{
+    console.log("changed");
+    this.setState({
+      file: event.target.files[0],
+    })
+  }
+
   render(){
     return (
       <Form
         className = "custom-file-translate-scss"
         id='uploadForm' 
-        action='http://localhost:8080/uploadpdf' 
+        action={address + '/uploadpdf'}
         method='post' 
         encType="multipart/form-data">
           <div class="header">
@@ -18,62 +44,33 @@ class UploadPDF extends Component {
           <Col md={{ span: 8, offset: 5 }}>
             <Form.Group controlId="block">
               <Row><Form.Label>מספר בלוק</Form.Label></Row>
-              <Form.Control name="block" type="text" placeholder="הכנס מספר בלוק"/>
+              <Form.Control name="block" type="text" placeholder="הכנס מספר בלוק" onChange={this.handleChange}/>
             </Form.Group>
           
             <Form.Group controlId="building">
               <Row><Form.Label>מספר בניין</Form.Label></Row>
-              <Form.Control name="building" type="text" placeholder="הכנס מספר בניין"/>
+              <Form.Control name="building" type="text" placeholder="הכנס מספר בניין" onChange={this.handleChange}/>
             </Form.Group>
           
             <Form.Group controlId="apartment">
               <Row><Form.Label>מספר דירה</Form.Label></Row>
-              <Form.Control name="apartment" type="text" placeholder="הכנס מספר דירה" />
+              <Form.Control name="apartment" type="text" placeholder="הכנס מספר דירה" onChange={this.handleChange}/>
             </Form.Group>
 
             <Form.Group>
               <Form.File id="formcheck-api-custom" custom>
-                <Form.File.Input name="sampleFile" isValid />
+                <Form.File.Input name="sampleFile" isValid onChange={this.onChangeFile}/>
                 <Form.File.Label data-browse="file">
-                העלה קובץ........
+                {this.state.file ? this.state.file['name'] : "העלה קובץ........"}
                 </Form.File.Label>
               </Form.File>
             </Form.Group>
             <br></br>
-            <Button variant="primary" type="submit" onClick={() => {alert('הקובף הועלה בהצלחה!'); this.props.history.push('/');}}>
+            <Button variant="primary" type="submit" onClick={alert("קובץ הועלה בהצלחה")}>
               אישור
             </Button>
         </Col>
       </Form>
-    //   <form 
-    //   className = "custom-file-translate-scss"
-    //   id='uploadForm' 
-    //   action='http://localhost:8080/uploadpdf' 
-    //   method='post' 
-    //   encType="multipart/form-data">
-    //     <div class="form-group">
-    //     <label class="w3-text-blue"><b>מס' בלוק</b></label>
-    //     <input class="w3-input w3-border" type="text" name="block"/>
-    //     </div>
-    //     <div class="form-group">
-    //     <label class="w3-text-blue"><b>מס' בניין</b></label>
-    //     <input class="w3-input w3-border" type="text" name="building"/>
-    //     </div>
-    //     <div class="form-group">
-    //     <label class="w3-text-blue"><b>מס' דירה</b></label>
-    //     <input class="w3-input w3-border" type="text" name="apartment"/>
-    //     </div>
-    //     <div class="form-group">
-          
-    //     <label class="w3-text-blue"><b></b></label>
-    //     <input className="input" type="file" name="sampleFile" />
-    //     </div>
-    //     <div class="form-group">
-          
-    //     <label class="w3-text-blue"><b></b></label>
-    //     <input className="input" type='submit' onClick={() => {alert('הקובף הועלה בהצלחה!');}} value='submit!' />
-    //     </div>
-    // </form> 
     );
   }
 }

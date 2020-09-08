@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import '../css/AddG4.css'
 import { withRouter } from 'react-router-dom';
+import address from '../server_address'
 
 class AddG4 extends Component {
   render(){
@@ -8,7 +9,7 @@ class AddG4 extends Component {
       <form
         className = "custom-file-translate-scss"
         id='uploadForm' 
-        action='http://localhost:8080/addg4' 
+        action={address + '/addg4'}
         method='post' 
         encType="multipart/form-data">
         <div className="form-group">

@@ -4,22 +4,22 @@ import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 
 class ShowSearch extends Component { 
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state = {
-            report: []
+            report: props.report
         }
     }
 
-    async componentDidMount(){
-        axios.get('/showsearch')
-        .then(response => {
-            this.setState({
-                report: response.data.res
-            })
-            console.log(this.state)
-        })
-    }
+    // async componentDidMount(){
+    //     axios.get('/showsearch')
+    //     .then(response => {
+    //         this.setState({
+    //             report: response.data.res
+    //         })
+    //         console.log(this.state)
+    //     })
+    // }
 
     render(){
         return (
@@ -50,7 +50,7 @@ class ShowSearch extends Component {
                     <td>{this.state.report.apartMMDprice}</td>
                     <td>{this.state.report.notes}</td>
                     <td>{this.state.report.apartTenantPrice}</td>
-                    <td>{this.state.report.apartNumPrice}</td>
+                    <td>{this.state.report.price}</td>
                     <td>{this.state.report.parkingNum}</td>
                     <td>{this.state.report.warehouseNum}</td>
                     <td>{this.state.report.warehouseArea}</td>

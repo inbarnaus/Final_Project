@@ -21,7 +21,7 @@
 
 // excelMongo.covertToMongo(credentials, options, (callback) => {console.log(callback)}); //returns documents inserted in the database.
 
-const xlsxFile = require('read-excel-file');
+const xlsxFile = require('read-excel-file/node');
 const Scanner = {
     reverseString : (arr) =>{
         for(var i=0; i< arr.length; i++){
@@ -39,8 +39,10 @@ const Scanner = {
     },
 
     parse_xl : async (file) => {
+        console.log("parsexl");
+        console.log(file);
         rows = await xlsxFile(file);
-        // console.log(rows);
+        console.log(rows);
         for (var i=0; i<rows.length; i++)
             rows[i] = Scanner.reverseString(rows[i]);
         const length = rows.length - 1; 

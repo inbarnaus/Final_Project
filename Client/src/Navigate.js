@@ -21,7 +21,7 @@ class Navigate extends Component{
                     <NavDropdown.Item href="/replaceg4">החלפת ג'4</NavDropdown.Item>
                     <NavDropdown.Item href="/addg4">הוספת ג'4</NavDropdown.Item>
                     <NavDropdown.Divider />
-                    <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
+                    <NavDropdown.Item href="/changepass">החלף סיסמא</NavDropdown.Item>
                   </NavDropdown>
                   {/* <Nav.Link href="/addrepo">הוספת דיווח</Nav.Link> */}
                 </Nav>

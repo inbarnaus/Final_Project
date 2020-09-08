@@ -3,73 +3,62 @@ import { withRouter } from 'react-router-dom';
 import '../css/EditReport.css'
 import {Form, Button, Row, Col, Container} from 'react-bootstrap';
 import axios from 'axios';
+import address from "../server_address";
 
 class EditReport extends Component { 
-    constructor(){
-        super();
-        this.state = {
-            // report:{
-            //     apartArea: '',
-            //     apartAreaAq: '',
-            //     apartMMDprice: '',
-            //     apartNum: '',
-            //     apartNumPrice: '',
-            //     apartTenantPrice: '',
-            //     balconyArea: '',
-            //     blockNum: '',
-            //     buildNum: '',
-            //     dir: '',
-            //     level: '',
-            //     notes: '',
-            //     parkingNum: '',
-            //     parkingQuantity1: '',
-            //     parkingQuantity2: '',
-            //     roomNum: '',
-            //     warehouseArea: '',
-            //     warehouseNum: ''
-            // }
-            report: {
-                apartArea: 70,
-                apartAreaAq: "-",
-                apartMMDprice: "-",
-                apartNum: 2,
-                apartNumPrice: 1200000,
-                apartTenantPrice: 900000,
-                balconyArea: 10,
-                blockNum: 112,
-                buildNum: 1,
-                dir: 5,
-                level: 2,
-                notes: "היי, שלום עולם",
-                parkingNum: 1,
-                parkingQuantity1: 12,
-                parkingQuantity2: "-",
-                roomNum: 2,
-                warehouseArea: 5,
-                warehouseNum: 1
-            }
-        }
+    constructor(props){
+        super(props);
+        this.state = props.report;
+        console.log(this.state);
     }
 
-    async componentDidMount(){
-        axios.get('/editrepo')
-        .then(response => {
-            // console.log(response.data.res)
-            // this.setState({
-            //     report: response.data.res
-            // })
-        })
+    // async componentDidMount(){
+    //     axios.get('/editrepo')
+    //     .then(response => {
+    //         // console.log(response.data.res)
+    //         // this.setState({
+    //         //     report: response.data.res
+    //         // })
+    //     })
+    // }
+
+    
+  submit = async(e) => {
+    e.preventDefault();
+    // const {block,building,apartment} = this.state;
+
+    // let body = {
+    //   block,
+    //   building,
+    //   apartment
+    // }
+    let response = await axios.post(address + '/addPurchase',this.state);
+    console.log(response);
+    if(response.data.succeed)
+        alert("רכישה עודכנה")
+    else{
+        response = await axios.post(address + '/edit/' + this.state.blockNum + '/' + this.state.buildNum + '/' + this.state.apartNum, this.state);
+        if(response.data.succeed)
+            alert("רכישה עודכנה")
+        else
+            alert(response.data.res);
     }
+  }
+
+  handleChange = (e) => {
+    this.setState({
+        [e.target.name] : e.target.value
+    });
+  }
 
     render(){
         return (
-            // <div className="testbox">
         <Form 
             className = "custom-file-translate-scss"
             id='uploadForm' 
-            action='http://localhost:8080/addPurchase' 
-            method='post' 
-            encType="multipart/form-data">
+            encType="multipart/form-data"
+            onSubmit={this.submit}
+            >
                 <Container fluid="md">
             <h1>עריכת פרטי רכישה</h1>
             <br></br>
@@ -82,21 +71,21 @@ class EditReport extends Component {
                 <Col md={6}>
                     <Form.Group>
                         <Form.Label>תז רוכש 1</Form.Label>
-                        <Form.Control type="text" name="idclient1" placeholder="הכנס תז" />
+                        <Form.Control type="text" name="buyerId1" placeholder={this.state.buyerId1 || "הכנס תז"} onChange={this.handleChange}/>
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>שם רוכש 1</Form.Label>
-                        <Form.Control type="text" name="nameclient1" placeholder="הכנס שם" />
+                        <Form.Control type="text" name="buyerName1" placeholder={this.state.buyerName1 || "הכנס שם"} onChange={this.handleChange}/>
                     </Form.Group>
                 </Col>
                 <Col md={6}>
                     <Form.Group>
                         <Form.Label>תז רוכש 2</Form.Label>
-                        <Form.Control type="text" name="idclient2" placeholder="הכנס תז" />
+                        <Form.Control type="text" name="buyerId2" placeholder={this.state.buyerId2 || "הכנס תז"} onChange={this.handleChange}/>
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>שם רוכש 2</Form.Label>
-                        <Form.Control type="text" name="nameclient2" placeholder="הכנס שם" />
+                        <Form.Control type="text" name="buyerName2" placeholder={this.state.buyerName2 || "הכנס שם"} onChange={this.handleChange}/>
                     </Form.Group>
                 </Col>
             </Row>
@@ -107,76 +96,76 @@ class EditReport extends Component {
             <Row md={3}>
                     <Form.Group>
                         <Form.Label>מספר דירה</Form.Label>
-                        <Form.Control type="text" name="apart" value={this.state.report.apartNum} placeholder={this.state.report.apartNum} readOnly="readOnly" />
+                        <Form.Control type="text" name="apartNum" value={this.state.apartNum} placeholder={this.state.apartNum} readOnly="readOnly" />
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>מספר בניין</Form.Label>
-                        <Form.Control type="text" name="build" value={this.state.report.buildNum} placeholder={this.state.report.buildNum} readOnly="readOnly" />
+                        <Form.Control type="text" name="buildNum" value={this.state.buildNum} placeholder={this.state.buildNum} readOnly="readOnly" />
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>מספר בלוק</Form.Label>
-                        <Form.Control type="text" name="block" value={this.state.report.blockNum} placeholder={this.state.report.blockNum} readOnly="readOnly" />
+                        <Form.Control type="text" name="blockNum" value={this.state.blockNum} placeholder={this.state.blockNum} readOnly="readOnly" />
                     </Form.Group>
             </Row>
 
-            <Row md={3}>
+            {/* <Row md={3}>
                     <Form.Group>
                         <Form.Label>מספר כיוונים</Form.Label>
-                        <Form.Control type="text" name="dir" placeholder={this.state.report.dir} disabled />
+                        <Form.Control type="text" name="dir" placeholder={this.state.dir} disabled onChange={this.handleChange}/>
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>מספר חדרים</Form.Label>
-                        <Form.Control type="text" name="roomNum" placeholder={this.state.report.roomNum} disabled/>
+                        <Form.Control type="text" name="roomNum" placeholder={this.state.roomNum} disabled onChange={this.handleChange}/>
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>מספר קומה</Form.Label>
-                        <Form.Control type="text" name="level" placeholder={this.state.report.level} disabled />
+                        <Form.Control type="text" name="level" placeholder={this.state.level} disabled onChange={this.handleChange}/>
                     </Form.Group>
-            </Row>
+            </Row> */}
             
-            <Row md={3}>
+            {/* <Row md={3}>
                     <Form.Group>
                         <Form.Label>שטח מרפסת/גינה</Form.Label>
-                        <Form.Control type="text" name="balconyArea" placeholder={this.state.report.balconyArea} disabled />
+                        <Form.Control type="text" name="balconyArea" placeholder={this.state.balconyArea} disabled onChange={this.handleChange}/>
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>שטח דירה אקווילנטי</Form.Label>
-                        <Form.Control type="text" name="apartAreaAq" placeholder={this.state.report.apartAreaAq} disabled/>
+                        <Form.Control type="text" name="apartAreaAq" placeholder={this.state.apartAreaAq} disabled onChange={this.handleChange}/>
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>שטח דירה</Form.Label>
-                        <Form.Control type="text" name="apartArea" placeholder={this.state.report.apartArea} disabled />
+                        <Form.Control type="text" name="apartArea" placeholder={this.state.apartArea} disabled onChange={this.handleChange}/>
                     </Form.Group>
-            </Row>
+            </Row> */}
             <br></br>
             
             <Row md={3}>
                     <Form.Group>
                         <Form.Label>מספר חניה 2</Form.Label>
-                        <Form.Control type="text" name="parkingQuantity2" placeholder={this.state.report.parkingQuantity2} />
+                        <Form.Control type="text" name="parking2" placeholder={this.state.parking2 || this.state.parking2} onChange={this.handleChange}/>
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>מספר חניה 1</Form.Label>
-                        <Form.Control type="text" name="parkingQuantity1" placeholder={this.state.report.parkingQuantity1}/>
+                        <Form.Control type="text" name="parking1" placeholder={this.state.parking1 || this.state.parking1} onChange={this.handleChange}/>
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>מספר חניות</Form.Label>
-                        <Form.Control type="text" name="parkingNum" placeholder={this.state.report.parkingNum} />
+                        <Form.Control type="text" name="parkingNum" placeholder={this.state.parkingNum} onChange={this.handleChange}/>
                     </Form.Group>
             </Row>
 
             <Row md={3}>
                     <Form.Group>
                         <Form.Label>מחיר דירה</Form.Label>
-                        <Form.Control type="text" name="apartNumPrice" placeholder={this.state.report.apartNumPrice} />
+                        <Form.Control type="text" name="price" placeholder={this.state.price} onChange={this.handleChange}/>
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>שטח מחסן</Form.Label>
-                        <Form.Control type="text" name="warehouseArea" placeholder={this.state.report.warehouseArea}/>
+                        <Form.Control type="text" name="warehouseArea" placeholder={this.state.warehouseArea} onChange={this.handleChange}/>
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>מספר מחסן</Form.Label>
-                        <Form.Control type="text" name="warehouseNum" placeholder={this.state.report.warehouseNum} />
+                        <Form.Control type="text" name="warehouseNum" placeholder={this.state.warehouseNum} onChange={this.handleChange}/>
                     </Form.Group>
             </Row>
 
@@ -184,7 +173,7 @@ class EditReport extends Component {
             <Form.Group className="align-items-center">
                 <Form.Label>הערות</Form.Label>
                 {/* <textarea name="notes" type="text" as="textarea" rows="3">{this.state.report.notes}</textarea> */}
-                <Form.Control name="notes" type="text" as="textarea" rows="3" defaultValue={this.state.report.notes}/>
+                <Form.Control name="notes" type="text" as="textarea" rows="3" defaultValue={this.state.notes} onChange={this.handleChange}/>
                     {/* {this.state.report.notes}
                 </Form.Control> */}
             </Form.Group>
@@ -194,7 +183,7 @@ class EditReport extends Component {
             <div className="item">
                 <Row>
                     <Col>
-                        <input  type="date" id="start" name="purchaseDate"/>
+                        <input  type="date" id="start" name="purchaseDate" onChange={this.handleChange}/>
                     </Col>
                     <Col>
                         <p>הכנס תאריך רכישה</p>

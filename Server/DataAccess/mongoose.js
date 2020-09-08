@@ -21,18 +21,18 @@ const Asset = mongoose.model('Asset', new Schema({
     level: Number, 
     roomNum: Number, 
     apartArea: Number, 
-    apartAreaAq: Object, 
+    apartAreaAq: Number, 
     balconyArea: Number, 
     warehouseArea: Number, 
     warehouseNum: Number, 
     parkingNum: Number, 
-    parkingQuantity1: Number, 
-    parkingQuantity2: Number, 
-    apartNumPrice: Number,
+    parking1: Number, 
+    parking2: Number, 
+    price: Number,
     apartTenantPrice: Number, 
-    notes: Object, 
+    notes: String, 
     apartMMDprice: Number, 
-    dir: Object
+    dir: Number
 }));
 
 const Acquisition = mongoose.model('Acquisition', new Schema({
@@ -45,7 +45,7 @@ const Acquisition = mongoose.model('Acquisition', new Schema({
     buyerId2: {type: String, default: null},
     parking1: Number,
     parking2: {type: Number, default: null},
-    garage: Number,
+    warehouseArea: Number,
     purchaseDate: Date,
     reportDate: Date,
     price: Number,
@@ -107,7 +107,39 @@ const Dal = {
         for(var i=0; i<tempReports.length; i++){
             repo = {buildNum: tempReports[i][0], blockNum: tempReports[i][1], apartNum: tempReports[i][2], 
                 level: tempReports[i][3], roomNum: tempReports[i][4], apartArea: tempReports[i][5], apartAreaAq: tempReports[i][6], balconyArea: tempReports[i][7], warehouseArea: tempReports[i][8], 
-                warehouseNum: tempReports[i][9], parkingNum: tempReports[i][10], parkingQuantity1: tempReports[i][11], parkingQuantity2: tempReports[i][12], apartNumPrice: tempReports[i][13], apartTenantPrice: tempReports[i][14], 
+                warehouseNum: tempReports[i][9], parkingNum: tempReports[i][10], parking1: tempReports[i][11], parking2: tempReports[i][12], price: tempReports[i][13], apartTenantPrice: tempReports[i][14], 
+                notes: tempReports[i][15], apartMMDprice: tempReports[i][16], dir: tempReports[i][17]};
+            reports.push(repo);
+            //repo.save().then(() => console.log('good save')).catch((err)=> {console.log("bad save")});
+        }
+        assets = await Asset.collection.insert(reports);
+        if(assets == null || assets == []){
+            return gen_fail_res("בעיה");
+        }
+        else{
+            return gen_succ_res(reports);
+        }
+    },
+
+    replace_g4: async(tempReports, file) =>{
+        if(tempReports == null || tempReports == []){
+            return gen_succ_res(tempReports);
+        }
+        block = tempReports[0][1];
+        ans = await Block.findOneAndDelete({'name': block}, 'name');
+        if(!ans){
+            return gen_fail_res("המגרש לא קיים במערכת");
+        }
+        await Asset.remove({blockNum: block});
+        newBlock = new Block({
+            name: block,
+            file: file
+        }).save();
+        reports = []
+        for(var i=0; i<tempReports.length; i++){
+            repo = {buildNum: tempReports[i][0], blockNum: tempReports[i][1], apartNum: tempReports[i][2], 
+                level: tempReports[i][3], roomNum: tempReports[i][4], apartArea: tempReports[i][5], apartAreaAq: tempReports[i][6], balconyArea: tempReports[i][7], warehouseArea: tempReports[i][8], 
+                warehouseNum: tempReports[i][9], parkingNum: tempReports[i][10], parking1: tempReports[i][11], parking2: tempReports[i][12], price: tempReports[i][13], apartTenantPrice: tempReports[i][14], 
                 notes: tempReports[i][15], apartMMDprice: tempReports[i][16], dir: tempReports[i][17]};
             reports.push(repo);
             //repo.save().then(() => console.log('good save')).catch((err)=> {console.log("bad save")});
@@ -153,12 +185,12 @@ const Dal = {
                     'buyerId1': first_buyer_id,
                     'buyerName2': second_buyer_name,
                     'buyerId2': second_buyer_id,
-                    parking1: set_attr('parkingQuantity1'),
-                    parking2: set_attr('parkingQuantity2'),
-                    garage: set_attr('warehouseArea'),
+                    parking1: set_attr('parking1'),
+                    parking2: set_attr('parking2'),
+                    warehouseArea: set_attr('warehouseArea'),
                     purchaseDate: Date(purchase_attr['purchaseDate']),
                     reportDate: Date(purchase_attr['reportDate'] || Date(purchase_attr['purchaseDate']) + 29),
-                    price: set_attr('apartNumPrice'),
+                    price: set_attr('price'),
                     assessmentNum: attr['assessmentNum'],
                     referenceNum: attr['referenceNum'],
                     mortgageSum: attr['mortgageSum'],
@@ -177,7 +209,7 @@ const Dal = {
     get_purchase: async (block_num, building_num, apartment_num) =>{
         record = await Acquisition.findOne({ 'buildNum': building_num, 'blockNum': block_num, 'apartNum': apartment_num });
         if (record == null){
-            return {succeed: false, res: "הדירה הבמוקשת לא נמצאת במערכת"};
+            return {succeed: false, res: "הדירה המבוקשת לא נמצאת במערכת"};
         }
         else{
             return {succeed: true, res: record};
@@ -227,7 +259,7 @@ const Dal = {
 
     get_all_unreported_purchases: async () => {
         ans = null;
-        console.log("mongoose");
+        // console.log("mongoose");
         await Acquisition.find({ 'reported': false }, 'fieldNum buildNum apartNum purchaseDate reportDate', function (err, record) {
             if (err || record == null || record === []) ans = {succeed: false, res: err};
             else ans = {succeed: true, res: record};
@@ -274,6 +306,7 @@ const Dal = {
         else {
             ans = {succeed: false, res: "משתמש כבר רשום למערכת"};
         }
+        console.log(ans);
         return ans;
     },
 
@@ -341,7 +374,7 @@ const Dal = {
         }
     },
 
-    add_apartment: async(blockNum, buildNum, apartNum, level, roomNum, apartArea, apartAreaAq, balconyArea, warehouseArea, warehouseNum, parkingNum, parkingQuantity1, parkingQuantity2=null, apartNumPrice, apartTenantPrice, notes=null, apartMMDprice, dir) =>{
+    add_apartment: async(blockNum, buildNum, apartNum, level, roomNum, apartArea, apartAreaAq, balconyArea, warehouseArea, warehouseNum, parkingNum, parking1, parking2=null, price, apartTenantPrice, notes=null, apartMMDprice, dir) =>{
         let asset = new Asset({
             buildNum: buildNum, 
             blockNum: blockNum, 
@@ -354,9 +387,9 @@ const Dal = {
             warehouseArea: warehouseArea, 
             warehouseNum: warehouseNum, 
             parkingNum: parkingNum, 
-            parkingQuantity1: parkingQuantity1, 
-            parkingQuantity2: parkingQuantity2, 
-            apartNumPrice: apartNumPrice,
+            parking1: parking1, 
+            parking2: parking2, 
+            price: price,
             apartTenantPrice: apartTenantPrice, 
             notes: notes, 
             apartMMDprice: apartMMDprice, 

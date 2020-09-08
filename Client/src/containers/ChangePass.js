@@ -5,12 +5,13 @@ import '../css/signNewUser.css'
 import axios from 'axios';
 import address from '../server_address';
 
-class NewUser extends Component { 
+class ChangePass extends Component { 
   constructor(){
     super();
     this.state = {
       email: '',
-      type: true
+      password: '',
+      new_password: ''
     }
     this.submit = this.submit.bind(this);
   }
@@ -21,24 +22,18 @@ class NewUser extends Component {
     console.log(this.state);
   }
 
-  handleLawyer = (e) => {
-    this.setState({
-      type : true
-    });
-    console.log(this.state);
-  }
-  handleCostumer = (e) => {
-    this.setState({
-      type : false
-    });
-    console.log(this.state);
-  }
 
   async submit(e){
     e.preventDefault();
-    let response = await axios.post(address + '/register', this.state);
+    const {email, password, new_password} = this.state;
+    let body = {
+        email: email,
+        password: password,
+        new_password: new_password
+    };
+    let response = await axios.post(address + '/changePassword', body);
     if(response.data.succeed){
-      alert("משתמש נרשם בהצלחה");
+      alert("סיסמא שונתה בהצלחה");
     }
     else{
       alert(response.data.res);
@@ -57,19 +52,18 @@ class NewUser extends Component {
               כתובת מייל
               </Form.Label>
               <Form.Control type="email" name="email" placeholder="הכנס כתובת מייל" onChange={this.handleChange}/>
+              <Form.Label >
+              סיסמא
+              </Form.Label>
+              <Form.Control type="password" name="password" placeholder="הכנס סיסמא מקורית" onChange={this.handleChange}/>
+              <Form.Label >
+              סיסמא חדשה
+              </Form.Label>
+              <Form.Control type="password" name="new_password" placeholder="הכנס סיסמא חדשה" onChange={this.handleChange}/>
+              
               </Col>
               <Row></Row>
           </Form.Group>
-
-          <fieldset> 
-            <Form.Group as={Row}>
-              <Col sm={{ span: 0, offset: 4 }}> 
-              <input type="radio" name="type" value="lawyer" defaultChecked onChange={this.handleLawyer}/> עורך דין
-              <br></br>
-                <input type="radio" name="type" value="client" onChange={this.handleCostumer}/> לקוח 
-              </Col>
-            </Form.Group>
-          </fieldset>
 
           <Form.Group as={Row}>
               <Col sm={{ span: 1, offset: 5 }}>
@@ -82,5 +76,5 @@ class NewUser extends Component {
     };
 }
   
-  export default withRouter(NewUser);
+  export default withRouter(ChangePass);
   
