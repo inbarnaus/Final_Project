@@ -336,7 +336,7 @@ app.post('/addscanning',
 //     check('building', 'Missing building No').not().isEmpty(),
 //     check('apartment', 'Missing apartment No').not().isEmpty()
 // ],
-(req, res) => {
+async (req, res) => {
     //check for errors
     // const errors = validationResult(req);
     // if (!errors.isEmpty()) {
@@ -345,7 +345,7 @@ app.post('/addscanning',
     console.log(req);
     let sampleFile = req.files.sampleFile;
     console.log(sampleFile);
-    await sampleFile.mv(file_address + '/Server/FileHandlers/files/' +sampleFile.name, function(err) {
+    await sampleFile.mv(file_address + '/Server/FileHandlers/files/' +sampleFile.name, async function(err) {
         if (err)
           return res.status(500).send(err);
         let response = await system.add_scanning(req.body.block, req.body.building, req.body.apartment, 
