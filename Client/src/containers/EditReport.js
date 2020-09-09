@@ -11,27 +11,10 @@ class EditReport extends Component {
         this.state = props.report;
         console.log(this.state);
     }
-
-    // async componentDidMount(){
-    //     axios.get('/editrepo')
-    //     .then(response => {
-    //         // console.log(response.data.res)
-    //         // this.setState({
-    //         //     report: response.data.res
-    //         // })
-    //     })
-    // }
-
     
   submit = async(e) => {
     e.preventDefault();
-    // const {block,building,apartment} = this.state;
 
-    // let body = {
-    //   block,
-    //   building,
-    //   apartment
-    // }
     let response = await axios.post(address + '/addPurchase',this.state);
     console.log(response);
     if(response.data.succeed)

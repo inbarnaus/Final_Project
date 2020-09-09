@@ -3,6 +3,7 @@ import '../css/UploadPDF.css'
 import { withRouter } from 'react-router-dom';
 import {Form, Button, Row, Col} from 'react-bootstrap';
 import address from '../server_address';
+import axios from 'axios';
 
 class UploadPDF extends Component {
 
@@ -24,10 +25,26 @@ class UploadPDF extends Component {
   }
 
   onChangeFile=event=>{
-    console.log("changed");
     this.setState({
       file: event.target.files[0],
     })
+  }
+
+  submit = async(e) =>{
+    e.preventDefault();
+    const {block, building, apartment, file} = this.state;
+    const data = new FormData();
+    data.append('block', block);
+    data.append('building', building);
+    data.append('apartment', apartment);
+    data.append('file', file);
+    let response = await axios.post(address + '/uploadpdf', data);
+    if(response.data.succeed){
+      alert("קובץ הועלה בהצלחה");
+    }
+    else{
+      alert(response.data.res);
+    }
   }
 
   render(){
@@ -35,8 +52,9 @@ class UploadPDF extends Component {
       <Form
         className = "custom-file-translate-scss"
         id='uploadForm' 
-        action={address + '/uploadpdf'}
-        method='post' 
+        // action={address + '/uploadpdf'}
+        // method='post' 
+        onSubmit={this.submit}
         encType="multipart/form-data">
           <div class="header">
             <h1>PDF הוספת קובץ</h1>
@@ -66,7 +84,7 @@ class UploadPDF extends Component {
               </Form.File>
             </Form.Group>
             <br></br>
-            <Button variant="primary" type="submit" onClick={alert("קובץ הועלה בהצלחה")}>
+            <Button variant="primary" type="submit">
               אישור
             </Button>
         </Col>

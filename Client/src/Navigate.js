@@ -15,7 +15,7 @@ class Navigate extends Component{
                 <Nav className="mr-auto">
                   <NavDropdown title="פעולות" id="basic-nav-dropdown">
                     <NavDropdown.Item href="/uploadscanning">הוספת PDF טופס סריקה</NavDropdown.Item>
-                    <NavDropdown.Item href="/uploadpdf">הוספת PDF מש"ח</NavDropdown.Item>
+                    {/*<NavDropdown.Item href="/uploadpdf">הוספת PDF מש"ח</NavDropdown.Item>*/}
                     <NavDropdown.Item href="/searchrepo">חיפוש רשומה</NavDropdown.Item>
                     <NavDropdown.Item href="/addrepo">הוספת רכישה</NavDropdown.Item>
                     <NavDropdown.Item href="/replaceg4">החלפת ג'4</NavDropdown.Item>

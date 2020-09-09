@@ -11,7 +11,7 @@ const User = mongoose.model('User', new Schema({
 
 const Block = mongoose.model('Block', new Schema({
     name: String,
-    data: Buffer
+    file: Buffer
 }));
 
 const Asset = mongoose.model('Asset', new Schema({
@@ -126,7 +126,7 @@ const Dal = {
             return gen_succ_res(tempReports);
         }
         block = tempReports[0][1];
-        ans = await Block.findOneAndDelete({'name': block}, 'name');
+        ans = await Block.findOneAndRemove({name: block});
         if(!ans){
             return gen_fail_res("המגרש לא קיים במערכת");
         }
@@ -260,9 +260,9 @@ const Dal = {
     get_all_unreported_purchases: async () => {
         
         let record_scanned = await Acquisition.find({ 'reported': false, 'scanForm' : {$ne: null} }, 'fieldNum buildNum apartNum scanForm purchaseDate reportDate')
-        if (err || record_scanned == null) record_scanned = [];
+        if (record_scanned == null) record_scanned = [];
         let record_notscanned = await Acquisition.find({ 'reported': false, 'scanForm' : null }, 'fieldNum buildNum apartNum scanForm purchaseDate reportDate');
-        if (err || record_scanned == null) record_notscanned = [];
+        if (record_scanned == null) record_notscanned = [];
         return {succeed: true, res: [record_scanned, record_notscanned]};
     },
 
@@ -325,7 +325,7 @@ const Dal = {
         if(res == null){
             return gen_fail_res("דירה לא נמצאה");
         }
-        await Acquisition.findOneAndUpdate({ 'buildNum': building, 'blockNum': block, 'apartNum': apartment, 'reported': false, 'scanForm': null}, {'scanForm': file}, 
+        await Acquisition.findOneAndUpdate({ 'buildNum': building, 'blockNum': block, 'apartNum': apartment, 'reported': false}, {'scanForm': file}, 
             async function(err, res){
                 if(err || res == null){
                     ans = gen_fail_res(err || "רכישה לא מתועדת");

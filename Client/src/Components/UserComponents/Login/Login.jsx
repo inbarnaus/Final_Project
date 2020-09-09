@@ -25,6 +25,7 @@ class Login extends Component {
         password
     }
     let response = await axios.post(address + '/login',body);
+    // console.log(response);
     if(this.props.handleLogin)
       this.props.handleLogin(response.data.succeed);
   }

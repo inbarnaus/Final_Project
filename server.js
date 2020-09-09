@@ -2,7 +2,8 @@ const path = require('path');
 const system = require('./Server/Domain/System');
 const express = require('express');
 
-
+const file_address = 'C:/Users/itays/OneDrive/Desktop/school/Final_Project/Final_Project'
+// const file_address = '/app'
 //token validations
 const auth = require('./Server/Communication/middleware/auth');
 // const bcrypt = require('bcryptjs');
@@ -33,8 +34,6 @@ function requiresAdmin(req, res, next) {
     }
 }
 
-// const file_address = 'C:/Users/itays/OneDrive/Desktop/school/Final_Project/Final_Project'
-const file_address = '/app'
 console.log(process.env.NODE_ENV);
 
 if (process.env.NODE_ENV === 'production') {
@@ -48,7 +47,7 @@ if (process.env.NODE_ENV === 'production') {
 
 app.post('/login',
     async (req, res) => {
-        // console.log(req);
+        console.log(req);
         const { email, password } = req.body;
         let login = await system.login(email, password);
         res.send(login);
@@ -94,8 +93,7 @@ app.get('/reports', async (req,res) => {
 
 
 app.post('/uploadpdf', async (req, res) =>{
-    let sampleFile = req.files.sampleFile;
-    console.log(req);
+    let sampleFile = req.files.file;
     await sampleFile.mv(file_address + '/Server/FileHandlers/files/' +sampleFile.name, async function(err) {
         if (err)
           return res.status(500).send(err);
@@ -118,7 +116,7 @@ app.post('/addg4',
             
             return res.status(400).json({ errors: errors.array() });
         }
-        let sampleFile = req.files.sampleFile;
+        let sampleFile = req.files.file;
         console.log(sampleFile);
         await sampleFile.mv(file_address + '/Server/G4/' +sampleFile.name, async function(err) {
             if (err)
@@ -142,7 +140,7 @@ app.post('/replaceg4',
             
             return res.status(400).json({ errors: errors.array() });
         }
-        let sampleFile = req.files.sampleFile;
+        let sampleFile = req.files.file;
         console.log(sampleFile);
         await sampleFile.mv(file_address + '/Server/G4/' +sampleFile.name, async function(err) {
             if (err)
@@ -343,8 +341,7 @@ async (req, res) => {
     //     return res.status(400).json({ errors: errors.array() });
     // }
     console.log(req);
-    let sampleFile = req.files.sampleFile;
-    console.log(sampleFile);
+    let sampleFile = req.files.file;
     await sampleFile.mv(file_address + '/Server/FileHandlers/files/' +sampleFile.name, async function(err) {
         if (err)
           return res.status(500).send(err);

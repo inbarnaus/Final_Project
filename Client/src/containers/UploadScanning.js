@@ -3,6 +3,8 @@ import '../css/UploadPDF.css'
 import { withRouter } from 'react-router-dom';
 import {Form, Button, Row, Col} from 'react-bootstrap';
 import address from '../server_address';
+import axios from 'axios';
+
 
 class UploadScanning extends Component {
 
@@ -14,7 +16,7 @@ class UploadScanning extends Component {
         apartment: '',
         file: null
     }
-    
+    // this.submit = this.submit.bind(this);
   }
 
   handleChange = (e) => {
@@ -28,6 +30,25 @@ class UploadScanning extends Component {
     this.setState({
       file: event.target.files[0],
     })
+    console.log(this.state);
+  }
+
+  submit = async(e) =>{
+    e.preventDefault();
+    const {block, building, apartment, file} = this.state;
+    const data = new FormData();
+    data.append('block', block);
+    data.append('building', building);
+    data.append('apartment', apartment);
+    data.append('file', file);
+    let response = await axios.post(address + '/addscanning', data);
+    console.log(response.data);
+    if(response.data.succeed){
+      alert("קובץ הועלה בהצלחה");
+    }
+    else{
+      alert(response.data.res);
+    }
   }
 
   render(){
@@ -35,8 +56,9 @@ class UploadScanning extends Component {
       <Form
         className = "custom-file-translate-scss"
         id='uploadForm' 
-        action={address + '/addscanning'}
-        method='post' 
+        // action={address + '/addscanning'}
+        // method='post' 
+        onSubmit={this.submit}
         encType="multipart/form-data">
           <div class="header">
             <h1>הוספת קובץ סריקה</h1>
@@ -66,7 +88,7 @@ class UploadScanning extends Component {
               </Form.File>
             </Form.Group>
             <br></br>
-            <Button variant="primary" type="submit" onClick={()=>alert("הקובץ הועלה")}>
+            <Button variant="primary" type="submit">
               אישור
             </Button>
         </Col>
