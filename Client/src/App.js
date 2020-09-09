@@ -8,11 +8,22 @@ import axios from 'axios';
 axios.create({baseURL: `http://localhost:8080` // the url of our server
 })
 
+function Greeting(props) {
+  const isLoggedIn = props.isLoggedIn;
+  const isLawyer = props.isLawyer;
+  if (isLoggedIn) {
+    if(isLawyer)
+      return <LawyerDashboard />;
+    else
+      return <ClientDashboard />;
+  }
+  else
+    return <Login />;
+}
 class App extends Component {
 
-  constructor(){
-    super()
-
+  constructor(props) {
+    super(props);
     this.state = {
       isLoggedIn: false,
       isLawyer: false
@@ -42,22 +53,33 @@ class App extends Component {
       }
     })  
   }
+
   
-  render() {
-    const {isLoggedIn} = this.state
-    const {isLawyer} = this.state
-    return (
+  render(){
+    const isLoggedIn = this.state.isLoggedIn;
+    const isLawyer = this.state.isLawyer;
+    return(
       <div className='background-blue'>
-        {isLoggedIn ? <LawyerDashboard />
-          // (isLawyer ? <LawyerDashboard /> 
-          //   : 
-          //   <ClientDashboard />)  
-          :
-          <Login />
-        }
+        <Greeting isLoggedIn={isLoggedIn} isLawyer={isLawyer} />
       </div>
-    );
+    )
   }
+  
+  // render() {
+  //   const {isLoggedIn} = this.state
+  //   const {isLawyer} = this.state
+  //   return (
+  //     <div className='background-blue'>
+  //       {isLoggedIn ? 
+  //         (isLawyer ? <LawyerDashboard /> 
+  //           : 
+  //           <ClientDashboard />)  
+  //         :
+  //         <Login />
+  //       }
+  //     </div>
+  //   );
+  // }
 }
 
 export default App;

@@ -55,16 +55,14 @@ class Home extends Component {
   UNSAFE_componentWillMount() {
     axios.get('/reports')
         .then(response => {
+          console.log(response.data)
+          if(response.data !== null)
               this.setState({
                 reports: response.data.res
-            })
+              })
             console.log(this.state.reports)
         })
   }
-
-  // shouldComponentUpdate() {
-  //   return false;
-  // }
 
   makerows(){
     var rows = [];
@@ -76,13 +74,6 @@ class Home extends Component {
 
   render(){
     const rows = this.makerows()
-    // [
-    //   // createData(this.state.reports[0].blockNum, 159, 6.0, 24, 4.0),
-    //   createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    //   createData('Eclair', 262, 16.0, 24, 6.0),
-    //   createData('Cupcake', 305, 3.7, 67, 4.3),
-    //   createData('Gingerbread', 356, 16.0, 49, 3.9),
-    // ];
     
     console.log(this.state.reports)
     return (
@@ -109,14 +100,14 @@ class Home extends Component {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <StyledTableRow key={row.name}>
-                <StyledTableCell align="right" href="/">דווח</StyledTableCell>
-                <StyledTableCell align="right">{row.reportDate}</StyledTableCell>
-                <StyledTableCell align="right">{row.purchaseDate}</StyledTableCell>
-                <StyledTableCell align="right">{row.apartNum}</StyledTableCell>
-                <StyledTableCell align="right">{row.buildNum}</StyledTableCell>
-                <StyledTableCell align="right">{row.blockNum}</StyledTableCell>
+            {rows.map((row, i) => (
+              <StyledTableRow key={i}>
+                <StyledTableCell align="right" href="/" key={2}>דווח</StyledTableCell>
+                <StyledTableCell align="right" key={3}>{row.reportDate}</StyledTableCell>
+                <StyledTableCell align="right" key={4}>{row.purchaseDate}</StyledTableCell>
+                <StyledTableCell align="right" key={5}>{row.apartNum}</StyledTableCell>
+                <StyledTableCell align="right" key={6}>{row.buildNum}</StyledTableCell>
+                <StyledTableCell align="right" key={7}>{row.blockNum}</StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>
@@ -127,7 +118,7 @@ class Home extends Component {
   }
 }
 
-export default withRouter(Home);
+export default Home;
 
   // return (
   //   <div className="Home">

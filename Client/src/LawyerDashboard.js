@@ -26,7 +26,7 @@ class LawyerDashboard extends Component {
                 <Navigate/>
                 <Router >
                 <Switch>
-      <Route exact path="/">
+      <Route exact path="/reports">
         <Home />
       </Route>
       {/* <Redirect from='/uploadpdf' to="/" /> */}

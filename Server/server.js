@@ -36,17 +36,16 @@ function requiresAdmin(req, res, next) {
     }
 }
 
-let filteredProperties; // for searchrepo, addrepo
+let filteredProperties = {succeed:''}; // for searchrepo, addrepo
 let userLogin;
 
 // app.get('/', (req,res) => {
-//         res.redirect('http://localhost:3000/home')
-//     })
+//     console.log('inbar')
+//     res.redirect('http://localhost:3000/reports')
+// })
     
     let reports;
     app.get('/reports', async (req,res) => {
-        reports = await system.get_all_unreported_purchases();
-        console.log('111')
         res.json(reports);
     })
     
@@ -57,12 +56,14 @@ let userLogin;
         // ],
         async (req, res) => {
             const { email, password } = req.body;
-        let login = await system.login(email, password);
-        userLogin = login;
-        if(!login.succeed)
+            let login = await system.login(email, password);
+            userLogin = login;
+            if(!login.succeed)
             res.redirect('http://localhost:3000/login');
-        else
-            res.redirect('http://localhost:3000');
+            else{
+                reports = await system.get_all_unreported_purchases();
+                res.redirect('http://localhost:3000/reports');
+            }
 
 
     //     //check for errors
@@ -120,7 +121,7 @@ app.post('/register', async (req,res) => {
     }
     else
         await system.register_new_costumer(email);
-    res.redirect('http://localhost:3000');
+    res.redirect('http://localhost:3000/reports');
 })
 
 app.post('/addrepo', async (req,res) => {
@@ -154,7 +155,7 @@ app.post('/uploadpdf', (req, res) =>{
         // system.upload_pdf(req.body.block, req.body.building, req.body.apartment, 
         //     'C:/Users/Inbar Naus/VisualCodeProjects/Final_Project/Server/PDF_files/' +sampleFile.name); 
     });
-    res.redirect('http://localhost:3000');
+    res.redirect('http://localhost:3000/reports');
 });
 
 
@@ -179,26 +180,50 @@ app.post('/addg4',
         system.add_4g('C:/Users/Inbar Naus/VisualCodeProjects/Final_Project/Server/G4/' +sampleFile.name);
     });
 
-    res.redirect('http://localhost:3000');
+    res.redirect('http://localhost:3000/reports');
 });
 
-app.post('/api/searchrepo', async (req, res) => {
+app.post('/searchrepo', async (req, res) => {
     const block = req.body.block;
     const building = req.body.building;
     const apartment = req.body.apartment;
+    filteredProperties={succeed:''}
+    console.log('222')
     console.log(`block: ${block}, building: ${building}, apartment: ${apartment}`);
-    
-    if (block) 
-        if (building) 
+    if (block){ 
+        if (building) {
             if (apartment) {
                 filteredProperties = await system.get_apartment(block, building, apartment);
                 if(filteredProperties.succeed)
                     res.redirect('http://localhost:3000/showsearch');
-                // else
-                // alert('לא נמצאו פרטים מתאימים');
-                // res.redirect('http://localhost:3000/searchrepo');
+                else{
+                    filteredProperties = {succeed: false}
+                    res.redirect('http://localhost:3000/searchrepo');
+                }
             }
+            else{
+                filteredProperties = {succeed: false}
+                res.redirect('http://localhost:3000/searchrepo');
+            }
+        }
+        else{
+            filteredProperties = {succeed: false}
+            res.redirect('http://localhost:3000/searchrepo');
+        }
+    }
+    else{
+        filteredProperties = {succeed: false}
+        res.redirect('http://localhost:3000/searchrepo');
+    }
+        // res.json({fail: 'פרטים לא נכונים/ פרטים חסרים'})
 });
+
+app.get('/searchreport', (req,res) => {
+    // console.log('111')
+    // filteredProperties={}
+    // console.log(filteredProperties)
+    res.json(filteredProperties)
+})
 
 app.get('/showsearch', (req, res) => {
     res.json(filteredProperties);
@@ -352,7 +377,7 @@ app.post('/addPurchase', async (req, res) => {
               reqbody("assessmentNum"), reqbody("referenceNum"), reqbody("mortgageSum"), reqbody("mortageBank"),
                reqbody("firstApartment"));
         // res.send(filteredProperties);
-        res.redirect('http://localhost:3000')
+        res.redirect('http://localhost:3000/reports')
     }
     else{
         res.redirect('http://localhost:3000/editrepo')

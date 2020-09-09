@@ -2,14 +2,25 @@ import React, {Component} from "react";
 import '../css/SearchReport.css'
 import { withRouter } from 'react-router-dom';
 import {Form, Button, Row, Col} from 'react-bootstrap';
+import axios from 'axios';
 
 class SearchReport extends Component { 
+
+  async componentDidMount(){
+    await axios.get('/searchreport')
+    .then(response => {
+      console.log(response.data)
+      if(response.data.succeed === false)
+        alert('פרטים לא נכונים/ פרטים חסרים')
+    })
+  }
+  
   render(){
     return (
       <Form
         className = "custom-file-translate-scss"
         id='uploadForm' 
-        action='http://localhost:8080/api/searchrepo' 
+        action='http://localhost:8080/searchrepo' 
         method='post' 
         encType="multipart/form-data">
           <Col md={{ span: 8, offset: 5 }}>
@@ -38,29 +49,3 @@ class SearchReport extends Component {
 }
 
 export default withRouter(SearchReport);
-
-  //   <form
-    //   className = "custom-file-translate-scss"
-    //   id='uploadForm' 
-    //   action='http://localhost:8080/api/searchrepo' 
-    //   method='post' 
-    //   encType="multipart/form-data">
-    //     <div className="form-group">
-    //     <label className="w3-text-blue"><b>מס' בלוק</b></label>
-    //     <input className="w3-input w3-border" type="text" name="block"/>
-    //     </div>
-    //     <div className="form-group">
-    //     <label className="w3-text-blue"><b>מס' בניין</b></label>
-    //     <input className="w3-input w3-border" type="text" name="building"/>
-    //     </div>
-    //     <div className="form-group">
-    //     <label className="w3-text-blue"><b>מס' דירה</b></label>
-    //     <input className="w3-input w3-border" type="text" name="apartment"/>
-    //     </div>
-        
-    //     <div className="form-group">
-          
-    //     <label className="w3-text-blue"><b></b></label>
-    //     <input className="input" type='submit' value='submit!' />
-    //     </div>
-    // </form> 
