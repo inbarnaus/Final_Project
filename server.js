@@ -93,14 +93,14 @@ app.get('/reports', async (req,res) => {
 })
 
 
-app.post('/uploadpdf', (req, res) =>{
+app.post('/uploadpdf', async (req, res) =>{
     let sampleFile = req.files.sampleFile;
     console.log(req);
-    sampleFile.mv(file_address + '/Server/FileHandlers/files/' +sampleFile.name, function(err) {
+    await sampleFile.mv(file_address + '/Server/FileHandlers/files/' +sampleFile.name, async function(err) {
         if (err)
           return res.status(500).send(err);
-        system.upload_pdf(req.body.block, req.body.building, req.body.apartment, sampleFile);
-        
+        let response = await system.upload_pdf(req.body.block, req.body.building, req.body.apartment, sampleFile);
+        res.send(response);
     });
 });
 
@@ -120,11 +120,12 @@ app.post('/addg4',
         }
         let sampleFile = req.files.sampleFile;
         console.log(sampleFile);
-        sampleFile.mv(file_address + '/Server/G4/' +sampleFile.name, async function(err) {
+        await sampleFile.mv(file_address + '/Server/G4/' +sampleFile.name, async function(err) {
             if (err)
                 res.status(500).send(err);
-            system.add_4g(
+            let response = await system.add_4g(
                 file_address + '/Server/G4/' +sampleFile.name);
+            res.send(response);
         });
 });
 
@@ -143,11 +144,12 @@ app.post('/replaceg4',
         }
         let sampleFile = req.files.sampleFile;
         console.log(sampleFile);
-        sampleFile.mv(file_address + '/Server/G4/' +sampleFile.name, async function(err) {
+        await sampleFile.mv(file_address + '/Server/G4/' +sampleFile.name, async function(err) {
             if (err)
                 res.status(500).send(err);
-            system.replace_4g(
+            let response = await system.replace_4g(
                 file_address + '/Server/G4/' +sampleFile.name);
+            res.send(response);
         });
 });
 
@@ -284,8 +286,6 @@ app.get('/editGet/:block/:building/:apartment', async (req, res) => {
 });
 
 app.post('/addPurchase', async (req, res) => {
-    console.log("********************************")
-    // console.log(req.body)
     const block = req.body.blockNum;
     const building = req.body.buildNum;
     const apartment = req.body.apartNum;

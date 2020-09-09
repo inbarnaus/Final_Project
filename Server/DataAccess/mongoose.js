@@ -258,13 +258,12 @@ const Dal = {
     },
 
     get_all_unreported_purchases: async () => {
-        ans = null;
-        // console.log("mongoose");
-        await Acquisition.find({ 'reported': false }, 'fieldNum buildNum apartNum purchaseDate reportDate', function (err, record) {
-            if (err || record == null || record === []) ans = {succeed: false, res: err};
-            else ans = {succeed: true, res: record};
-        });
-        return ans;
+        
+        let record_scanned = await Acquisition.find({ 'reported': false, 'scanForm' : {$ne: null} }, 'fieldNum buildNum apartNum scanForm purchaseDate reportDate')
+        if (err || record_scanned == null) record_scanned = [];
+        let record_notscanned = await Acquisition.find({ 'reported': false, 'scanForm' : null }, 'fieldNum buildNum apartNum scanForm purchaseDate reportDate');
+        if (err || record_scanned == null) record_notscanned = [];
+        return {succeed: true, res: [record_scanned, record_notscanned]};
     },
 
     register_new_costumer: async (mail) => {
@@ -329,7 +328,7 @@ const Dal = {
         await Acquisition.findOneAndUpdate({ 'buildNum': building, 'blockNum': block, 'apartNum': apartment, 'reported': false, 'scanForm': null}, {'scanForm': file}, 
             async function(err, res){
                 if(err || res == null){
-                    ans = gen_fail_res(err);
+                    ans = gen_fail_res(err || "רכישה לא מתועדת");
                 }
                 else{
                     ans = gen_succ_res(res);
