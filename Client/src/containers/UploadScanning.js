@@ -66,7 +66,7 @@ class UploadScanning extends Component {
               </Form.File>
             </Form.Group>
             <br></br>
-            <Button variant="primary" type="submit" onClick={alert("הקובץ הועלה")}>
+            <Button variant="primary" type="submit" onClick={()=>alert("הקובץ הועלה")}>
               אישור
             </Button>
         </Col>

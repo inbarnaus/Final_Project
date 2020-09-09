@@ -345,11 +345,12 @@ app.post('/addscanning',
     console.log(req);
     let sampleFile = req.files.sampleFile;
     console.log(sampleFile);
-    sampleFile.mv(file_address + '/Server/FileHandlers/files/' +sampleFile.name, function(err) {
+    await sampleFile.mv(file_address + '/Server/FileHandlers/files/' +sampleFile.name, function(err) {
         if (err)
           return res.status(500).send(err);
-        system.add_scanning(req.body.block, req.body.building, req.body.apartment, 
+        let response = await system.add_scanning(req.body.block, req.body.building, req.body.apartment, 
             file_address + '/Server/FileHandlers/files/' +sampleFile.name);
+        res.send(response);
         
     });
 });
