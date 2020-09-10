@@ -4,12 +4,7 @@
   "description": "",
   "main": "routers/index.js",
   "scripts": {
-<<<<<<< HEAD
     "server": "node server.js",
-=======
-    "start": "npm run client",
-    "server": "nodemon Server/server.js",
->>>>>>> version1
     "client": "npm start --prefix Client",
     "test": "jest",
     "start": "node server.js"
