@@ -3,7 +3,6 @@ import '../css/SearchReport.css'
 import { withRouter } from 'react-router-dom';
 import {Form, Button, Row, Col} from 'react-bootstrap';
 import axios from 'axios';
-<<<<<<< HEAD
 import ShowSearch from "./ShowSearch";
 import address from '../server_address';
 
@@ -44,20 +43,6 @@ class SearchReport extends Component {
     });
   }
 
-=======
-
-class SearchReport extends Component { 
-
-  async componentDidMount(){
-    await axios.get('/searchreport')
-    .then(response => {
-      console.log(response.data)
-      if(response.data.succeed === false)
-        alert('פרטים לא נכונים/ פרטים חסרים')
-    })
-  }
-  
->>>>>>> version1
   render(){
     const {report} = this.state;
     // console.log(report);
@@ -65,12 +50,7 @@ class SearchReport extends Component {
       <Form
         className = "custom-file-translate-scss"
         id='uploadForm' 
-<<<<<<< HEAD
         onSubmit={this.submit}
-=======
-        action='http://localhost:8080/searchrepo' 
-        method='post' 
->>>>>>> version1
         encType="multipart/form-data">
           <Col md={{ span: 8, offset: 5 }}>
             <Form.Group controlId="block">

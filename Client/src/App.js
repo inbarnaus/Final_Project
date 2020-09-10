@@ -27,11 +27,7 @@ class App extends Component {
     super(props);
     this.state = {
       isLoggedIn: false,
-<<<<<<< HEAD
       isLawyer: true
-=======
-      isLawyer: false
->>>>>>> version1
     }
   }
 
@@ -43,40 +39,22 @@ class App extends Component {
     this.setState({isLawyer: bool});
   }
 
-<<<<<<< HEAD
   handleLoginSubmit = (isLoggedIn) =>{
     this.setState({isLoggedIn});
   }
 
   
-=======
-  async componentDidMount(){
-    axios.get('/log')
-    .then(response => {
-      if(response.data !== ""){
-        console.log(response.data)
-        this.setLogged(response.data.succeed)
-        this.setType(response.data.res.isLawyer)
-      }
-    })  
-  }
-
->>>>>>> version1
   
   render(){
     const isLoggedIn = this.state.isLoggedIn;
     const isLawyer = this.state.isLawyer;
     return(
       <div className='background-blue'>
-<<<<<<< HEAD
         {isLoggedIn ? 
         (isLawyer ? <LawyerDashboard /> : <ClientDashboard />)  
           :
           <Login handleLogin={this.handleLoginSubmit}/>
         }
-=======
-        <Greeting isLoggedIn={isLoggedIn} isLawyer={isLawyer} />
->>>>>>> version1
       </div>
     )
   }

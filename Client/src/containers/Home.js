@@ -41,17 +41,6 @@ class Home extends Component {
   constructor(){
     super()
 
-<<<<<<< HEAD
-  async componentDidMount(){
-    axios.get(address + '/unreported')
-    .then(response => {
-        this.setState({
-            report: response.data.res
-        })
-        console.log(this.state)
-    })
-  }
-=======
     this.state = {
       reports: [{
         blockNum: '',
@@ -63,7 +52,6 @@ class Home extends Component {
     }
   }
   
->>>>>>> version1
 
   UNSAFE_componentWillMount() {
     axios.get('/reports')
@@ -92,11 +80,7 @@ class Home extends Component {
     return (
       <Form className = "custom-file-translate-scss"
         id='uploadForm' 
-<<<<<<< HEAD
         action={address + '/reports'}
-=======
-        action='http://localhost:8080/home' 
->>>>>>> version1
         method='post' 
         encType="multipart/form-data">
           <div className="Home">
