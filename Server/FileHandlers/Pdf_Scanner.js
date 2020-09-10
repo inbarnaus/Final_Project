@@ -1,4 +1,4 @@
-const pdfUtil = require('pdf-to-text');
+// const pdfUtil = require('pdf-to-text');
 
 const pdf_info = {
   err: null,
@@ -20,10 +20,10 @@ function change_info(err, data) {
 // }
 
 function parse_pdf(path){
-  pdfUtil.pdfToText(path, change_info);
-  // wait_for_info();
-  console.log(pdf_info);
-  return pdf_info;
+  // pdfUtil.pdfToText(path, change_info);
+  // // wait_for_info();
+  // console.log(pdf_info);
+  // return pdf_info;
 }
 
 module.exports = parse_pdf;

@@ -9,7 +9,7 @@ class Navigate extends Component{
         return (
                 <div className="container">
                   <Navbar className="color-nav" expand="lg">
-                <Navbar.Brand href="/">מקוב-נוף-הוברמן</Navbar.Brand>
+                <Navbar.Brand href="/reports">מקוב-נוף-הוברמן</Navbar.Brand>
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">

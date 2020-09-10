@@ -89,7 +89,7 @@ class EditGetPurchase extends Component{
         const {propertie} = this.state;
         return (
             <div>
-                <FormGroup controlId = "formControlsBlocknum" type="text">
+                <FormGroup controlId = "formControlsfieldNum" type="text">
                     <FormLabel>מגרש</FormLabel>
                     <FormControl ref="blockref" placeholder="מגרש"/>
                 </FormGroup>

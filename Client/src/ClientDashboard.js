@@ -20,9 +20,9 @@ class LawyerDashboard extends Component {
         return (
             <div>
                 <Navigate/>
-                <Router >
-                <Switch>
-      <Route exact path="/">
+                <Router > 
+                   <Switch>
+      <Route exact path="/reports">
         <Home />
       </Route>
       {/* <Redirect from='/uploadpdf' to="/" /> */}
@@ -46,8 +46,8 @@ class LawyerDashboard extends Component {
         </Route> */}
       <Route>
       </Route>
-    </Switch>
-                </Router>
+    </Switch> 
+     </Router>
             </div>
         );
     }

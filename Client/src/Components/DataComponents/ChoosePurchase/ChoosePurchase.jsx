@@ -89,7 +89,7 @@ class ChoosePurchase extends Component{
         const {propertie} = this.state;
         return (
             <div>
-                <FormGroup controlId = "formControlsBlocknum" type="text">
+                <FormGroup controlId = "formControlsblockNum" type="text">
                     <FormLabel>מגרש</FormLabel>
                     <FormControl ref="blockref" placeholder="מגרש"/>
                 </FormGroup>

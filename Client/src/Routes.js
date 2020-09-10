@@ -9,13 +9,18 @@ import AddReport from "./containers/AddReport";
 import ReplaceG4 from "./containers/ReplaceG4";
 import UploadScanning from "./containers/UploadScanning";
 import EditReport from "./containers/EditReport";
+// import Login from "./Components/UserComponents/Login/Login"
 
 export default function Routes() {
   return (
     <Switch>
-      <Route exact path="/">
+{/* <Route exact path="/login">
+        <Login />
+      </Route> */}
+
+      {/* <Route exact path="/home">
         <Home />
-      </Route>
+      </Route> */}
 
       <Route exact path="/signnew">
         <NewUser />

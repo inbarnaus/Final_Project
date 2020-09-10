@@ -13,8 +13,8 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import address from '../server_address';
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
+function createData(blockNum, buildNum, apartNum, purchaseDate, reportDate) {
+  return { blockNum, buildNum, apartNum, purchaseDate, reportDate };
 }
 
 const StyledTableCell = withStyles((theme) => ({
@@ -38,7 +38,10 @@ const StyledTableRow = withStyles((theme) => ({
 }))(TableRow);
 
 class Home extends Component {
+  constructor(){
+    super()
 
+<<<<<<< HEAD
   async componentDidMount(){
     axios.get(address + '/unreported')
     .then(response => {
@@ -48,43 +51,80 @@ class Home extends Component {
         console.log(this.state)
     })
   }
+=======
+    this.state = {
+      reports: [{
+        blockNum: '',
+        buildNum: '',
+        apartNum: '',
+        purchaseDate: '',
+        reportDate: ''
+      }]
+    }
+  }
+  
+>>>>>>> version1
+
+  UNSAFE_componentWillMount() {
+    axios.get('/reports')
+        .then(response => {
+          console.log(response.data)
+          if(response.data !== null)
+              this.setState({
+                reports: response.data.res
+              })
+            console.log(this.state.reports)
+        })
+  }
+
+  makerows(){
+    var rows = [];
+    this.state.reports.forEach(element => {
+      rows.push(createData(element.blockNum, element.buildNum, element.apartNum, element.purchaseDate, element.reportDate))
+    });
+    return rows;
+  }
 
   render(){
-    const rows = [
-      createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-      createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-      createData('Eclair', 262, 16.0, 24, 6.0),
-      createData('Cupcake', 305, 3.7, 67, 4.3),
-      createData('Gingerbread', 356, 16.0, 49, 3.9),
-    ];
-
+    const rows = this.makerows()
+    
+    console.log(this.state.reports)
     return (
       <Form className = "custom-file-translate-scss"
         id='uploadForm' 
+<<<<<<< HEAD
         action={address + '/reports'}
+=======
+        action='http://localhost:8080/home' 
+>>>>>>> version1
         method='post' 
         encType="multipart/form-data">
+          <div className="Home">
+          <div className="lander">
+          <h1>דיווחים- טרם דווחו</h1>
+          </div>
+          </div>
       <TableContainer component={Paper}>
         <Table className="table" aria-label="customized table">
           <TableHead>
             <TableRow>
-              <StyledTableCell align="right">דווח</StyledTableCell>
-              <StyledTableCell align="right">(קובץ סריקה (האם קיים</StyledTableCell>
+            <StyledTableCell align="right"></StyledTableCell>
+              <StyledTableCell align="right">תאריך אחרון לדיווח</StyledTableCell>
+              <StyledTableCell align="right">תאריך רכישה</StyledTableCell>
               <StyledTableCell align="right">דירה</StyledTableCell>
               <StyledTableCell align="right">בניין</StyledTableCell>
               <StyledTableCell align="right">מגרש</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <StyledTableRow key={row.name}>
-                <StyledTableCell component="th" scope="row">
-                  {row.name}
-                </StyledTableCell>
-                <StyledTableCell align="right">{row.calories}</StyledTableCell>
-                <StyledTableCell align="right">{row.fat}</StyledTableCell>
-                <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-                <StyledTableCell align="right">{row.protein}</StyledTableCell>
+            {rows.map((row, i) => (
+              <StyledTableRow key={i}>
+                <StyledTableCell align="right" href="/" key={2}>דווח</StyledTableCell>
+                <StyledTableCell align="right" key={3}>{row.reportDate}</StyledTableCell>
+                <StyledTableCell align="right" key={4}>{row.purchaseDate}</StyledTableCell>
+                <StyledTableCell align="right" key={5}>{row.apartNum}</StyledTableCell>
+                <StyledTableCell align="right" key={6}>{row.buildNum}</StyledTableCell>
+                <StyledTableCell align="right" key={7}>{row.blockNum}</StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>
@@ -94,6 +134,9 @@ class Home extends Component {
     );
   }
 }
+
+export default Home;
+
   // return (
   //   <div className="Home">
   //     <div className="lander">
@@ -102,5 +145,3 @@ class Home extends Component {
   //     </div>
   //   </div>
   // );
-
-export default withRouter(Home);
