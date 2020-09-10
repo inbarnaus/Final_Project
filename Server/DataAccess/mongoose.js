@@ -259,10 +259,12 @@ const Dal = {
 
     get_all_unreported_purchases: async () => {
         
-        let record_scanned = await Acquisition.find({ 'reported': false, 'scanForm' : {$ne: null} }, 'fieldNum buildNum apartNum scanForm purchaseDate reportDate')
-        if (record_scanned == null) record_scanned = [];
-        let record_notscanned = await Acquisition.find({ 'reported': false, 'scanForm' : null }, 'fieldNum buildNum apartNum scanForm purchaseDate reportDate');
+        let record_scanned = await Acquisition.find({ 'reported': false, 'scanForm' : {$ne: null} }, 'blockNum buildNum apartNum scanForm purchaseDate reportDate')
+        if (!record_scanned) record_scanned = [];
+        console.log(record_scanned);
+        let record_notscanned = await Acquisition.find({ 'reported': false, 'scanForm' : null }, 'blockNum buildNum apartNum scanForm purchaseDate reportDate');
         if (record_scanned == null) record_notscanned = [];
+        console.log(record_notscanned);
         return {succeed: true, res: [record_scanned, record_notscanned]};
     },
 

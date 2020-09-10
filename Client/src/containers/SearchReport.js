@@ -27,7 +27,7 @@ class SearchReport extends Component {
       building,
       apartment
     }
-    let response = await axios.post(address + '/api/searchrepo',body);
+    let response = await axios.post(address + '/searchrepo',body);
     console.log(response);
     if(response.data.succeed)
       this.setState({

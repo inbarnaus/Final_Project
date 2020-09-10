@@ -42,7 +42,14 @@ class Home extends Component {
     super()
 
     this.state = {
-      reports: [{
+      scanned_reports: [{
+        blockNum: '',
+        buildNum: '',
+        apartNum: '',
+        purchaseDate: '',
+        reportDate: ''
+      }],
+      unscanned_reports: [{
         blockNum: '',
         buildNum: '',
         apartNum: '',
@@ -51,37 +58,52 @@ class Home extends Component {
       }]
     }
   }
-  
+  // componentDidMount(){
+  //   axios.get('/reports')
+  //   .then(response => {
+  //     console.log(response.data)
+  //     if(response.data !== null)
+  //         this.setState({
+  //           scanned_reports: response.data.res[0],
+  //           unscanned_reports: response.data.res[1],
+  //         })
+  //       console.log(this.state)
+  //   })
+  // }
 
   UNSAFE_componentWillMount() {
     axios.get('/reports')
-        .then(response => {
-          console.log(response.data)
-          if(response.data !== null)
-              this.setState({
-                reports: response.data.res
-              })
-            console.log(this.state.reports)
-        })
+      .then(response => {
+        console.log(response.data)
+        if(response.data !== null)
+            this.setState({
+              scanned_reports: response.data.res[0],
+              unscanned_reports: response.data.res[1],
+            })
+          console.log(this.state)
+      })
   }
 
   makerows(){
-    var rows = [];
-    this.state.reports.forEach(element => {
-      rows.push(createData(element.blockNum, element.buildNum, element.apartNum, element.purchaseDate, element.reportDate))
+    var scanned_rows = [];
+    this.state.scanned_reports.forEach(element => {
+      scanned_rows.push(createData(element.blockNum, element.buildNum, element.apartNum, element.purchaseDate, element.reportDate))
     });
-    return rows;
+    var unscanned_rows = [];
+    this.state.unscanned_reports.forEach(element => {
+      unscanned_rows.push(createData(element.blockNum, element.buildNum, element.apartNum, element.purchaseDate, element.reportDate))
+    });
+    console.log([scanned_rows,unscanned_rows]);
+    return [scanned_rows,unscanned_rows];
   }
 
   render(){
     const rows = this.makerows()
-    
-    console.log(this.state.reports)
     return (
       <Form className = "custom-file-translate-scss"
         id='uploadForm' 
-        action={address + '/reports'}
-        method='post' 
+        // action={address + '/reports'}
+        // method='post' 
         encType="multipart/form-data">
           <div className="Home">
           <div className="lander">
@@ -89,7 +111,9 @@ class Home extends Component {
           </div>
           </div>
       <TableContainer component={Paper}>
+      <h3 align="right">רכישות עם טופס סריקה</h3>
         <Table className="table" aria-label="customized table">
+          
           <TableHead>
             <TableRow>
             <StyledTableCell align="right"></StyledTableCell>
@@ -101,9 +125,37 @@ class Home extends Component {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row, i) => (
+            {rows[0].map((row, i) => (
               <StyledTableRow key={i}>
                 <StyledTableCell align="right" href="/" key={2}>דווח</StyledTableCell>
+                <StyledTableCell align="right" key={3}>{row.reportDate}</StyledTableCell>
+                <StyledTableCell align="right" key={4}>{row.purchaseDate}</StyledTableCell>
+                <StyledTableCell align="right" key={5}>{row.apartNum}</StyledTableCell>
+                <StyledTableCell align="right" key={6}>{row.buildNum}</StyledTableCell>
+                <StyledTableCell align="right" key={7}>{row.blockNum}</StyledTableCell>
+              </StyledTableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <h3 align="right">רכישות ללא טופס סריקה</h3>
+      <TableContainer component={Paper}>
+        <Table className="table" aria-label="customized table">
+          
+          <TableHead>
+            <TableRow>
+            <StyledTableCell align="right"></StyledTableCell>
+              <StyledTableCell align="right">תאריך אחרון לדיווח</StyledTableCell>
+              <StyledTableCell align="right">תאריך רכישה</StyledTableCell>
+              <StyledTableCell align="right">דירה</StyledTableCell>
+              <StyledTableCell align="right">בניין</StyledTableCell>
+              <StyledTableCell align="right">מגרש</StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows[1].map((row, i) => (
+              <StyledTableRow key={i}>
+                <StyledTableCell align="right" href="/" key={2}>הוספת טופס סריקה</StyledTableCell>
                 <StyledTableCell align="right" key={3}>{row.reportDate}</StyledTableCell>
                 <StyledTableCell align="right" key={4}>{row.purchaseDate}</StyledTableCell>
                 <StyledTableCell align="right" key={5}>{row.apartNum}</StyledTableCell>
