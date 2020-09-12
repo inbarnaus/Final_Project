@@ -23,7 +23,7 @@
     "serverless": "^1.67.3",
     "styled-components": "^5.1.0"
   },
-  "proxy": "http://localhost:8080",
+  "proxy": "https://itayinbar.herokuapp.com/",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
