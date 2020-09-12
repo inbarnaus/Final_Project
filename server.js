@@ -89,7 +89,7 @@ app.post('/addrepo', async (req,res) => {
 
 app.get('/reports', async (req,res) => {
     let reports = await system.get_all_unreported_purchases();
-    // console.log(reports);
+    console.log(reports);
     res.send(reports)
 })
 

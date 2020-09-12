@@ -171,7 +171,7 @@ class Home extends Component {
   }
 }
 
-export default Home;
+export default withRouter(Home);
 
   // return (
   //   <div className="Home">
