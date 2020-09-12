@@ -18,35 +18,17 @@ import Navigate from "./Navigate";
 class LawyerDashboard extends Component {
   render() {
     return (
-      <div>
+      <Router >
         <Navigate/>
-        <Router > 
-          <Switch>
-            <Route exact path="/">
-              <Home />
-            </Route>
-            <Route exact path="/reports">
-              <Home />
-            </Route>
-            <Route exact path="/searchrepo">
-              <SearchReport />
-            </Route>
-            <Route exact path="/uploadpdf">
-              <UploadPDF />
-            </Route>
-            <Route exact path="/uploadscanning">
-              <UploadScanning />
-            </Route>
-            <Route exact path="/addrepo">
-              <AddReport />
-            </Route>
-            <Route exact path="/showsearch">
-              <ShowSearch />
-            </Route>
-          </Switch> 
-        </Router>
-      </div>
-    );
+        <Route exact path="/" component={Home}/>
+        <Route exact path="/reports" component={Home}/>
+        <Route exact path="/searchrepo" component={SearchReport}/>
+        <Route exact path="/uploadpdf" component={UploadPDF}/>
+        <Route exact path="/uploadscanning" component={UploadScanning}/>
+        <Route exact path="/addrepo" component={AddReport}/>
+        <Route exact path="/showsearch" component={ShowSearch}/>
+      </Router>
+      );
   }
 }
 
