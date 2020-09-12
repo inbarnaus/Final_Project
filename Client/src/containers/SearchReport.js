@@ -29,10 +29,14 @@ class SearchReport extends Component {
     }
     let response = await axios.post(address + '/searchrepo',body);
     console.log(response);
-    if(response.data.succeed)
+    if(response.data.succeed){
+      this.setState({
+        report: null
+      });
       this.setState({
         report: response.data.res
       });
+    }
     else
       alert(response.data.res);
   }
@@ -45,7 +49,7 @@ class SearchReport extends Component {
 
   render(){
     const {report} = this.state;
-    // console.log(report);
+    console.log(report);
     return (
       <Form
         className = "custom-file-translate-scss"

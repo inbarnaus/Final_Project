@@ -58,30 +58,30 @@ class Home extends Component {
       }]
     }
   }
-  // componentDidMount(){
-  //   axios.get('/reports')
-  //   .then(response => {
-  //     console.log(response.data)
-  //     if(response.data !== null)
-  //         this.setState({
-  //           scanned_reports: response.data.res[0],
-  //           unscanned_reports: response.data.res[1],
-  //         })
-  //       console.log(this.state)
-  //   })
-  // }
-
-  async UNSAFE_componentWillMount() {
-    let response = await axios.get(address + '/reports')
-    console.log(response);
-    if(response.data !== null)
-        this.setState({
-          scanned_reports: response.data.res[0],
-          unscanned_reports: response.data.res[1]
-        });
-    console.log(this.state);
-
+  componentDidMount(){
+    axios.get('/reports')
+    .then(response => {
+      console.log(response.data)
+      if(response.data !== null)
+          this.setState({
+            scanned_reports: response.data.res[0],
+            unscanned_reports: response.data.res[1],
+          })
+        console.log(this.state)
+    })
   }
+
+  // async UNSAFE_componentWillMount() {
+  //   let response = await axios.get(address + '/reports')
+  //   console.log(response);
+  //   if(response.data !== null)
+  //       this.setState({
+  //         scanned_reports: response.data.res[0],
+  //         unscanned_reports: response.data.res[1]
+  //       });
+  //   console.log(this.state);
+
+  // }
 
   makerows(){
     var scanned_rows = [];

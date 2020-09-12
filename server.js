@@ -168,6 +168,9 @@ app.post('/searchrepo', async (req, res) => {
         res.send(filteredProperties);
         
     }
+    else{
+        res.send({succeed: false, res: "אנא מלא את כל פרטי הרשומה"})
+    }
     
 });
 
