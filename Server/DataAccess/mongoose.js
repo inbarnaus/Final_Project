@@ -221,7 +221,7 @@ const Dal = {
         record = await Acquisition.findOneAndUpdate({ 'buildNum': building_num, 'blockNum': block_num, 'apartNum': apartment_num },
             {"$set" : new_purchase_features}, function(err, update_record){
                 if(err || update_record == null){
-                    ans = gen_fail_res(err);
+                    ans = gen_fail_res(err || "רכישה לא מתועדת במערכת");
                 }
                 else{
                     ans = gen_succ_res(update_record);
@@ -353,7 +353,7 @@ const Dal = {
             },
             function (err, res) {
                 if(err || res == null)
-                    ans = gen_fail_res(err);
+                    ans = gen_fail_res(err || "רכישה לא מתועדת במערכת");
                 else
                     ans = gen_succ_res(res);
             });
