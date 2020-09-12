@@ -72,7 +72,7 @@ class Home extends Component {
   // }
 
   UNSAFE_componentWillMount() {
-    axios.get('/reports')
+    axios.get(address + '/reports')
       .then(response => {
         console.log(response.data)
         if(response.data !== null)
