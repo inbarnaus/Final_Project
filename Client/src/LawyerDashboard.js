@@ -22,49 +22,21 @@ import Navigate from "./Navigate";
 class LawyerDashboard extends Component {
   render() {
     return (
-      <div>
+      <Router >
         <Navigate/>
-        <Router >
-          <Switch>
-            <Route exact path="/">
-              <Home />
-            </Route>
-            <Route exact path="/reports">
-              <Home />
-            </Route>
-            <Route exact path="/signnew">
-              <NewUser />
-            </Route>
-            <Route exact path="/searchrepo">
-              <SearchReport />
-            </Route>
-            <Route exact path="/uploadpdf">
-              <UploadPDF />
-            </Route>
-            <Route exact path="/uploadscanning">
-              <UploadScanning />
-            </Route>
-            <Route exact path="/addrepo">
-              <AddReport />
-            </Route>
-            <Route exact path="/addg4">
-              <AddG4 />
-            </Route>
-            <Route exact path="/showsearch">
-              <ShowSearch />
-            </Route>
-            <Route exact path='/editrepo'>
-              <EditReport/>
-            </Route>
-            <Route exact path='/replaceg4'>
-              <ReplaceG4/>
-            </Route>
-            <Route exact path='/changepass'>
-              <ChangePass/>
-            </Route>
-          </Switch>
-        </Router>
-      </div>
+        <Route exact path="/" component={Home}/>
+        <Route exact path="/reports" component={Home}/>
+        <Route exact path="/signnew" component={NewUser}/>
+        <Route exact path="/searchrepo" component={SearchReport}/>
+        <Route exact path="/uploadpdf" component={UploadPDF}/>
+        <Route exact path="/uploadscanning" component={UploadScanning}/>
+        <Route exact path="/addrepo" component={AddReport}/>
+        <Route exact path="/addg4" component={AddG4}/>
+        <Route exact path="/showsearch" component={ShowSearch}/>
+        <Route exact path='/editrepo' component={EditReport}/>
+        <Route exact path='/replaceg4' component={ReplaceG4}/>
+        <Route exact path='/changepass' component={ChangePass}/>
+      </Router>
     );
   }
 }

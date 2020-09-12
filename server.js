@@ -48,7 +48,7 @@ if (process.env.NODE_ENV === 'production') {
 
 app.post('/login',
     async (req, res) => {
-        // console.log(req);
+        console.log(req.body);
         const { email, password } = req.body;
         let login = await system.login(email, password);
         res.send(login);
