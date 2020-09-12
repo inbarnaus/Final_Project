@@ -39,15 +39,16 @@ class App extends Component {
     this.setState({isLawyer: bool});
   }
 
-  handleLoginSubmit = (isLoggedIn) =>{
-    this.setState({isLoggedIn});
+  handleLoginSubmit = (response) =>{
+    console.log(response);
+    this.setState(response);
   }
 
   
   
   render(){
-    const isLoggedIn = this.state.isLoggedIn;
-    const isLawyer = this.state.isLawyer;
+    const {isLoggedIn, isLawyer} = this.state;
+    
     return(
       <div className='background-blue'>
         {isLoggedIn ? 

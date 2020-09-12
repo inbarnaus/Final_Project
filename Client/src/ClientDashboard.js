@@ -16,41 +16,38 @@ import ShowSearch from "./containers/ShowSearch";
 import Navigate from "./Navigate";
 
 class LawyerDashboard extends Component {
-    render() {
-        return (
-            <div>
-                <Navigate/>
-                <Router > 
-                   <Switch>
-      <Route exact path="/reports">
-        <Home />
-      </Route>
-      {/* <Redirect from='/uploadpdf' to="/" /> */}
-        <Route exact path="/searchrepo">
-        <SearchReport />
-        </Route>
-        <Route exact path="/uploadpdf">
-        <UploadPDF />
-        </Route>
-        <Route exact path="/uploadscanning">
-        <UploadScanning />
-        </Route>
-        <Route exact path="/addrepo">
-        <AddReport />
-        </Route>
-        <Route exact path="/showsearch">
-        <ShowSearch />
-        </Route>
-        {/* <Route exact path="/login">
-        <Login />
-        </Route> */}
-      <Route>
-      </Route>
-    </Switch> 
-     </Router>
-            </div>
-        );
-    }
+  render() {
+    return (
+      <div>
+        <Navigate/>
+        <Router > 
+          <Switch>
+            <Route exact path="/">
+              <Home />
+            </Route>
+            <Route exact path="/reports">
+              <Home />
+            </Route>
+            <Route exact path="/searchrepo">
+              <SearchReport />
+            </Route>
+            <Route exact path="/uploadpdf">
+              <UploadPDF />
+            </Route>
+            <Route exact path="/uploadscanning">
+              <UploadScanning />
+            </Route>
+            <Route exact path="/addrepo">
+              <AddReport />
+            </Route>
+            <Route exact path="/showsearch">
+              <ShowSearch />
+            </Route>
+          </Switch> 
+        </Router>
+      </div>
+    );
+  }
 }
 
 export default LawyerDashboard;

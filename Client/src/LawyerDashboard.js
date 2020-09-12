@@ -4,7 +4,8 @@ import {
   Switch,
   Route
   // Redirect
-} from "react-router-dom";
+} 
+from "react-router-dom";
 import Home from "./containers/Home";
 import NewUser from "./containers/signNewUser";
 import SearchReport from "./containers/SearchReport";
@@ -16,56 +17,56 @@ import UploadScanning from "./containers/UploadScanning";
 import ShowSearch from "./containers/ShowSearch";
 import EditReport from "./containers/EditReport";
 import ChangePass from "./containers/ChangePass";
-// import Login from "./Components/UserComponents/Login/Login"
-
 import Navigate from "./Navigate";
 
 class LawyerDashboard extends Component {
-    render() {
-        return (
-            <div>
-                <Navigate/>
-                <Router >
-                <Switch>
-      <Route exact path="/">
-        <Home />
-      </Route>
-      {/* <Redirect from='/uploadpdf' to="/" /> */}
-      <Route exact path="/signnew">
-        <NewUser />
-        </Route>
-        <Route exact path="/searchrepo">
-        <SearchReport />
-        </Route>
-        <Route exact path="/uploadpdf">
-        <UploadPDF />
-        </Route>
-        <Route exact path="/uploadscanning">
-        <UploadScanning />
-        </Route>
-        <Route exact path="/addrepo">
-        <AddReport />
-        </Route>
-        <Route exact path="/addg4">
-        <AddG4 />
-        </Route>
-        <Route exact path="/showsearch">
-        <ShowSearch />
-        </Route>
-        <Route exact path='/editrepo'>
-        <EditReport/>
-      </Route>
-        <Route exact path='/replaceg4'>
-        <ReplaceG4/>
-      </Route>
-      <Route exact path='/changepass'>
-        <ChangePass/>
-      </Route>
-    </Switch>
-                </Router>
-            </div>
-        );
-    }
+  render() {
+    return (
+      <div>
+        <Navigate/>
+        <Router >
+          <Switch>
+            <Route exact path="/">
+              <Home />
+            </Route>
+            <Route exact path="/reports">
+              <Home />
+            </Route>
+            <Route exact path="/signnew">
+              <NewUser />
+            </Route>
+            <Route exact path="/searchrepo">
+              <SearchReport />
+            </Route>
+            <Route exact path="/uploadpdf">
+              <UploadPDF />
+            </Route>
+            <Route exact path="/uploadscanning">
+              <UploadScanning />
+            </Route>
+            <Route exact path="/addrepo">
+              <AddReport />
+            </Route>
+            <Route exact path="/addg4">
+              <AddG4 />
+            </Route>
+            <Route exact path="/showsearch">
+              <ShowSearch />
+            </Route>
+            <Route exact path='/editrepo'>
+              <EditReport/>
+            </Route>
+            <Route exact path='/replaceg4'>
+              <ReplaceG4/>
+            </Route>
+            <Route exact path='/changepass'>
+              <ChangePass/>
+            </Route>
+          </Switch>
+        </Router>
+      </div>
+    );
+  }
 }
 
 export default LawyerDashboard;

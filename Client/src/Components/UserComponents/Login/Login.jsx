@@ -3,57 +3,59 @@ import axios from 'axios';
 import './login.css';
 import { withRouter } from 'react-router-dom';
 import address from '../../../server_address';
-// import ReactDOM from 'react-dom';
-// import {findDOMNode} from 'react-dom';
 
 
 class Login extends Component {
-  constructor (props){
-    super(props);
-    this.state = {
-        email: '',
-        password: ''
+    constructor (props){
+        super(props);
+        this.state = {
+            email: '',
+            password: '',
+            handler: props.handleLogin
+        };
     }
-  }
 
-  submit = async(e) => {
-    e.preventDefault();
-    const {email,password} = this.state;
+    submit = async(e) => {
+        e.preventDefault();
+        const {email,password,handler} = this.state;
 
-    let body = {
-        email,
-        password
+        let body = {
+            email,
+            password
+        }
+        let response = await axios.post(address + '/login',body);
+        if(response.data.succeed && handler)
+            handler({
+                isLoggedIn: response.data.succeed,
+                isLawyer: response.data.res.isLawyer
+            });
+        
     }
-    let response = await axios.post(address + '/login',body);
-    // console.log(response);
-    if(this.props.handleLogin)
-      this.props.handleLogin(response.data.succeed);
-  }
 
-  handleChange = (e) => {
-    this.setState({
-        [e.target.name] : e.target.value
-    });
-  }
+    handleChange = (e) => {
+        this.setState({
+            [e.target.name] : e.target.value
+        });
+    }
 
-   render(){
+    render(){
         return (
             <form
-              className = "custom-file-translate-scss"
-              id='login' 
-              onSubmit={this.submit}
-              encType="multipart/form-data"
+                className = "custom-file-translate-scss"
+                id='login' 
+                onSubmit={this.submit}
+                encType="multipart/form-data"
             >
                 <h3>Login</h3>
 
                 <div>
                     <label>Email address</label>
-                    <input type="email" className="form-control" placeholder="Enter email" name="email" onChange={this.handleChange}/>
+                    <input type="email" className="form-control" placeholder="Enter email" name="email" value={this.state.email} onChange={this.handleChange}/>
                 </div>
 
                 <div className="form-group">
                     <label>Password</label>
-                    <input type="password" className="form-control" placeholder="Enter password" name="password" autoComplete="on" onChange={this.handleChange}/>
+                    <input type="password" className="form-control" placeholder="Enter password" name="password" autoComplete="on" value={this.state.password} onChange={this.handleChange}/>
                 </div>
 
                 <div className="form-group">
@@ -69,8 +71,8 @@ class Login extends Component {
                 </p>
             </form>
         );
-   }
     }
+}
 
-    export default withRouter(Login);
+export default withRouter(Login);
 
