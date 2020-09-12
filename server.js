@@ -368,8 +368,14 @@ app.post('/send_report', async (req, res) => {
     block = req.body.block;
     building = req.body.building;
     apartment = req.body.apartment;
-    file = req.files.report;
-    ans = await system.send_report(block, building, apartment, file);
+    assesment = req.body.assesment;
+    reference = req.body.reference;
+    report_attr = {
+        assesment: assesment,
+        reference: reference
+    };
+    // file = req.files.report;
+    ans = await system.send_report(block, building, apartment, report_attr);
     res.send(ans);
 });
 

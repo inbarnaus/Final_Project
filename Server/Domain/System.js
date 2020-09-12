@@ -107,13 +107,11 @@ const System = {
         // return await dal.send_report(block, building, apartment, report_stuff); 
     },
 
-    send_report : async(block, building, apartment) => {
-        //TODO
+    send_report : async(block, building, apartment, report_stuff) => {
+        let response = await dal.send_report(block, building, apartment, report_stuff);
+        return response;
     },
 
-    send_report : async(block, building, apartment) => {
-        //TODO
-    },
 
     // get_all_registrated_users : () => { return dal.get_all_registrated_users(); },
 

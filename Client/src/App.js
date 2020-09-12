@@ -29,6 +29,7 @@ class App extends Component {
       isLoggedIn: false,
       isLawyer: true
     }
+    console.log(this.state);
   }
 
   setLogged = (logged) =>{
