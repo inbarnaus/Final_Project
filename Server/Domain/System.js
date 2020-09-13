@@ -103,7 +103,10 @@ const System = {
         return this.gen_fail_res("אנא מלא את כל הפרטים");
     },
 
-    get_all_unreported_purchases : async () => { return await dal.get_all_unreported_purchases(); },
+    get_all_unreported_purchases : async () => { 
+        let response = await dal.get_all_unreported_purchases(); 
+        return response;
+    },
 
     register_new_costumer : async (mail) => { 
         if(!mail)
