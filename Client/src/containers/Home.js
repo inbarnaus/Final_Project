@@ -74,7 +74,7 @@ class Home extends Component {
     let response = await axios.get(address + '/rep');
   
     console.log(response.data);
-    if(response.data !== null)
+    if(response.data !== null && response.data.res)
         this.setState({
           scanned_reports: response.data.res['scanned_reports'],
           unscanned_reports: response.data.res['unscanned_reports']
