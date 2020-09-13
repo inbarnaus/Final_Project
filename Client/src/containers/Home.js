@@ -60,16 +60,16 @@ class Home extends Component {
   }
 
   async componentDidMount(){
-    axios.get(address + '/reports')
-    .then(response => {
-      console.log(response.data)
+    let response = await axios.get(address + '/reports');
+    // .then(response => {
+      console.log(response.data);
       if(response.data !== null)
-          this.setState({
-            scanned_reports: response.data.res[0],
-            unscanned_reports: response.data.res[1],
-          })
-        console.log(this.state)
-    })
+        this.setState({
+          scanned_reports: response.data.res[0],
+          unscanned_reports: response.data.res[1]
+        });
+      console.log(this.state);
+    // })
   }
 
   // UNSAFE_componentWillMount() {
