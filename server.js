@@ -73,7 +73,7 @@ app.post('/addrepo', async (req,res) => {
         succeed: false,
         res: "אנא מלא את כל הפרטים"
     });
-})
+});
 
 // app.get('/editrepo', (req,res) => {
 //     res.json(filteredProperties);
