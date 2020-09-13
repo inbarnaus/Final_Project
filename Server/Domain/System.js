@@ -105,7 +105,7 @@ const System = {
 
     get_all_unreported_purchases : async () => { 
         let response = await dal.get_all_unreported_purchases(); 
-        return response;
+        return JSON.stringify(response);
     },
 
     register_new_costumer : async (mail) => { 
