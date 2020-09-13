@@ -2,8 +2,8 @@ const path = require('path');
 const system = require('./Server/Domain/System');
 const express = require('express');
 
-// const file_address = 'C:/Users/itays/OneDrive/Desktop/school/Final_Project/Final_Project'
-const file_address = '/app'
+const file_address = 'C:/Users/itays/OneDrive/Desktop/final_project/Final_Project'
+// const file_address = '/app'
 //token validations
 const auth = require('./Server/Communication/middleware/auth');
 // const bcrypt = require('bcryptjs');

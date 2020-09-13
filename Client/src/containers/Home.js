@@ -70,17 +70,17 @@ class Home extends Component {
   //   })
   // }
 
-  UNSAFE_componentWillMount() {
-    axios.get(address + '/reports')
-    .then((response) => {
-      console.log(response);
-      if(response.data !== null)
-          this.setState({
-            scanned_reports: response.data.res[0],
-            unscanned_reports: response.data.res[1]
-          });
-      console.log(this.state);
-    });
+  async componentDidMount() {
+    let response = await axios.get(address + '/reports');
+  
+    console.log(response.data);
+    if(response.data !== null)
+        this.setState({
+          scanned_reports: response.data.res['scanned_reports'],
+          unscanned_reports: response.data.res['unscanned_reports']
+        });
+    console.log(this.state);
+    
   }
 
   makerows(){
