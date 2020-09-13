@@ -65,8 +65,8 @@ class Home extends Component {
       console.log(response.data);
       if(response.data !== null)
         this.setState({
-          scanned_reports: response.data.res[0],
-          unscanned_reports: response.data.res[1]
+          scanned_reports: response.data.res['scanned_reports'],
+          unscanned_reports: response.data.res['unscanned_reports']
         });
       console.log(this.state);
     // })
