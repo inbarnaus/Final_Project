@@ -76,7 +76,7 @@ class Home extends Component {
 
   click = async (e) => {
     e.preventDefault();
-    axios.get(address + '/reports')
+    axios.post(address + '/reports')
     .then(response => {
       console.log(response.data);
       if(response.data !== null){
