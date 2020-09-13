@@ -71,7 +71,7 @@ class Home extends Component {
   // }
 
   async componentDidMount() {
-    let response = await axios.get(address + '/reports');
+    let response = await axios.get(address + '/login');
   
     console.log(response.data);
     if(response.data !== null)
