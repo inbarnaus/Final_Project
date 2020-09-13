@@ -71,7 +71,7 @@ class Home extends Component {
   // }
 
   async componentDidMount() {
-    let response = await axios.post(address + '/login', {email: 'a@g', password: 'a'});
+    let response = await axios.get(address + '/rep');
   
     console.log(response.data);
     if(response.data !== null)

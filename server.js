@@ -81,12 +81,17 @@ app.post('/addrepo', async (req,res) => {
 //     res.json(filteredProperties);
 // })
 
-app.get('/reports', async (req,res) => {
-    console.log(req);
-    console.log("!!!!");
-    let reports = await system.get_all_unreported_purchases();
-    console.log(reports);
-    res.send(reports);
+// app.get('/reports', async (req,res) => {
+//     console.log(req);
+//     console.log("!!!!");
+//     let reports = await system.get_all_unreported_purchases();
+//     console.log(reports);
+//     res.send(reports);
+// });
+
+app.get('/rep', async(req, res) => {
+    let response = await system.get_all_unreported_purchases();
+    res.json(response);
 });
 
 
