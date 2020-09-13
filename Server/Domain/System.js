@@ -14,7 +14,7 @@ const System = {
 
     gen_fail_res : (data) => {
         return {
-            "succeed": true,
+            "succeed": false,
             "res": data
         }
     },
@@ -22,14 +22,28 @@ const System = {
     add_4g : async (file) => {
         console.log("system addg4");
         console.log(file);
-        file_rows = await xl_scanner(file);
-        console.log(file_rows);
-        return await dal.add_g4(file_rows, file);
+        if(!file)
+            return this.gen_fail_res("נא להוסיף קובץ");
+        try{
+            file_rows = await xl_scanner(file);
+            console.log(file_rows);
+            return await dal.add_g4(file_rows, file);
+        }
+        catch(err){
+            return this.gen_fail_res("קובץ לא נתמך במערכת");
+        }
     },
 
     replace_4g : async (file) => {
-        file_rows = await xl_scanner(file);
-        return await dal.replace_g4(file_rows, file);
+        if(!file)
+            return this.gen_fail_res("נא להוסיף קובץ");
+        try{
+            file_rows = await xl_scanner(file);
+            return await dal.replace_g4(file_rows, file);
+        }
+        catch(err){
+            return this.gen_fail_res("קובץ לא נתמך במערכת");
+        }
     },
 
     get_apartment : async (block, building, apartment) => { 
@@ -71,15 +85,29 @@ const System = {
         });
     },
 
-    get_purchase : async (block_num, building_num, apartment_num) => { return await dal.get_purchase(block_num, building_num, apartment_num); },
+    get_purchase : async (block_num, building_num, apartment_num) => { 
+        if(block_num && building_num && apartment_num)
+            return await dal.get_purchase(block_num, building_num, apartment_num);
+        return this.gen_fail_res("אנא מלא את כל הפרטים");
+    },
 
-    set_purchase : async (block_num, building_num, apartment_num, new_purchase_features) =>{ return await dal.set_purchase(block_num, building_num, apartment_num, new_purchase_features); },
+    set_purchase : async (block_num, building_num, apartment_num, new_purchase_features) =>{ 
+        if(block_num && building_num && apartment_num)
+            return await dal.set_purchase(block_num, building_num, apartment_num, new_purchase_features);
+        return this.gen_fail_res("אנא מלא את כל הפרטים");
+    },
 
-    get_report : async (block_num, building_num, apartment_num) => { return await dal.get_report(block_num, building_num, apartment_num); },
+    get_report : async (block_num, building_num, apartment_num) => { 
+        if(block_num && building_num && apartment_num)
+            return await dal.get_report(block_num, building_num, apartment_num); 
+        return this.gen_fail_res("אנא מלא את כל הפרטים");
+    },
 
     get_all_unreported_purchases : async () => { return await dal.get_all_unreported_purchases(); },
 
     register_new_costumer : async (mail) => { 
+        if(!mail)
+            return this.gen_fail_res("אנא הכנס כתות מייל");
         let costumer = await dal.register_new_costumer(mail);
         if(costumer.succeed){
             email_sender.mail_registration(mail, costumer.res.password);
@@ -88,6 +116,8 @@ const System = {
     },
 
     register_new_lawyer : async (mail) => { 
+        if(!mail)
+            return this.gen_fail_res("אנא הכנס כתות מייל");
         let lawyer = await dal.register_new_lawyer(mail);
         if(lawyer.succeed){
             email_sender.mail_registration(mail, lawyer.res.password);
@@ -95,7 +125,11 @@ const System = {
         return lawyer;
      },
 
-    get_user : async (mail) => { return await dal.get_user(mail); },
+    get_user : async (mail) => { 
+        if(!mail)
+            return this.gen_fail_res("אנא הכנס כתות מייל");
+        return await dal.get_user(mail); 
+    },
 
     // extract_files_for_purchases : async (files_list) => { return await dal.extract_files_for_purchases(files_list); },
 
@@ -108,6 +142,8 @@ const System = {
     },
 
     send_report : async(block, building, apartment, report_stuff) => {
+        if(!block || !building || !apartment)
+            return this.gen_fail_res("אנא מלא את כל הפרטים");
         let response = await dal.send_report(block, building, apartment, report_stuff);
         return response;
     },
@@ -115,15 +151,27 @@ const System = {
 
     // get_all_registrated_users : () => { return dal.get_all_registrated_users(); },
 
-    login : async (username, password) => { return await dal.login(username, password); },
+    login : async (username, password) => { 
+        if(!username || !password)
+            return this.gen_fail_res("אנא הכנס את כל הפרטים");
+        return await dal.login(username, password); 
+    },
 
-    change_password : async (username, password, new_pass) => { return await dal.change_password(username, password, new_pass); },
+    change_password : async (username, password, new_pass) => { 
+        if(!username || !password || !new_pass)
+            return this.gen_fail_res("אנא הכנס את כל הפרטים");
+        return await dal.change_password(username, password, new_pass); 
+    },
 
     add_scanning : async (block, building, apartment, file) => {
+        if(!block || !building || !apartment || !file)
+            return this.gen_fail_res("אנא הכנס את כל הפרטים");
         return await dal.add_scanning(block, building, apartment, file);
     },
 
     confirm_pass : async (email) => {
+        if(!mail)
+            return this.gen_fail_res("אנא הכנס כתובת מייל");
         user = await dal.get_user(email);
         if(user['succeed']){
             email_sender.mail_confirmation(email, user['res']['password']);

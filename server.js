@@ -120,6 +120,8 @@ app.post('/addg4',
             
             return res.status(400).json({ errors: errors.array() });
         }
+        if(!req.files)
+            return res.send({succeed: false, res: "אנא הכנס קובץ"});
         let sampleFile = req.files.file;
         console.log(sampleFile);
         await sampleFile.mv(file_address + '/Server/G4/' +sampleFile.name, async function(err) {
@@ -144,6 +146,8 @@ app.post('/replaceg4',
             
             return res.status(400).json({ errors: errors.array() });
         }
+        if(!req.files)
+            return res.send({succeed: false, res: "אנא הכנס קובץ"});
         let sampleFile = req.files.file;
         console.log(sampleFile);
         await sampleFile.mv(file_address + '/Server/G4/' +sampleFile.name, async function(err) {
@@ -353,7 +357,9 @@ async (req, res) => {
     // if (!errors.isEmpty()) {
     //     return res.status(400).json({ errors: errors.array() });
     // }
-    console.log(req);
+    // console.log(req);
+    if(!req.files)
+            return res.send({succeed: false, res: "אנא הכנס קובץ"});
     let sampleFile = req.files.file;
     await sampleFile.mv(file_address + '/Server/FileHandlers/files/' +sampleFile.name, async function(err) {
         if (err)

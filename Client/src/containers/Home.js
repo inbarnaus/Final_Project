@@ -57,30 +57,20 @@ class Home extends Component {
         reportDate: ''
       }]
     }
+  }
 
+  async componentDidMount(){
     axios.get(address + '/reports')
-    .then((response) => {
-      console.log(response);
+    .then(response => {
+      console.log(response.data)
       if(response.data !== null)
           this.setState({
             scanned_reports: response.data.res[0],
-            unscanned_reports: response.data.res[1]
-          });
-      console.log(this.state);
-    });
+            unscanned_reports: response.data.res[1],
+          })
+        console.log(this.state)
+    })
   }
-  // componentDidMount(){
-  //   axios.get('/reports')
-  //   .then(response => {
-  //     console.log(response.data)
-  //     if(response.data !== null)
-  //         this.setState({
-  //           scanned_reports: response.data.res[0],
-  //           unscanned_reports: response.data.res[1],
-  //         })
-  //       console.log(this.state)
-  //   })
-  // }
 
   // UNSAFE_componentWillMount() {
   //   axios.get(address + '/reports')

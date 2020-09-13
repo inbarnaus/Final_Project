@@ -29,6 +29,9 @@ class Login extends Component {
                 isLoggedIn: response.data.succeed,
                 isLawyer: response.data.res.isLawyer
             });
+        else{
+            alert(response.data.res);
+        }
         
     }
 
