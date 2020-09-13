@@ -262,16 +262,13 @@ const Dal = {
         let record_scanned = await Acquisition.find({ 'reported': false, 'scanForm' : {$ne: null} }, 'blockNum buildNum apartNum scanForm purchaseDate reportDate');
         if (!record_scanned) record_scanned = [];
         console.log(record_scanned);
-        // let record_notscanned = await Acquisition.find({ 'reported': false, 'scanForm' : null }, 'blockNum buildNum apartNum scanForm purchaseDate reportDate');
-        // if (record_scanned == null) record_notscanned = [];
-        // console.log(record_notscanned);
-        return gen_succ_res(record_scanned);
-        // return {
-        //     succeed: true, 
-        //     res: record_scanned, 
-        //         // unscanned_reports: record_notscanned
-            
-        // };
+        let record_notscanned = await Acquisition.find({ 'reported': false, 'scanForm' : null }, 'blockNum buildNum apartNum scanForm purchaseDate reportDate');
+        if (record_scanned == null) record_notscanned = [];
+        console.log(record_notscanned);
+        return gen_succ_res({
+            scanned_reports: record_scanned, 
+            unscanned_reports: record_notscanned
+        });
     },
 
     register_new_costumer: async (mail) => {
