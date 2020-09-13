@@ -180,10 +180,6 @@ app.get('/showsearch', (req, res) => {
     res.json(filteredProperties);
 })
 
-// app.get('/reports', (req, res) => {
-//     res.json(filteredProperties);
-// })
-
 //Return: rendom password
 app.post('/register/lawyer',
     async (req,res) => {
