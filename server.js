@@ -27,14 +27,6 @@ app.use(cors());
 
 console.log(process.env.PORT);
 
-function requiresAdmin(req, res, next) {
-    if(req.user.isLawyer !== true) {
-       res.status(401).end();
-    } else {
-       next();
-    }
-}
-
 console.log(process.env.NODE_ENV);
 
 if (process.env.NODE_ENV === 'production') {
@@ -93,7 +85,7 @@ app.get('/reports', async (req,res) => {
     let reports = await system.get_all_unreported_purchases();
     console.log(reports);
     res.send(reports)
-})
+});
 
 
 app.post('/uploadpdf', async (req, res) =>{
