@@ -63,11 +63,22 @@ class Home extends Component {
     let response = await axios.get(address + '/reports');
     // .then(response => {
       console.log(response.data);
-      if(response.data !== null)
-        this.setState({
-          scanned_reports: response.data.res['scanned_reports'],
-          unscanned_reports: response.data.res['unscanned_reports']
-        });
+      if(response.data !== null){
+        if(!response.data.res){
+          let response2 = await axios.get(address + '/reports');
+          console.log(response2);
+          this.setState({
+            scanned_reports: response2.data.res['scanned_reports'],
+            unscanned_reports: response2.data.res['unscanned_reports']
+          });
+        }
+        else{
+          this.setState({
+            scanned_reports: response.data.res['scanned_reports'],
+            unscanned_reports: response.data.res['unscanned_reports']
+          });
+        }
+      }
       console.log(this.state);
     // })
   }
