@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import "../css/Home.css";
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
-import {Form, Button} from "react-bootstrap";
+import {Form} from "react-bootstrap";
 import { withStyles} from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -39,10 +39,9 @@ const StyledTableRow = withStyles((theme) => ({
 
 class Home extends Component {
   constructor(){
-    super()
+    super();
 
     this.state = {
-      show: false, 
       scanned_reports: [{
         blockNum: '',
         buildNum: '',
@@ -60,31 +59,12 @@ class Home extends Component {
     }
   }
 
-  // async componentDidMount(){
-  //   axios.get(address + '/reports')
-  //   .then(response => {
-  //     console.log(response.data);
-  //     if(response.data !== null){
-  //       this.setState({
-  //         scanned_reports: response.data.res['scanned_reports'],
-  //         unscanned_reports: response.data.res['unscanned_reports']
-  //       });
-  //     }
-  //     console.log(this.state);
-  //   })
-  // }
-
-  click = async (e) => {
-    e.preventDefault();
-    axios.post(address + '/reports')
+  async componentDidMount(){
+    axios.get(address + '/reports')
     .then(response => {
       console.log(response.data);
       if(response.data !== null){
-        this.setState({
-          show: true,
-          scanned_reports: response.data.res['scanned_reports'],
-          unscanned_reports: response.data.res['unscanned_reports']
-        });
+        this.setState(response.data.res);
       }
       console.log(this.state);
     })
@@ -117,12 +97,9 @@ class Home extends Component {
   }
 
   render(){
-    const {show} = this.state;
     const rows = this.makerows()
     return (
-      <div>
-      <Button onClick={this.click} align="center" variant="outline-secondary" color= "white">צפייה ברכישות שלא דווחו</Button>
-      {show ? <Form className = "custom-file-translate-scss"
+      <Form className = "custom-file-translate-scss"
         id='uploadForm' 
         // action={address + '/reports'}
         // method='post' 
@@ -189,9 +166,6 @@ class Home extends Component {
         </Table>
       </TableContainer>
       </Form>
-      :
-      <div></div>}
-      </div>
     );
   }
 }
