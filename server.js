@@ -40,6 +40,8 @@ if (process.env.NODE_ENV === 'production') {
 
 app.post('/login',
     async (req, res) => {
+        if(!req.body['email'] || !req.body['password'])
+            return res.send({succeed: false, res: "אנא הכנס אימייל וסיסמא"});
         console.log(req.body);
         const { email, password } = req.body;
         let login = await system.login(email, password);
