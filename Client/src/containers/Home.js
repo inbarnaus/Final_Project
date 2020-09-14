@@ -128,7 +128,7 @@ class Home extends Component {
             {rows[0].map((row, i) => (
               <StyledTableRow key={i}>
                 <StyledTableCell align="right" key={2}>
-                <Button variant="contained" href="http://localhost:3000/uploadpdf">דווח</Button>
+                <Button variant="contained" href={address + "/uploadpdf"}>דווח</Button>
                 </StyledTableCell>
                 <StyledTableCell align="right" key={3}>{row.reportDate}</StyledTableCell>
                 <StyledTableCell align="right" key={4}>{row.purchaseDate}</StyledTableCell>
@@ -158,7 +158,7 @@ class Home extends Component {
             {rows[1].map((row, i) => (
               <StyledTableRow key={i}>
                 <StyledTableCell align="right" key={2}>
-                <Button variant="contained" href="http://localhost:3000/uploadscanning">הוספת טופס סריקה</Button>
+                <Button variant="contained" href={address + "/uploadscanning"}>הוספת טופס סריקה</Button>
                 </StyledTableCell>
                 <StyledTableCell align="right" key={3}>{row.reportDate}</StyledTableCell>
                 <StyledTableCell align="right" key={4}>{row.purchaseDate}</StyledTableCell>
