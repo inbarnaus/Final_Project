@@ -17,12 +17,16 @@ class EditReport extends Component {
 
     let response = await axios.post(address + '/addPurchase',this.state);
     console.log(response);
-    if(response.data.succeed)
+    if(response.data.succeed){
         alert("רכישה עודכנה")
+        this.props.history.push('/')
+    }
     else{
         response = await axios.post(address + '/edit/' + this.state.blockNum + '/' + this.state.buildNum + '/' + this.state.apartNum, this.state);
-        if(response.data.succeed)
+        if(response.data.succeed){
             alert("רכישה עודכנה")
+            this.props.history.push('/')
+        }
         else
             alert(response.data.res);
     }
@@ -53,22 +57,22 @@ class EditReport extends Component {
             <Row >
                 <Col md={6}>
                     <Form.Group>
-                        <Form.Label>תז רוכש 1</Form.Label>
-                        <Form.Control type="text" name="buyerId1" placeholder={this.state.buyerId1 || "הכנס תז"} onChange={this.handleChange}/>
-                    </Form.Group>
-                    <Form.Group>
                         <Form.Label>שם רוכש 1</Form.Label>
                         <Form.Control type="text" name="buyerName1" placeholder={this.state.buyerName1 || "הכנס שם"} onChange={this.handleChange}/>
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>תז רוכש 1</Form.Label>
+                        <Form.Control type="text" name="buyerId1" placeholder={this.state.buyerId1 || "הכנס תז"} onChange={this.handleChange}/>
                     </Form.Group>
                 </Col>
                 <Col md={6}>
                     <Form.Group>
-                        <Form.Label>תז רוכש 2</Form.Label>
-                        <Form.Control type="text" name="buyerId2" placeholder={this.state.buyerId2 || "הכנס תז"} onChange={this.handleChange}/>
-                    </Form.Group>
-                    <Form.Group>
                         <Form.Label>שם רוכש 2</Form.Label>
                         <Form.Control type="text" name="buyerName2" placeholder={this.state.buyerName2 || "הכנס שם"} onChange={this.handleChange}/>
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>תז רוכש 2</Form.Label>
+                        <Form.Control type="text" name="buyerId2" placeholder={this.state.buyerId2 || "הכנס תז"} onChange={this.handleChange}/>
                     </Form.Group>
                 </Col>
             </Row>

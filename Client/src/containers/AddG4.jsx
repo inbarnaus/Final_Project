@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import '../css/AddG4.css'
 import { withRouter } from 'react-router-dom';
 import address from '../server_address'
+import {Form, Button, Row, Col} from 'react-bootstrap';
 import axios from 'axios';
 
 class AddG4 extends Component {
@@ -21,6 +22,7 @@ class AddG4 extends Component {
     let response = await axios.post(address + '/addg4', data);
     if(response.data.succeed){
       alert("קובץ הועלה בהצלחה");
+      this.props.history.push('/');
     }
     else{
       alert(response.data.res);
@@ -35,24 +37,44 @@ class AddG4 extends Component {
 
   render(){
     return (
-      <form
-        className = "custom-file-translate-scss"
-        id='uploadForm' 
-        // action={address + '/addg4'}
-        // method='post' 
-        onSubmit={this.submit}
-        encType="multipart/form-data">
-        <div className="form-group">
+      <Form
+      className = "custom-file-translate-scss"
+      id='uploadForm' 
+      // action={address + '/addg4'}
+      // method='post' 
+      onSubmit={this.submit}
+      encType="multipart/form-data">
+
+        <div className="header">
+            <h1>הוספת קובץ ג'4</h1>
+          </div>
+        <Col md={{ span: 2, offset: 5 }}>
+        <Form.Group>
+          <Form.File id="file" name="sampleFile" label="העלה קובץ"  onChange={this.onChangeFile}/>
+        </Form.Group>
+        <Button variant="primary" type="submit">
+          שלח
+        </Button>
+        </Col>
+    </Form>
+    //   <form
+    //     className = "custom-file-translate-scss"
+    //     id='uploadForm' 
+    //     // action={address + '/addg4'}
+    //     // method='post' 
+    //     onSubmit={this.submit}
+    //     encType="multipart/form-data">
+    //     <div className="form-group">
           
-        <label className="w3-text-blue"><b></b></label>
-        <input className="input" type="file" name="sampleFile" onChange={this.onChangeFile}/>
-        </div>
-        <div className="form-group">
+    //     <label className="w3-text-blue"><b></b></label>
+    //     <input className="input" type="file" name="sampleFile" onChange={this.onChangeFile}/>
+    //     </div>
+    //     <div className="form-group">
           
-        <label className="w3-text-blue"><b></b></label>
-        <input className="input" type='submit' value={this.state.file ? this.state.file.name : 'העלה קובץ'} />
-        </div>
-    </form> 
+    //     <label className="w3-text-blue"><b></b></label>
+    //     <input className="input" type='submit' value={this.state.file ? this.state.file.name : 'העלה קובץ'} />
+    //     </div>
+    // </form> 
     );
   }
 }
