@@ -13,7 +13,8 @@ class UploadPDF extends Component {
         block: '',
         building: '',
         apartment: '',
-        file: null
+        assesment: '',
+        reference: ''
     }
   }
 
@@ -32,15 +33,17 @@ class UploadPDF extends Component {
 
   submit = async(e) =>{
     e.preventDefault();
-    const {block, building, apartment, file} = this.state;
+    const {block, building, apartment, assesment, reference} = this.state;
     const data = new FormData();
     data.append('block', block);
     data.append('building', building);
     data.append('apartment', apartment);
-    data.append('file', file);
-    let response = await axios.post(address + '/uploadpdf', data);
+    data.append('assesment', assesment);
+    data.append('reference', reference);
+    let response = await axios.post(address + '/send_report', data);
     if(response.data.succeed){
-      alert("קובץ הועלה בהצלחה");
+      alert("פרטים התקבלו בהצלחה");
+      this.props.history.push('/');
     }
     else{
       alert(response.data.res);
@@ -56,9 +59,7 @@ class UploadPDF extends Component {
         // method='post' 
         onSubmit={this.submit}
         encType="multipart/form-data">
-          <div class="header">
-            <h1>PDF הוספת קובץ</h1>
-          </div>
+          
           <Col md={{ span: 8, offset: 5 }}>
             <Form.Group controlId="block">
               <Row><Form.Label>מספר בלוק</Form.Label></Row>
@@ -75,14 +76,16 @@ class UploadPDF extends Component {
               <Form.Control name="apartment" type="text" placeholder="הכנס מספר דירה" onChange={this.handleChange}/>
             </Form.Group>
 
-            <Form.Group>
-              <Form.File id="formcheck-api-custom" custom>
-                <Form.File.Input name="sampleFile" isValid onChange={this.onChangeFile}/>
-                <Form.File.Label data-browse="file">
-                {this.state.file ? this.state.file['name'] : "העלה קובץ........"}
-                </Form.File.Label>
-              </Form.File>
+            <Form.Group controlId="reference">
+              <Row><Form.Label>מספר משך</Form.Label></Row>
+              <Form.Control name="reference" type="text" placeholder="הכנס מספר משך" onChange={this.handleChange}/>
             </Form.Group>
+
+            <Form.Group controlId="assesment">
+              <Row><Form.Label>מספר אסמכתא</Form.Label></Row>
+              <Form.Control name="assesment" type="text" placeholder="הכנס מספר אסמכתא" onChange={this.handleChange}/>
+            </Form.Group>
+          
             <br></br>
             <Button variant="primary" type="submit">
               אישור

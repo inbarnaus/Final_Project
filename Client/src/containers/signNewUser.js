@@ -39,6 +39,7 @@ class NewUser extends Component {
     let response = await axios.post(address + '/register', this.state);
     if(response.data.succeed){
       alert("משתמש נרשם בהצלחה");
+      this.props.history.push('/');
     }
     else{
       alert(response.data.res);

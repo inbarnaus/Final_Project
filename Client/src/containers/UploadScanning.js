@@ -45,6 +45,7 @@ class UploadScanning extends Component {
     console.log(response.data);
     if(response.data.succeed){
       alert("קובץ הועלה בהצלחה");
+      this.props.history.push('/');
     }
     else{
       alert(response.data.res);
@@ -60,7 +61,7 @@ class UploadScanning extends Component {
         // method='post' 
         onSubmit={this.submit}
         encType="multipart/form-data">
-          <div class="header">
+          <div className="header">
             <h1>הוספת קובץ סריקה</h1>
           </div>
           <Col md={{ span: 8, offset: 5 }}>

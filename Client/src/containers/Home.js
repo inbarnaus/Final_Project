@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import "../css/Home.css";
 import axios from 'axios';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import {Form} from "react-bootstrap";
 import { withStyles} from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -11,6 +11,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
 import address from '../server_address';
 
 function createData(blockNum, buildNum, apartNum, purchaseDate, reportDate) {
@@ -126,7 +127,9 @@ class Home extends Component {
           <TableBody>
             {rows[0].map((row, i) => (
               <StyledTableRow key={i}>
-                <StyledTableCell align="right" href="/" key={2}>דווח</StyledTableCell>
+                <StyledTableCell align="right" key={2}>
+                <Button variant="contained" href="http://localhost:3000/uploadpdf">דווח</Button>
+                </StyledTableCell>
                 <StyledTableCell align="right" key={3}>{row.reportDate}</StyledTableCell>
                 <StyledTableCell align="right" key={4}>{row.purchaseDate}</StyledTableCell>
                 <StyledTableCell align="right" key={5}>{row.apartNum}</StyledTableCell>
@@ -154,7 +157,9 @@ class Home extends Component {
           <TableBody>
             {rows[1].map((row, i) => (
               <StyledTableRow key={i}>
-                <StyledTableCell align="right" href="/" key={2}>הוספת טופס סריקה</StyledTableCell>
+                <StyledTableCell align="right" key={2}>
+                <Button variant="contained" href="http://localhost:3000/uploadscanning">הוספת טופס סריקה</Button>
+                </StyledTableCell>
                 <StyledTableCell align="right" key={3}>{row.reportDate}</StyledTableCell>
                 <StyledTableCell align="right" key={4}>{row.purchaseDate}</StyledTableCell>
                 <StyledTableCell align="right" key={5}>{row.apartNum}</StyledTableCell>
